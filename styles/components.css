@@ -1,0 +1,713 @@
+/**
+ * DartNova Component Demonstrations Styles & Keyframes
+ * 20 Distinct Motion Library Components
+ */
+
+/* ==========================================================================
+   CATEGORY A — BUTTONS & MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* 1. Pop Button */
+.dn-pop-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.85rem 1.75rem;
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  border-radius: var(--radius-md);
+  background: var(--accent-lime);
+  color: #080808;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(197, 255, 53, 0.25);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.dn-pop-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(197, 255, 53, 0.45);
+}
+
+.dn-pop-btn:active {
+  transform: scale(0.92) translateY(2px);
+  box-shadow: 0 2px 8px rgba(197, 255, 53, 0.2);
+}
+
+/* 2. Radial Glow Button */
+.dn-radial-glow-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-md);
+  background: #121212;
+  color: #FFFFFF;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.dn-radial-glow-btn::before {
+  content: '';
+  position: absolute;
+  top: var(--glow-y, 50%);
+  left: var(--glow-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(197, 255, 53, 0.45) 0%, rgba(56, 221, 248, 0.2) 40%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.dn-radial-glow-btn:hover {
+  border-color: rgba(197, 255, 53, 0.6);
+}
+
+.dn-radial-glow-btn:hover::before {
+  opacity: 1;
+}
+
+.dn-radial-glow-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* 3. Corner Button */
+.dn-corner-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2.2rem;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-mono);
+  background: rgba(17, 17, 17, 0.9);
+  color: var(--accent-lime);
+  border: 1px solid var(--border-hover);
+  cursor: pointer;
+  clip-path: polygon(
+    10px 0%, 100% 0%, 100% calc(100% - 10px), 
+    calc(100% - 10px) 100%, 0% 100%, 0% 10px
+  );
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.dn-corner-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-lime);
+  opacity: 0.6;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+}
+
+.dn-corner-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-lime);
+  color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(197, 255, 53, 0.2);
+}
+
+.dn-corner-btn:hover::after {
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+/* 4. Magnetic Button */
+.dn-magnetic-wrapper {
+  padding: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dn-magnetic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-full);
+  background: var(--surface-main);
+  border: 1px solid var(--border-default);
+  color: var(--accent-lime);
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.1, 1), background 0.2s ease, border-color 0.2s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.dn-magnetic-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-lime);
+  box-shadow: 0 0 25px rgba(197, 255, 53, 0.3);
+}
+
+/* ==========================================================================
+   CATEGORY B — TEXT & TRANSITIONS
+   ========================================================================== */
+
+/* 5. Typing Text */
+.dn-typing-container {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  min-height: 48px;
+}
+
+.dn-typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background: var(--accent-lime);
+  margin-left: 4px;
+  animation: dnBlink 0.9s infinite;
+}
+
+@keyframes dnBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 6. Text Reveal */
+.dn-reveal-container {
+  overflow: hidden;
+  padding: 0.25rem 0;
+}
+
+.dn-reveal-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-weight: var(--font-extrabold);
+  color: #FFFFFF;
+  display: block;
+  transform: translateY(110%);
+  animation: dnSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dnSlideUp {
+  0% { transform: translateY(110%); opacity: 0; }
+  100% { transform: translateY(0%); opacity: 1; }
+}
+
+/* 7. Staggered Text */
+.dn-stagger-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.dn-stagger-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  animation: dnStaggerIn 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
+}
+
+@keyframes dnStaggerIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   CATEGORY C — CARDS & IMAGES
+   ========================================================================== */
+
+/* 8. Cursor Card (3D Tilt) */
+.dn-cursor-card-wrapper {
+  perspective: 1000px;
+}
+
+.dn-cursor-card {
+  width: 300px;
+  height: 200px;
+  background: linear-gradient(135deg, #181818 0%, #101010 100%);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.2s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dn-cursor-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--card-shine-x, 50%) var(--card-shine-y, 50%), rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.dn-cursor-card h4 {
+  font-size: var(--text-lg);
+  color: #FFFFFF;
+  transform: translateZ(25px);
+}
+
+.dn-cursor-card p {
+  font-size: var(--text-xs);
+  color: var(--accent-cyan);
+  transform: translateZ(15px);
+}
+
+/* 9. Image Trail */
+.dn-trail-canvas {
+  width: 100%;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-main);
+  border-radius: var(--radius-lg);
+  cursor: crosshair;
+}
+
+.dn-trail-item {
+  position: absolute;
+  width: 60px;
+  height: 75px;
+  border-radius: var(--radius-sm);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-hover);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  animation: dnTrailPop 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes dnTrailPop {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(var(--trail-rot, 0deg)); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1) rotate(var(--trail-rot, 0deg)); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.7) rotate(var(--trail-rot, 0deg)); opacity: 0; }
+}
+
+/* 10. Diagonal Carousel */
+.dn-diagonal-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transform: rotate(-5deg) skewX(-2deg);
+  padding: 2rem 0;
+}
+
+.dn-diagonal-card {
+  width: 150px;
+  height: 210px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  box-shadow: var(--shadow-md);
+}
+
+.dn-diagonal-card.active {
+  transform: scale(1.12) translateY(-10px);
+  border-color: var(--accent-lime);
+  box-shadow: 0 10px 30px rgba(197, 255, 53, 0.25);
+  background: #191919;
+}
+
+/* 11. Animated Card Stack */
+.dn-stack-wrapper {
+  position: relative;
+  width: 240px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.dn-stack-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dn-stack-card:nth-child(1) {
+  transform: translateY(0) scale(1);
+  z-index: 3;
+  border-color: var(--accent-lime);
+}
+
+.dn-stack-card:nth-child(2) {
+  transform: translateY(12px) scale(0.94);
+  z-index: 2;
+  opacity: 0.8;
+}
+
+.dn-stack-card:nth-child(3) {
+  transform: translateY(24px) scale(0.88);
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.dn-stack-wrapper.expanded .dn-stack-card:nth-child(1) {
+  transform: translateY(-40px) scale(1) rotate(-4deg);
+}
+
+.dn-stack-wrapper.expanded .dn-stack-card:nth-child(2) {
+  transform: translateY(0px) scale(1);
+  opacity: 1;
+}
+
+.dn-stack-wrapper.expanded .dn-stack-card:nth-child(3) {
+  transform: translateY(40px) scale(1) rotate(4deg);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   CATEGORY D — AVATARS & TOOLTIPS
+   ========================================================================== */
+
+/* 12. Avatar Group */
+.dn-avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.dn-avatar-item {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-primary);
+  margin-left: -14px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), margin 0.25s ease, z-index 0.25s ease;
+  cursor: pointer;
+}
+
+.dn-avatar-item:first-child {
+  margin-left: 0;
+}
+
+.dn-avatar-item:hover {
+  transform: scale(1.22) translateY(-4px);
+  z-index: 10 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  border-color: var(--accent-lime);
+}
+
+.dn-avatar-overflow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  font-family: var(--font-mono);
+}
+
+/* 13. Tooltip Avatars */
+.dn-tooltip-avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dn-tooltip-trigger {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border-default);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+
+.dn-tooltip-trigger:hover,
+.dn-tooltip-avatar-container.active .dn-tooltip-trigger {
+  border-color: var(--accent-cyan);
+  transform: scale(1.05);
+}
+
+.dn-tooltip-popover {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  width: 180px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+  z-index: 20;
+}
+
+.dn-tooltip-popover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--surface-elevated);
+}
+
+.dn-tooltip-avatar-container:hover .dn-tooltip-popover,
+.dn-tooltip-avatar-container.active .dn-tooltip-popover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   CATEGORY E — BACKGROUNDS & VISUAL EFFECTS
+   ========================================================================== */
+
+/* 14. Animated Gradient */
+.dn-animated-gradient-box {
+  width: 100%;
+  height: 240px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(-45deg, #0d0d0d, #1a0b2e, #03202e, #0e2908, #181818);
+  background-size: 400% 400%;
+  animation: dnGradShift 10s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-default);
+}
+
+@keyframes dnGradShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 15. Wave Animation */
+.dn-wave-container {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: #0d0d0d;
+}
+
+.dn-wave-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 16. Neon Gradient Effect */
+.dn-neon-gradient-card {
+  position: relative;
+  width: 280px;
+  height: 170px;
+  background: #111111;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.dn-neon-gradient-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, #C5FF35, #38DDF8, #A78BFA, #C5FF35);
+  background-size: 300% 300%;
+  border-radius: calc(var(--radius-lg) + 2px);
+  z-index: -1;
+  animation: dnNeonBorder 4s linear infinite;
+}
+
+.dn-neon-gradient-card::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(90deg, #C5FF35, #38DDF8, #A78BFA, #C5FF35);
+  background-size: 300% 300%;
+  border-radius: calc(var(--radius-lg) + 6px);
+  z-index: -2;
+  filter: blur(14px);
+  opacity: 0.55;
+  animation: dnNeonBorder 4s linear infinite;
+}
+
+@keyframes dnNeonBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 17. Particle Motion */
+.dn-particle-box {
+  width: 100%;
+  height: 260px;
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #080808;
+  border: 1px solid var(--border-default);
+}
+
+.dn-particle-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 18. Animated Welcome Screen */
+.dn-welcome-screen {
+  width: 100%;
+  height: 280px;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 50% 30%, #151515 0%, #080808 80%);
+  border: 1px solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.dn-welcome-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: dnWelcomeFade 0.8s ease 0.2s forwards;
+}
+
+.dn-welcome-sub {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateY(16px);
+  animation: dnWelcomeFade 0.8s ease 0.4s forwards;
+}
+
+@keyframes dnWelcomeFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 19. Spotlight Effect */
+.dn-spotlight-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  background: #111111;
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+}
+
+.dn-spotlight-beam {
+  position: absolute;
+  top: var(--spot-y, 50%);
+  left: var(--spot-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(197, 255, 53, 0.25) 0%, rgba(56, 221, 248, 0.08) 50%, transparent 70%);
+  pointer-events: none;
+  filter: blur(10px);
+}
+
+/* 20. Shimmer Effect */
+.dn-shimmer-card {
+  width: 280px;
+  height: 160px;
+  background: var(--surface-main);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.dn-shimmer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 100%
+  );
+  animation: dnShimmer 2.2s infinite;
+}
+
+@keyframes dnShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.dn-shimmer-line {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-xs);
+  height: 14px;
+}
+
+.dn-shimmer-line.title {
+  width: 60%;
+  height: 20px;
+}
+
+.dn-shimmer-line.short {
+  width: 40%;
+}

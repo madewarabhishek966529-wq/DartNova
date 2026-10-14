@@ -1,0 +1,29 @@
+{
+  "name": "dartnova",
+  "version": "1.0.0",
+  "description": "Motion for Flutter - Interactive UI motion library and developer showcase",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "flutter",
+    "motion",
+    "animations",
+    "ui",
+    "dart",
+    "interactive-showcase"
+  ],
+  "author": "Abhishek Madewar",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.4.2",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "prismjs": "^1.29.0"
+  }
+}
