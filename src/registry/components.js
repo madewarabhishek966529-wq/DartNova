@@ -2954,6 +2954,1077 @@ class _NovaShimmerState extends State<NovaShimmer> with SingleTickerProviderStat
       { name: 'child', type: 'Widget', defaultVal: '...', description: 'Skeleton layout widget to mask' }
     ],
     notes: 'Implements ShaderMask with BlendMode.srcATop for hardware-accelerated skeleton shimmer.'
+  },
+
+  {
+    id: 'spring-fab',
+    name: 'Spring Speed Dial FAB',
+    category: 'buttons',
+    badge: 'Elastic Spring',
+    description: 'Floating action button that rotates and bursts into staggered circular secondary actions with spring overshoot.',
+    defaultProps: {
+      actionCount: 3,
+      isOpen: false
+    },
+    controls: [
+      { type: 'toggle', label: 'Toggle Speed Dial', prop: 'isOpen' }
+    ],
+    render: (container, props) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'dn-speed-dial-wrap';
+      wrap.style.cssText = 'position:relative; width:160px; height:200px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:10px;';
+
+      const icons = ['⚡', '💡', '🚀'];
+      const actionsContainer = document.createElement('div');
+      actionsContainer.className = 'dn-speed-dial-actions';
+      actionsContainer.style.cssText = 'display:flex; flex-direction:column; gap:12px; margin-bottom:14px;';
+
+      for (let i = 0; i < props.actionCount; i++) {
+        const item = document.createElement('div');
+        item.className = 'dn-speed-dial-item';
+        item.style.cssText = `
+          width:42px; height:42px; border-radius:50%; background:#161616; border:1.5px solid var(--accent-cyan);
+          display:flex; align-items:center; justify-content:center; color:var(--accent-cyan); font-size:16px;
+          box-shadow:0 0 16px rgba(56, 221, 248, 0.35); transition:all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transform:${props.isOpen ? 'scale(1) translateY(0)' : 'scale(0) translateY(40px)'};
+          opacity:${props.isOpen ? '1' : '0'};
+          transition-delay:${props.isOpen ? `${i * 60}ms` : '0ms'};
+          cursor:pointer;
+        `;
+        item.textContent = icons[i % icons.length];
+        actionsContainer.appendChild(item);
+      }
+
+      const mainBtn = document.createElement('button');
+      mainBtn.className = 'dn-speed-dial-main';
+      mainBtn.style.cssText = `
+        width:56px; height:56px; border-radius:50%; background:var(--accent-primary);
+        display:flex; align-items:center; justify-content:center; color:#080808; font-size:24px; font-weight:bold;
+        box-shadow:0 4px 20px var(--accent-primary-glow); transition:transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform:${props.isOpen ? 'rotate(45deg)' : 'rotate(0deg)'};
+        cursor:pointer;
+      `;
+      mainBtn.innerHTML = '+';
+
+      wrap.appendChild(actionsContainer);
+      wrap.appendChild(mainBtn);
+
+      let openState = props.isOpen;
+      const toggle = () => {
+        openState = !openState;
+        mainBtn.style.transform = openState ? 'rotate(45deg)' : 'rotate(0deg)';
+        const items = actionsContainer.children;
+        for (let j = 0; j < items.length; j++) {
+          items[j].style.transform = openState ? 'scale(1) translateY(0)' : 'scale(0) translateY(40px)';
+          items[j].style.opacity = openState ? '1' : '0';
+          items[j].style.transitionDelay = openState ? `${j * 60}ms` : '0ms';
+        }
+      };
+
+      mainBtn.addEventListener('click', toggle);
+
+      container.innerHTML = '';
+      container.appendChild(wrap);
+
+      return {
+        restart: () => {
+          if (openState) toggle();
+        },
+        destroy: () => {}
+      };
+    },
+    flutterSnippet: `SpringSpeedDialFAB(
+  actionIcons: const [Icons.bolt, Icons.code, Icons.share],
+  onActionTap: (index) => print('Tapped $index'),
+)`,
+    flutterFullCode: `import 'dart:math';
+import 'package:flutter/material.dart';
+
+class SpringSpeedDialFAB extends StatefulWidget {
+  final VoidCallback? onPrimaryTap;
+  final List<IconData> actionIcons;
+  final ValueChanged<int>? onActionTap;
+
+  const SpringSpeedDialFAB({
+    super.key,
+    this.onPrimaryTap,
+    this.actionIcons = const [Icons.bolt, Icons.code, Icons.share],
+    this.onActionTap,
+  });
+
+  @override
+  State<SpringSpeedDialFAB> createState() => _SpringSpeedDialFABState();
+}
+
+class _SpringSpeedDialFABState extends State<SpringSpeedDialFAB> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _expandAnimation;
+  late Animation<double> _rotateAnimation;
+  bool _isOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticOut,
+      reverseCurve: Curves.easeInBack,
+    );
+    _rotateAnimation = Tween<double>(begin: 0.0, end: pi / 4).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggle() {
+    setState(() {
+      _isOpen = !_isOpen;
+      if (_isOpen) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    });
+    widget.onPrimaryTap?.call();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 180,
+      height: 220,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        clipBehavior: Clip.none,
+        children: [
+          ...List.generate(widget.actionIcons.length, (index) {
+            final distance = 60.0 * (index + 1);
+            return AnimatedBuilder(
+              animation: _expandAnimation,
+              builder: (context, child) {
+                return Positioned(
+                  bottom: _expandAnimation.value * distance,
+                  child: Opacity(
+                    opacity: _expandAnimation.value.clamp(0.0, 1.0),
+                    child: Transform.scale(
+                      scale: _expandAnimation.value,
+                      child: GestureDetector(
+                        onTap: () {
+                          widget.onActionTap?.call(index);
+                          _toggle();
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF161616),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: const Color(0xFF38DDF8), width: 1.5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF38DDF8).withValues(alpha: 0.3),
+                                blurRadius: 12,
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            widget.actionIcons[index],
+                            color: const Color(0xFF38DDF8),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+          GestureDetector(
+            onTap: _toggle,
+            child: AnimatedBuilder(
+              animation: _rotateAnimation,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _rotateAnimation.value,
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFC5FF35),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFC5FF35).withValues(alpha: 0.45),
+                          blurRadius: 20,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Color(0xFF080808),
+                      size: 28,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}`,
+    params: [
+      { name: 'actionIcons', type: 'List<IconData>', defaultVal: '[Icons.bolt, ...]', description: 'Child action button icons' },
+      { name: 'onActionTap', type: 'ValueChanged<int>?', defaultVal: 'null', description: 'Callback with tapped child index' }
+    ],
+    notes: 'Coordinates an elasticOut curve on an expanding distance scale alongside smooth 45-degree rotation.'
+  },
+
+  {
+    id: 'fluid-tab-bar',
+    name: 'Fluid Elastic Tab Bar',
+    category: 'buttons',
+    badge: 'Liquid Navigation',
+    description: 'Segmented indicator pill that dynamically snaps and stretches between tab targets with spring inertia.',
+    defaultProps: {
+      initialTab: 0
+    },
+    controls: [
+      { type: 'slider', label: 'Active Tab Index', prop: 'initialTab', min: 0, max: 3, step: 1 }
+    ],
+    render: (container, props) => {
+      const tabs = ['Motion', 'Physics', 'Shader', 'Gesture'];
+      const wrap = document.createElement('div');
+      wrap.className = 'dn-fluid-tab-wrap';
+      wrap.style.cssText = 'display:inline-flex; background:#141414; padding:4px; border-radius:30px; border:1px solid #262626; position:relative;';
+
+      tabs.forEach((tab, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = tab;
+        btn.style.cssText = `
+          padding:10px 18px; border-radius:24px; font-size:13px; font-weight:600; cursor:pointer;
+          transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          color:${idx === props.initialTab ? '#080808' : '#A0A0A0'};
+          background:${idx === props.initialTab ? 'var(--accent-primary)' : 'transparent'};
+          box-shadow:${idx === props.initialTab ? '0 0 16px var(--accent-primary-glow)' : 'none'};
+        `;
+        btn.addEventListener('click', () => {
+          wrap.querySelectorAll('button').forEach((b, i) => {
+            b.style.color = i === idx ? '#080808' : '#A0A0A0';
+            b.style.background = i === idx ? 'var(--accent-primary)' : 'transparent';
+            b.style.boxShadow = i === idx ? '0 0 16px var(--accent-primary-glow)' : 'none';
+          });
+        });
+        wrap.appendChild(btn);
+      });
+
+      container.innerHTML = '';
+      container.appendChild(wrap);
+
+      return {
+        restart: () => {
+          wrap.querySelectorAll('button').forEach((b, i) => {
+            b.style.color = i === 0 ? '#080808' : '#A0A0A0';
+            b.style.background = i === 0 ? 'var(--accent-primary)' : 'transparent';
+            b.style.boxShadow = i === 0 ? '0 0 16px var(--accent-primary-glow)' : 'none';
+          });
+        },
+        destroy: () => {}
+      };
+    },
+    flutterSnippet: `FluidTabBar(
+  tabs: const ['Motion', 'Physics', 'Shader', 'Gesture'],
+  onTabSelected: (index) => print('Selected tab $index'),
+)`,
+    flutterFullCode: `import 'package:flutter/material.dart';
+
+class FluidTabBar extends StatefulWidget {
+  final List<String> tabs;
+  final ValueChanged<int>? onTabSelected;
+  final int initialIndex;
+
+  const FluidTabBar({
+    super.key,
+    this.tabs = const ['Motion', 'Physics', 'Shader', 'Gesture'],
+    this.onTabSelected,
+    this.initialIndex = 0,
+  });
+
+  @override
+  State<FluidTabBar> createState() => _FluidTabBarState();
+}
+
+class _FluidTabBarState extends State<FluidTabBar> {
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: const Color(0xFF141414),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: const Color(0xFF262626)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(widget.tabs.length, (index) {
+          final isSelected = _selectedIndex == index;
+          return GestureDetector(
+            onTap: () {
+              setState(() => _selectedIndex = index);
+              widget.onTabSelected?.call(index);
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutBack,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              decoration: BoxDecoration(
+                color: isSelected ? const Color(0xFFC5FF35) : Colors.transparent,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: const Color(0xFFC5FF35).withValues(alpha: 0.35),
+                          blurRadius: 14,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Text(
+                widget.tabs[index],
+                style: TextStyle(
+                  color: isSelected ? const Color(0xFF080808) : const Color(0xFFA0A0A0),
+                  fontSize: 13,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}`,
+    params: [
+      { name: 'tabs', type: 'List<String>', defaultVal: "['Motion', ...]", description: 'Tab text labels' },
+      { name: 'onTabSelected', type: 'ValueChanged<int>?', defaultVal: 'null', description: 'Callback when tab is selected' }
+    ],
+    notes: 'Uses AnimatedContainer with Curves.easeOutBack to achieve elastic pill stretching.'
+  },
+
+  {
+    id: 'swipeable-card',
+    name: 'Swipeable Physics Card',
+    category: 'cards',
+    badge: 'Physics Gesture',
+    description: 'Interactive draggable card that calculates horizontal displacement and angular tilt, with spring snap-back physics.',
+    defaultProps: {
+      title: 'Swipe Me',
+      subtitle: 'Interactive Physics Spring'
+    },
+    controls: [
+      { type: 'text', label: 'Card Title', prop: 'title' },
+      { type: 'text', label: 'Subtitle', prop: 'subtitle' }
+    ],
+    render: (container, props) => {
+      const card = document.createElement('div');
+      card.className = 'dn-swipeable-card';
+      card.style.cssText = `
+        width:280px; height:180px; padding:20px; background:#141414; border-radius:16px;
+        border:1.5px solid #292929; display:flex; flex-direction:column; justify-content:space-between;
+        cursor:grab; user-select:none; transition:box-shadow 0.2s ease;
+        box-shadow:0 10px 30px rgba(0,0,0,0.7);
+      `;
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between;">
+          <span style="font-family:monospace; font-size:10px; color:var(--accent-primary);">PHYSICS GESTURE</span>
+          <span style="color:#666; font-size:12px;">✋ Drag left/right</span>
+        </div>
+        <div>
+          <h4 style="color:#FFF; font-size:20px;">${props.title}</h4>
+          <p style="color:var(--accent-cyan); font-size:12px;">${props.subtitle}</p>
+        </div>
+        <div style="font-size:11px; color:#555;">Releases with spring return</div>
+      `;
+
+      let isDragging = false;
+      let startX = 0;
+      let curX = 0;
+
+      const onStart = (e) => {
+        isDragging = true;
+        startX = e.clientX || e.touches[0].clientX;
+        card.style.cursor = 'grabbing';
+        card.style.transition = 'none';
+      };
+
+      const onMove = (e) => {
+        if (!isDragging) return;
+        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - startX;
+        curX = x;
+        const rot = (x / 200) * 15;
+        card.style.transform = `translate(${x}px, 0px) rotate(${rot}deg)`;
+        card.style.borderColor = Math.abs(x) > 40 ? 'var(--accent-primary)' : '#292929';
+      };
+
+      const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        card.style.cursor = 'grab';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease';
+        card.style.transform = 'translate(0px, 0px) rotate(0deg)';
+        card.style.borderColor = '#292929';
+      };
+
+      card.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+
+      container.innerHTML = '';
+      container.appendChild(card);
+
+      return {
+        restart: () => {
+          card.style.transform = 'translate(0px, 0px) rotate(0deg)';
+        },
+        destroy: () => {
+          window.removeEventListener('mousemove', onMove);
+          window.removeEventListener('mouseup', onEnd);
+        }
+      };
+    },
+    flutterSnippet: `SwipeablePhysicsCard(
+  title: 'Swipe Me',
+  subtitle: 'Interactive Physics Spring',
+)`,
+    flutterFullCode: `import 'dart:math';
+import 'package:flutter/material.dart';
+
+class SwipeablePhysicsCard extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final VoidCallback? onDismissed;
+
+  const SwipeablePhysicsCard({
+    super.key,
+    this.title = 'Swipe Me',
+    this.subtitle = 'Interactive Physics Spring',
+    this.onDismissed,
+  });
+
+  @override
+  State<SwipeablePhysicsCard> createState() => _SwipeablePhysicsCardState();
+}
+
+class _SwipeablePhysicsCardState extends State<SwipeablePhysicsCard> with SingleTickerProviderStateMixin {
+  Offset _dragOffset = Offset.zero;
+  late AnimationController _springController;
+  late Animation<Offset> _springAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _springController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
+    _springAnimation = Tween<Offset>(begin: Offset.zero, end: Offset.zero).animate(
+      CurvedAnimation(parent: _springController, curve: Curves.elasticOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _springController.dispose();
+    super.dispose();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    setState(() {
+      _dragOffset += details.delta;
+    });
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (_dragOffset.dx.abs() > 140) {
+      widget.onDismissed?.call();
+    }
+    _springAnimation = Tween<Offset>(begin: _dragOffset, end: Offset.zero).animate(
+      CurvedAnimation(parent: _springController, curve: Curves.elasticOut),
+    );
+    _springController.forward(from: 0.0);
+    _springController.addListener(() {
+      setState(() {
+        _dragOffset = _springAnimation.value;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final rotationAngle = (_dragOffset.dx / 300) * (pi / 12);
+
+    return GestureDetector(
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
+      child: Transform.translate(
+        offset: _dragOffset,
+        child: Transform.rotate(
+          angle: rotationAngle,
+          child: Container(
+            width: 280,
+            height: 180,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF141414),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: _dragOffset != Offset.zero
+                    ? const Color(0xFFC5FF35)
+                    : const Color(0xFF292929),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.6),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('PHYSICS GESTURE', style: TextStyle(color: Color(0xFFC5FF35), fontFamily: 'monospace', fontSize: 10)),
+                    Icon(Icons.touch_app, color: Colors.grey, size: 16),
+                  ],
+                ),
+                Text(
+                  widget.title,
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.subtitle,
+                  style: const TextStyle(color: Color(0xFF38DDF8), fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}`,
+    params: [
+      { name: 'title', type: 'String', defaultVal: "'Swipe Me'", description: 'Primary card label' },
+      { name: 'subtitle', type: 'String', defaultVal: "'...'", description: 'Subheading badge' }
+    ],
+    notes: 'Handles pan gestures and smoothly resets dragOffset using elasticOut animation controller.'
+  },
+
+  {
+    id: 'glow-pulse-card',
+    name: 'Glow Pulse Card',
+    category: 'cards',
+    badge: 'Breathing Glow',
+    description: 'High-end card with continuous sinusoidal breathing border glow aura and specular ambient reflection.',
+    defaultProps: {
+      pulseSpeed: 2
+    },
+    controls: [
+      { type: 'slider', label: 'Pulse Period (s)', prop: 'pulseSpeed', min: 1, max: 5, step: 0.5, unit: 's' }
+    ],
+    render: (container, props) => {
+      const card = document.createElement('div');
+      card.className = 'dn-pulse-card';
+      card.style.cssText = `
+        width:280px; height:180px; border-radius:16px; background:#121212;
+        padding:20px; display:flex; flex-direction:column; justify-content:space-between;
+        position:relative; animation:dnBorderPulse ${props.pulseSpeed}s infinite ease-in-out;
+      `;
+      card.innerHTML = `
+        <div style="font-family:monospace; font-size:10px; color:var(--accent-primary);">BREATHING PULSE</div>
+        <div>
+          <h4 style="color:#FFF; font-size:18px;">Ambient Neon Glow</h4>
+          <p style="color:#888; font-size:12px; margin-top:4px;">Dynamic border lumen cycle</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span class="status-dot" style="color:var(--accent-primary);"></span>
+          <span style="font-size:11px; color:#A0A0A0; font-family:var(--font-mono);">Active loop</span>
+        </div>
+      `;
+
+      container.innerHTML = '';
+      container.appendChild(card);
+
+      return {
+        restart: () => {},
+        destroy: () => {}
+      };
+    },
+    flutterSnippet: `GlowPulseCard(
+  pulseColor: const Color(0xFFC5FF35),
+  child: Center(
+    child: Text('Ambient Neon Glow'),
+  ),
+)`,
+    flutterFullCode: `import 'package:flutter/material.dart';
+
+class GlowPulseCard extends StatefulWidget {
+  final Widget child;
+  final Color pulseColor;
+  final Duration duration;
+
+  const GlowPulseCard({
+    super.key,
+    required this.child,
+    this.pulseColor = const Color(0xFFC5FF35),
+    this.duration = const Duration(seconds: 2),
+  });
+
+  @override
+  State<GlowPulseCard> createState() => _GlowPulseCardState();
+}
+
+class _GlowPulseCardState extends State<GlowPulseCard> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _glowAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    )..repeat(reverse: true);
+    _glowAnimation = Tween<double>(begin: 4.0, end: 24.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, _) {
+        return Container(
+          width: 290,
+          height: 180,
+          decoration: BoxDecoration(
+            color: const Color(0xFF131313),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: widget.pulseColor.withValues(alpha: 0.3 + (_controller.value * 0.5)),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: widget.pulseColor.withValues(alpha: 0.2 + (_controller.value * 0.25)),
+                blurRadius: _glowAnimation.value,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: widget.child,
+        );
+      },
+    );
+  }
+}`,
+    params: [
+      { name: 'pulseColor', type: 'Color', defaultVal: 'Color(0xFFC5FF35)', description: 'Color of pulsating glow perimeter' },
+      { name: 'duration', type: 'Duration', defaultVal: '2s', description: 'Period of full breathe cycle' }
+    ],
+    notes: 'Loops AnimationController in reverse:true with AnimatedBuilder modulating box shadow and alpha.'
+  },
+
+  {
+    id: 'kinetic-marquee',
+    name: 'Kinetic Marquee Banner',
+    category: 'text',
+    badge: 'Continuous Flow',
+    description: 'Smooth, hardware-accelerated horizontal kinetic typography banner with infinite looping and pause-on-hover.',
+    defaultProps: {
+      message: 'MOTION FOR FLUTTER • DARTNOVA 1.0 • ZERO PUB DEPENDENCIES • 60-120 FPS NATIVE',
+      speed: 12
+    },
+    controls: [
+      { type: 'text', label: 'Marquee Text', prop: 'message' },
+      { type: 'slider', label: 'Loop Speed (s)', prop: 'speed', min: 6, max: 24, step: 2, unit: 's' }
+    ],
+    render: (container, props) => {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'width:100%; max-width:440px; overflow:hidden; white-space:nowrap; border-radius:12px; background:#121212; border:1px solid #282828; padding:12px 0;';
+
+      const track = document.createElement('div');
+      track.style.cssText = `display:inline-block; animation:dnMarqueeScroll ${props.speed}s linear infinite;`;
+
+      const content = `<span style="font-family:var(--font-mono); font-size:14px; font-weight:bold; color:var(--text-primary);">${props.message} • ${props.message} • </span>`;
+      track.innerHTML = content + content;
+
+      wrap.appendChild(track);
+
+      wrap.addEventListener('mouseenter', () => {
+        track.style.animationPlayState = 'paused';
+      });
+      wrap.addEventListener('mouseleave', () => {
+        track.style.animationPlayState = 'running';
+      });
+
+      container.innerHTML = '';
+      container.appendChild(wrap);
+
+      return {
+        restart: () => {
+          track.style.animation = 'none';
+          void track.offsetHeight;
+          track.style.animation = `dnMarqueeScroll ${props.speed}s linear infinite`;
+        },
+        destroy: () => {}
+      };
+    },
+    flutterSnippet: `KineticMarquee(
+  text: 'MOTION FOR FLUTTER • DARTNOVA 1.0',
+  velocity: 50.0,
+)`,
+    flutterFullCode: `import 'package:flutter/material.dart';
+
+class KineticMarquee extends StatefulWidget {
+  final String text;
+  final TextStyle? style;
+  final double velocity;
+
+  const KineticMarquee({
+    super.key,
+    required this.text,
+    this.style,
+    this.velocity = 50.0,
+  });
+
+  @override
+  State<KineticMarquee> createState() => _KineticMarqueeState();
+}
+
+class _KineticMarqueeState extends State<KineticMarquee> with SingleTickerProviderStateMixin {
+  late ScrollController _scrollController;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..addListener(_scroll);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startScrolling();
+    });
+  }
+
+  void _startScrolling() {
+    _animationController.repeat();
+  }
+
+  void _scroll() {
+    if (_scrollController.hasClients) {
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final current = _animationController.value * maxScroll;
+      _scrollController.jumpTo(current);
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = widget.style ??
+        const TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.2,
+        );
+
+    return MouseRegion(
+      onEnter: (_) => _animationController.stop(),
+      onExit: (_) => _animationController.repeat(),
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        child: Row(
+          children: List.generate(10, (index) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(widget.text, style: textStyle),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('•', style: TextStyle(color: Color(0xFFC5FF35), fontSize: 20)),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}`,
+    params: [
+      { name: 'text', type: 'String', defaultVal: "'...'", description: 'Content string to repeat in ticker' },
+      { name: 'velocity', type: 'double', defaultVal: '50.0', description: 'Scroll translation speed factor' }
+    ],
+    notes: 'Leverages continuous ScrollController translation driven by a looping AnimationController.'
+  },
+
+  {
+    id: 'neon-gauge',
+    name: 'Procedural Neon Gauge',
+    category: 'effects',
+    badge: 'CustomPainter Arc',
+    description: 'Hardware-accelerated procedural radial meter with glowing neon stroke sweep and digital percentage readout.',
+    defaultProps: {
+      percent: 85
+    },
+    controls: [
+      { type: 'slider', label: 'Progress (%)', prop: 'percent', min: 10, max: 100, step: 5, unit: '%' }
+    ],
+    render: (container, props) => {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:relative; width:180px; height:180px; display:flex; align-items:center; justify-content:center;';
+
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 100 100');
+      svg.style.cssText = 'width:100%; height:100%; transform:rotate(-90deg);';
+
+      // Background Track
+      const circleBg = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circleBg.setAttribute('cx', '50');
+      circleBg.setAttribute('cy', '50');
+      circleBg.setAttribute('r', '40');
+      circleBg.setAttribute('fill', 'none');
+      circleBg.setAttribute('stroke', '#222222');
+      circleBg.setAttribute('stroke-width', '8');
+
+      // Active Arc
+      const circumference = 2 * Math.PI * 40;
+      const offset = circumference - (props.percent / 100) * circumference;
+
+      const circleActive = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circleActive.setAttribute('cx', '50');
+      circleActive.setAttribute('cy', '50');
+      circleActive.setAttribute('r', '40');
+      circleActive.setAttribute('fill', 'none');
+      circleActive.setAttribute('stroke', 'var(--accent-primary)');
+      circleActive.setAttribute('stroke-width', '8');
+      circleActive.setAttribute('stroke-dasharray', `${circumference}`);
+      circleActive.setAttribute('stroke-dashoffset', `${offset}`);
+      circleActive.setAttribute('stroke-linecap', 'round');
+      circleActive.style.cssText = 'transition:stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1); filter:drop-shadow(0 0 8px var(--accent-primary));';
+
+      svg.appendChild(circleBg);
+      svg.appendChild(circleActive);
+
+      const label = document.createElement('div');
+      label.style.cssText = 'position:absolute; text-align:center; font-family:var(--font-mono);';
+      label.innerHTML = `
+        <div style="font-size:26px; font-weight:bold; color:var(--accent-primary);">${props.percent}%</div>
+        <div style="font-size:9px; color:#888; letter-spacing:1px;">FPS LOAD</div>
+      `;
+
+      wrap.appendChild(svg);
+      wrap.appendChild(label);
+
+      container.innerHTML = '';
+      container.appendChild(wrap);
+
+      return {
+        restart: () => {
+          circleActive.setAttribute('stroke-dashoffset', `${circumference}`);
+          setTimeout(() => {
+            circleActive.setAttribute('stroke-dashoffset', `${offset}`);
+          }, 50);
+        },
+        destroy: () => {}
+      };
+    },
+    flutterSnippet: `ProceduralNeonGauge(
+  value: 0.85,
+  neonColor: const Color(0xFFC5FF35),
+)`,
+    flutterFullCode: `import 'dart:math';
+import 'package:flutter/material.dart';
+
+class ProceduralNeonGauge extends StatefulWidget {
+  final double value; // 0.0 to 1.0
+  final Color neonColor;
+
+  const ProceduralNeonGauge({
+    super.key,
+    this.value = 0.75,
+    this.neonColor = const Color(0xFFC5FF35),
+  });
+
+  @override
+  State<ProceduralNeonGauge> createState() => _ProceduralNeonGaugeState();
+}
+
+class _ProceduralNeonGaugeState extends State<ProceduralNeonGauge> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _valueAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _valueAnimation = Tween<double>(begin: 0.0, end: widget.value).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    );
+    _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(covariant ProceduralNeonGauge oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      _valueAnimation = Tween<double>(begin: _valueAnimation.value, end: widget.value).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+      );
+      _controller.forward(from: 0.0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _valueAnimation,
+      builder: (context, _) {
+        return CustomPaint(
+          size: const Size(200, 200),
+          painter: _GaugePainter(
+            progress: _valueAnimation.value,
+            color: widget.neonColor,
+          ),
+          child: SizedBox(
+            width: 200,
+            height: 200,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '\${(_valueAnimation.value * 100).toInt()}%',
+                    style: TextStyle(
+                      color: widget.neonColor,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+                  const Text('FPS SPEED', style: TextStyle(color: Colors.grey, fontSize: 10, letterSpacing: 1.2)),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _GaugePainter extends CustomPainter {
+  final double progress;
+  final Color color;
+
+  _GaugePainter({required this.progress, required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = size.center(Offset.zero);
+    final radius = size.width / 2 - 14;
+
+    final bgPaint = Paint()
+      ..color = const Color(0xFF222222)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      pi * 0.75,
+      pi * 1.5,
+      false,
+      bgPaint,
+    );
+
+    final activePaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      pi * 0.75,
+      pi * 1.5 * progress,
+      false,
+      activePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _GaugePainter oldDelegate) =>
+      oldDelegate.progress != progress || oldDelegate.color != color;
+}
+`,
+    params: [
+      { name: 'value', type: 'double', defaultVal: '0.75', description: 'Normalized gauge percentage (0.0 to 1.0)' },
+      { name: 'neonColor', type: 'Color', defaultVal: 'Color(0xFFC5FF35)', description: 'Arc stroke & glow color' }
+    ],
+    notes: 'Draws dual arcs with Canvas.drawArc and StrokeCap.round for high-precision procedural rendering.'
   }
 ];
 
