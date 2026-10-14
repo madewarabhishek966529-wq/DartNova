@@ -1,19 +1,9 @@
-/**
- * DartNova Component Registry
- * Full catalog of 20 motion components with live interactive renderers
- * and complete Flutter/Dart implementation code parity.
- */
+import { CATEGORIES } from './categories.js';
+import { ROADMAP_COMPONENTS } from './roadmap-components.js';
 
-export const CATEGORIES = [
-  { id: 'all', name: 'All Components', icon: '⚡' },
-  { id: 'buttons', name: 'Buttons & Interactions', icon: '👆' },
-  { id: 'text', name: 'Text & Transitions', icon: '✨' },
-  { id: 'cards', name: 'Cards & Images', icon: '🎴' },
-  { id: 'avatars', name: 'Avatars & Tooltips', icon: '👤' },
-  { id: 'effects', name: 'Backgrounds & Effects', icon: '🎨' }
-];
+export { CATEGORIES };
 
-export const COMPONENTS = [
+const LIVE_COMPONENTS = [
   // =========================================================================
   // CATEGORY A — BUTTONS & MICRO-INTERACTIONS
   // =========================================================================
@@ -1277,7 +1267,7 @@ class _Cursor3DCardState extends State<Cursor3DCard> {
   {
     id: 'image-trail',
     name: 'Image Trail',
-    category: 'cards',
+    category: 'experiments',
     badge: 'Pointer Physics',
     description: 'Renders dynamic thumbnail stamps along pointer motion path with organic rotational drift.',
     defaultProps: {
@@ -1449,7 +1439,7 @@ class _ImageTrailCanvasState extends State<ImageTrailCanvas> {
   {
     id: 'diagonal-carousel',
     name: 'Diagonal Carousel',
-    category: 'cards',
+    category: 'three-d',
     badge: '3D Gallery',
     description: 'Angled skew card track with smooth prev/next translation and dynamic focal card magnification.',
     defaultProps: {
@@ -1729,7 +1719,7 @@ class _AnimatedCardStackState extends State<AnimatedCardStack> {
   {
     id: 'avatar-group',
     name: 'Avatar Group',
-    category: 'avatars',
+    category: 'media',
     badge: 'Hover Expansion',
     description: 'Overlapping social avatar avatars that expand, scale, and bring individual profiles to the front.',
     defaultProps: {
@@ -1856,7 +1846,7 @@ class _AvatarGroupState extends State<AvatarGroup> {
   {
     id: 'tooltip-avatars',
     name: 'Tooltip Avatars',
-    category: 'avatars',
+    category: 'overlays',
     badge: 'Interactive Popover',
     description: 'Detailed user badge with animated floating card popover on hover or tap.',
     defaultProps: {
@@ -1995,7 +1985,7 @@ class _TooltipAvatarState extends State<TooltipAvatar> {
   {
     id: 'animated-gradient',
     name: 'Animated Gradient',
-    category: 'effects',
+    category: 'backgrounds',
     badge: 'Atmosphere',
     description: 'Smooth shifting multi-stop mesh ambient gradient background with infinite continuous movement.',
     defaultProps: {
@@ -2103,7 +2093,7 @@ class _AnimatedGradientMeshState extends State<AnimatedGradientMesh> with Single
   {
     id: 'wave-animation',
     name: 'Wave Animation',
-    category: 'effects',
+    category: 'backgrounds',
     badge: 'Procedural Wave',
     description: 'Multi-layer organic sine waves rendered on canvas with customizable amplitude and frequency.',
     defaultProps: {
@@ -2275,7 +2265,7 @@ class _WavePainter extends CustomPainter {
   {
     id: 'neon-gradient',
     name: 'Neon Gradient Effect',
-    category: 'effects',
+    category: 'backgrounds',
     badge: 'Cyberpunk Glow',
     description: 'Electric animated gradient border aura with double-layer soft gaussian blur diffusion.',
     defaultProps: {
@@ -2383,7 +2373,7 @@ class _NeonGradientCardState extends State<NeonGradientCard> with SingleTickerPr
   {
     id: 'particle-motion',
     name: 'Particle Motion',
-    category: 'effects',
+    category: 'backgrounds',
     badge: 'Physics Canvas',
     description: 'Dynamic constellation of particles connected by distance-based affinity vectors with pointer repulsion.',
     defaultProps: {
@@ -2584,7 +2574,7 @@ class _ParticlePainter extends CustomPainter {
   {
     id: 'animated-welcome-screen',
     name: 'Animated Welcome Screen',
-    category: 'effects',
+    category: 'transitions',
     badge: 'Full Canvas Flow',
     description: 'Onboarding hero sequence with progressive staggered typography entrance, radial backdrop, and glowing action button.',
     defaultProps: {
@@ -2714,7 +2704,7 @@ class _AnimatedWelcomeScreenState extends State<AnimatedWelcomeScreen> with Sing
   {
     id: 'spotlight-effect',
     name: 'Spotlight Effect',
-    category: 'effects',
+    category: 'backgrounds',
     badge: 'Pointer Mask',
     description: 'Pointer-following circular beam that illuminates hidden textured grid surfaces in real-time.',
     defaultProps: {
@@ -2851,7 +2841,7 @@ class _SpotlightPainter extends CustomPainter {
   {
     id: 'shimmer-effect',
     name: 'Shimmer Effect',
-    category: 'effects',
+    category: 'loaders',
     badge: 'Loading Skeleton',
     description: 'Iridescent high-speed linear gradient wave sweeping across placeholder skeleton surfaces.',
     defaultProps: {
@@ -2959,7 +2949,7 @@ class _NovaShimmerState extends State<NovaShimmer> with SingleTickerProviderStat
   {
     id: 'spring-fab',
     name: 'Spring Speed Dial FAB',
-    category: 'buttons',
+    category: 'navigation',
     badge: 'Elastic Spring',
     description: 'Floating action button that rotates and bursts into staggered circular secondary actions with spring overshoot.',
     defaultProps: {
@@ -3195,7 +3185,7 @@ class _SpringSpeedDialFABState extends State<SpringSpeedDialFAB> with SingleTick
   {
     id: 'fluid-tab-bar',
     name: 'Fluid Elastic Tab Bar',
-    category: 'buttons',
+    category: 'navigation',
     badge: 'Liquid Navigation',
     description: 'Segmented indicator pill that dynamically snaps and stretches between tab targets with spring inertia.',
     defaultProps: {
@@ -3334,7 +3324,7 @@ class _FluidTabBarState extends State<FluidTabBar> {
   {
     id: 'swipeable-card',
     name: 'Swipeable Physics Card',
-    category: 'cards',
+    category: 'gestures',
     badge: 'Physics Gesture',
     description: 'Interactive draggable card that calculates horizontal displacement and angular tilt, with spring snap-back physics.',
     defaultProps: {
@@ -3816,7 +3806,7 @@ class _KineticMarqueeState extends State<KineticMarquee> with SingleTickerProvid
   {
     id: 'neon-gauge',
     name: 'Procedural Neon Gauge',
-    category: 'effects',
+    category: 'charts',
     badge: 'CustomPainter Arc',
     description: 'Hardware-accelerated procedural radial meter with glowing neon stroke sweep and digital percentage readout.',
     defaultProps: {
@@ -4028,6 +4018,16 @@ class _GaugePainter extends CustomPainter {
   }
 ];
 
+export const COMPONENTS = [
+  ...LIVE_COMPONENTS.map(c => ({
+    ...c,
+    status: 'complete',
+    difficulty: c.difficulty || 'intermediate',
+    dependencies: c.dependencies || []
+  })),
+  ...ROADMAP_COMPONENTS
+];
+
 export function getComponentById(id) {
   return COMPONENTS.find(c => c.id === id) || COMPONENTS[0];
 }
@@ -4036,3 +4036,4 @@ export function getComponentsByCategory(catId) {
   if (catId === 'all') return COMPONENTS;
   return COMPONENTS.filter(c => c.category === catId);
 }
+

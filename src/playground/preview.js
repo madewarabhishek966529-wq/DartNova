@@ -1,10 +1,6 @@
-/**
- * Playground Center Workspace Preview
- * Modern Window Frame, Viewport Switcher, Background Styles, and Component Lifecycle
- */
-
 import { getComponentById } from '../registry/components.js';
 import { sound } from '../utils/audio.js';
+import { isFavorite, toggleFavorite } from '../utils/favorites.js';
 
 export function setupPreview(workspaceEl, store) {
   if (!workspaceEl) return;
@@ -16,19 +12,27 @@ export function setupPreview(workspaceEl, store) {
       selectedComponentId, 
       previewMode, 
       canvasBg, 
-      componentProps 
+      componentProps,
+      favorites = []
     } = store.getState();
 
     const comp = getComponentById(selectedComponentId);
     const props = { ...comp.defaultProps, ...componentProps };
+    const isFav = favorites.includes(comp.id) || isFavorite(comp.id);
+    const isLive = comp.status === 'complete';
 
     workspaceEl.innerHTML = `
       <div class="workspace-header">
         <div class="workspace-header-info">
           <div class="workspace-header-title-row">
             <h2 class="workspace-title">${comp.name}</h2>
-            <span class="badge badge-lime">${comp.badge}</span>
-            <span class="badge" style="font-size:10px; font-family:var(--font-mono);">${comp.category}</span>
+            <span class="badge ${isLive ? 'badge-lime' : 'badge-roadmap'}">${isLive ? 'LIVE PREVIEW' : 'ROADMAP SPEC'}</span>
+            <span class="badge" style="font-size:10px; font-family:var(--font-mono); text-transform:uppercase;">${comp.category}</span>
+            <span class="badge" style="font-size:10px; font-family:var(--font-mono); color:var(--text-muted);">${comp.difficulty || 'intermediate'}</span>
+
+            <button id="workspace-fav-btn" class="workspace-fav-btn ${isFav ? 'is-fav' : ''}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">
+              <span>${isFav ? '♥ Favorited' : '♡ Add Favorite'}</span>
+            </button>
           </div>
           <p class="workspace-description">${comp.description}</p>
         </div>
@@ -135,6 +139,14 @@ export function setupPreview(workspaceEl, store) {
       });
     }
 
+    const favBtn = workspaceEl.querySelector('#workspace-fav-btn');
+    if (favBtn) {
+      favBtn.addEventListener('click', () => {
+        sound.playPop();
+        toggleFavorite(comp.id);
+      });
+    }
+
     // Mount Component into #preview-canvas-container
     const canvasContainer = workspaceEl.querySelector('#preview-canvas-container');
     if (canvasContainer && comp.render) {
@@ -148,7 +160,7 @@ export function setupPreview(workspaceEl, store) {
   render();
 
   store.subscribe((state, prev) => {
-    if (state.selectedComponentId !== prev?.selectedComponentId) {
+    if (state.selectedComponentId !== prev?.selectedComponentId || state.favorites !== prev?.favorites) {
       render();
     } else if (
       state.previewMode !== prev?.previewMode ||

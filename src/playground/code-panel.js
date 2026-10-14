@@ -96,11 +96,15 @@ export function setupCodePanel(codePanelEl, store) {
       </div>
 
       <div class="code-docs-section">
-        <div style="display:flex; align-items:center; justify-content:space-between;">
-          <h5>Package Support</h5>
-          <span style="font-size:11px; color:var(--accent-primary); font-family:var(--font-mono);">Flutter 3.0+ Ready</span>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 4px;">
+          <h5>Package Support & Architecture</h5>
+          <span style="font-size:11px; color:var(--accent-primary); font-family:var(--font-mono);">${comp.status === 'complete' ? '● Live Tested' : '○ Roadmap Spec'}</span>
         </div>
-        <p style="font-size:11px; margin:0;">Zero external pub packages required. Pure Flutter framework primitives.</p>
+        <p style="font-size:11px; margin:0 0 6px; color:var(--text-secondary);">${comp.dependencies && comp.dependencies.length > 0 ? `Dependencies: ${comp.dependencies.join(', ')}` : 'Zero external pub packages required. 100% pure Flutter SDK primitives.'}</p>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <span class="badge" style="font-size:10px; font-family:var(--font-mono); text-transform:uppercase;">${comp.difficulty || 'intermediate'}</span>
+          <span class="badge" style="font-size:10px; font-family:var(--font-mono); text-transform:uppercase;">${comp.category}</span>
+        </div>
       </div>
     `;
 

@@ -2,12 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { COMPONENTS, CATEGORIES, getComponentById, getComponentsByCategory } from '../src/registry/components.js';
 
 describe('DartNova Component Registry', () => {
-  it('should register all 26 components', () => {
-    expect(COMPONENTS).toHaveLength(26);
+  it('should register all 160 components defined in PRD Section 9', () => {
+    expect(COMPONENTS).toHaveLength(160);
   });
 
-  it('should have 6 categories defined including all', () => {
-    expect(CATEGORIES).toHaveLength(6);
+  it('should have 17 categories defined including all (16 formal categories)', () => {
+    expect(CATEGORIES).toHaveLength(17);
   });
 
   it('every component should have id, name, category, description, and valid render function', () => {
@@ -33,12 +33,12 @@ describe('DartNova Component Registry', () => {
 
   it('getComponentsByCategory should filter correctly', () => {
     const buttons = getComponentsByCategory('buttons');
-    expect(buttons.length).toBeGreaterThan(0);
+    expect(buttons.length).toBeGreaterThanOrEqual(10);
     for (const b of buttons) {
       expect(b.category).toBe('buttons');
     }
 
     const all = getComponentsByCategory('all');
-    expect(all).toHaveLength(26);
+    expect(all).toHaveLength(160);
   });
 });
