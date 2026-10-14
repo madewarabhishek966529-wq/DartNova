@@ -62,7 +62,9 @@ export function setupCommandPalette(store) {
       !q || 
       c.name.toLowerCase().includes(q) || 
       c.category.toLowerCase().includes(q) ||
-      c.badge.toLowerCase().includes(q)
+      c.badge.toLowerCase().includes(q) ||
+      (c.description && c.description.toLowerCase().includes(q)) ||
+      (c.tags && c.tags.some(t => t.toLowerCase().includes(q)))
     );
 
     if (currentFiltered.length === 0) {

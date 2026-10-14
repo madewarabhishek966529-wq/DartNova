@@ -137,12 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
       docsContainer.classList.toggle('view-hidden', currentView !== 'docs');
     }
 
+    const state = store.getState();
     document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
       const href = link.getAttribute('href');
       const isActive = (currentView === 'landing' && href === '#landing') ||
-                       (currentView === 'playground' && href === '#playground') ||
+                       (currentView === 'playground' && !state.favoritesOnly && href === '#playground') ||
+                       (currentView === 'playground' && state.favoritesOnly && href === '#favorites') ||
                        (currentView === 'docs' && href === '#docs');
-      link.classList.toggle('active', isActive);
+      link.classList.toggle('active', !!isActive);
     });
 
     if (currentView !== 'playground') {
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   store.subscribe((state, prev) => {
-    if (state.currentView !== prev?.currentView) {
+    if (state.currentView !== prev?.currentView || state.favoritesOnly !== prev?.favoritesOnly) {
       updateView(state.currentView);
     }
   });

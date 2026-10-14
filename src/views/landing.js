@@ -1,22 +1,79 @@
 /**
  * DartNova Landing Page View
- * High-Impact Motion Showcase with Dynamic Hero Switcher, Glowing Cards, and Interactive Filters
+ * High-Impact Motion Showcase with Dynamic Hero Switcher, 160-Component Catalog, and Multi-faceted Filters
  */
 
 import { COMPONENTS, CATEGORIES } from '../registry/components.js';
 import { sound } from '../utils/audio.js';
 import { copyToClipboard } from '../utils/clipboard.js';
+import { isFavorite, toggleFavorite, getFavorites, subscribeFavorites } from '../utils/favorites.js';
 
 export function renderLandingView(containerEl, store) {
   let activeCategoryFilter = 'all';
+  let activeStatusFilter = 'all'; // 'all' | 'complete' | 'planned' | 'favorites'
+  let activeSortBy = 'featured'; // 'featured' | 'alphabetical' | 'difficulty'
+  let landingSearchQuery = '';
   let activeHeroComponentId = 'pop-button';
   let activeHeroInstance = null;
+  let activeCardInstances = new Map();
+  let cardObserver = null;
+
+  const cleanupCardPreviews = () => {
+    if (cardObserver) {
+      cardObserver.disconnect();
+      cardObserver = null;
+    }
+    for (const [id, instance] of activeCardInstances.entries()) {
+      if (instance && typeof instance.destroy === 'function') {
+        try {
+          instance.destroy();
+        } catch (e) {
+          console.warn('Card preview cleanup error:', id, e);
+        }
+      }
+    }
+    activeCardInstances.clear();
+  };
 
   const render = () => {
-    // Filter components for the showcase grid
-    const filteredComps = activeCategoryFilter === 'all'
-      ? COMPONENTS
-      : COMPONENTS.filter(c => c.category === activeCategoryFilter);
+    cleanupCardPreviews();
+
+    const currentFavs = getFavorites();
+    const query = landingSearchQuery.toLowerCase().trim();
+
+    // 1. Filter components
+    let filteredComps = COMPONENTS.filter(comp => {
+      // Category
+      const matchesCategory = activeCategoryFilter === 'all' || comp.category === activeCategoryFilter;
+
+      // Status
+      const matchesStatus = 
+        activeStatusFilter === 'all' ||
+        (activeStatusFilter === 'complete' && comp.status === 'complete') ||
+        (activeStatusFilter === 'planned' && comp.status === 'planned') ||
+        (activeStatusFilter === 'favorites' && currentFavs.includes(comp.id));
+
+      // Query
+      const matchesQuery = !query ||
+        comp.name.toLowerCase().includes(query) ||
+        comp.description.toLowerCase().includes(query) ||
+        comp.category.toLowerCase().includes(query) ||
+        (comp.tags && comp.tags.some(t => t.toLowerCase().includes(query))) ||
+        (comp.badge && comp.badge.toLowerCase().includes(query));
+
+      return matchesCategory && matchesStatus && matchesQuery;
+    });
+
+    // 2. Sort components
+    if (activeSortBy === 'alphabetical') {
+      filteredComps.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (activeSortBy === 'difficulty') {
+      const order = { beginner: 1, intermediate: 2, advanced: 3 };
+      filteredComps.sort((a, b) => (order[a.difficulty] || 2) - (order[b.difficulty] || 2));
+    }
+
+    const liveCount = COMPONENTS.filter(c => c.status === 'complete').length;
+    const plannedCount = COMPONENTS.filter(c => c.status === 'planned').length;
 
     containerEl.innerHTML = `
       <div class="landing-view">
@@ -37,7 +94,7 @@ export function renderLandingView(containerEl, store) {
               <span class="hero-badge-title">DartNova</span>
             </div>
             <span class="hero-badge-subtitle">MOTION FOR FLUTTER</span>
-            <p class="hero-badge-tagline">Explore motion. Preview interactions. Copy Flutter code.</p>
+            <p class="hero-badge-tagline">Discover motion. Preview it instantly. Customize it. Copy the Flutter code.</p>
           </div>
 
           <!-- Headline with Floating 3D Motion Badges -->
@@ -81,25 +138,25 @@ export function renderLandingView(containerEl, store) {
             </div>
 
             <h1 class="hero-headline">
-              Motion for <span class="text-gradient-lime">Flutter</span>
+              Bring Your Flutter UI to <span class="text-gradient-lime">Life.</span>
             </h1>
           </div>
 
           <p class="hero-description">
-            Discover expressive UI animations, interactive components, and reusable Flutter code. 
-            Preview the motion in your browser, then bring it directly into your app.
+            DartNova is a curated collection of 160 animated UI components, interactive effects, 
+            transitions, loaders, gestures, backgrounds, and advanced motion experiments built for Flutter developers.
           </p>
 
           <div class="hero-actions">
             <a href="#playground" class="btn btn-primary" id="hero-explore-btn">
-              <span>Explore 26 Motion Components</span>
+              <span>Explore Motion</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </a>
-            <a href="#docs" class="btn btn-secondary" id="hero-docs-btn">
-              <span>Documentation</span>
+            <a href="#components" class="btn btn-secondary" id="hero-browse-btn">
+              <span>Browse Components</span>
             </a>
           </div>
 
@@ -107,19 +164,19 @@ export function renderLandingView(containerEl, store) {
           <div class="hero-stats-ribbon">
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-primary);"></span>
-              <span><strong>26</strong> Production Components</span>
+              <span><strong>160</strong> Planned Components</span>
             </div>
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-cyan);"></span>
-              <span><strong>Zero</strong> Pub Dependencies</span>
+              <span><strong>16</strong> Motion Categories</span>
             </div>
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-purple);"></span>
-              <span><strong>60–120 FPS</strong> Native Motion</span>
+              <span><strong>Zero</strong> Pub Dependencies</span>
             </div>
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-amber);"></span>
-              <span><strong>100% Pure</strong> Flutter & Dart</span>
+              <span><strong>60–120 FPS</strong> Native Motion</span>
             </div>
           </div>
 
@@ -190,8 +247,8 @@ export function renderLandingView(containerEl, store) {
         <!-- KINETIC TYPOGRAPHY MOTION MARQUEE TICKER BANNER -->
         <div class="kinetic-ticker-wrapper">
           <div class="kinetic-ticker-track">
-            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ FLUTTER ANIMATION CONTROLLERS</span></div>
-            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 3D PERSPECTIVE MATRIX4</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 160 MOTION COMPONENTS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 16 FORMAL CATEGORIES</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
@@ -200,8 +257,8 @@ export function renderLandingView(containerEl, store) {
             <div class="ticker-item"><span class="ticker-pill accent-lime">🚀 60–120 FPS FLUID MOTION</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-amber">📱 TACTILE HAPTIC & AUDIO</span></div>
             <!-- Seamless loop duplicate -->
-            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ FLUTTER ANIMATION CONTROLLERS</span></div>
-            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 3D PERSPECTIVE MATRIX4</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 160 MOTION COMPONENTS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 16 FORMAL CATEGORIES</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
             <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
@@ -212,59 +269,149 @@ export function renderLandingView(containerEl, store) {
           </div>
         </div>
 
-        <!-- 2. FEATURED COMPONENT SHOWCASE -->
+        <!-- 2. FEATURED COMPONENT SHOWCASE & CATALOG -->
         <section class="featured-section" id="featured-components">
           <div class="section-header">
-            <span class="section-tag">Curated Library</span>
+            <span class="section-tag">Catalog & Playground</span>
             <h2 class="section-title">Motion Component Library</h2>
             <p class="section-desc">
-              Explore animated UI widgets designed with precision timing curves, tactile feedback, and dynamic interaction states.
+              Browse, filter, and inspect 160 motion components engineered with Flutter timing curves and clean Dart architectures.
             </p>
 
-            <!-- Modern Category Filter Pills -->
-            <div class="featured-filter-bar">
-              ${CATEGORIES.map(cat => `
-                <button class="filter-pill-btn ${activeCategoryFilter === cat.id ? 'active' : ''}" data-cat="${cat.id}">
-                  <span>${cat.icon}</span>
-                  <span>${cat.name}</span>
-                </button>
-              `).join('')}
+            <!-- Enhanced Multi-Faceted Filter Dock -->
+            <div class="landing-filter-container">
+              <!-- Search Input -->
+              <div class="landing-search-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input 
+                  type="text" 
+                  id="landing-search-input" 
+                  class="landing-search-input" 
+                  placeholder="Search 160 components, tags, Flutter APIs (e.g. 'button', 'matrix4', 'spring')..." 
+                  value="${landingSearchQuery}"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                ${landingSearchQuery ? `<button id="landing-search-clear" class="landing-search-clear" title="Clear search">✕</button>` : ''}
+              </div>
+
+              <!-- Controls Row: Status Scope & Dropdowns -->
+              <div class="landing-controls-row">
+                <div class="landing-status-pills">
+                  <button class="status-pill-btn ${activeStatusFilter === 'all' ? 'active' : ''}" data-status="all">
+                    All <span>(${COMPONENTS.length})</span>
+                  </button>
+                  <button class="status-pill-btn ${activeStatusFilter === 'complete' ? 'active' : ''}" data-status="complete">
+                    Live Previews <span>(${liveCount})</span>
+                  </button>
+                  <button class="status-pill-btn ${activeStatusFilter === 'planned' ? 'active' : ''}" data-status="planned">
+                    Roadmap Specs <span>(${plannedCount})</span>
+                  </button>
+                  <button class="status-pill-btn ${activeStatusFilter === 'favorites' ? 'active' : ''}" data-status="favorites">
+                    ♥ Favorites <span>(${currentFavs.length})</span>
+                  </button>
+                </div>
+
+                <div class="landing-dropdowns-group">
+                  <select id="landing-category-select" class="landing-select" title="Filter by Category">
+                    ${CATEGORIES.map(cat => `
+                      <option value="${cat.id}" ${activeCategoryFilter === cat.id ? 'selected' : ''}>
+                        ${cat.icon} ${cat.name} (${cat.id === 'all' ? COMPONENTS.length : COMPONENTS.filter(c => c.category === cat.id).length})
+                      </option>
+                    `).join('')}
+                  </select>
+
+                  <select id="landing-sort-select" class="landing-select" title="Sort Order">
+                    <option value="featured" ${activeSortBy === 'featured' ? 'selected' : ''}>★ Featured</option>
+                    <option value="alphabetical" ${activeSortBy === 'alphabetical' ? 'selected' : ''}>A–Z Name</option>
+                    <option value="difficulty" ${activeSortBy === 'difficulty' ? 'selected' : ''}>⚡ Difficulty</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Scrollable Horizontal Category Pills -->
+              <div class="landing-category-pills-bar">
+                ${CATEGORIES.map(cat => `
+                  <button class="cat-pill-btn ${activeCategoryFilter === cat.id ? 'active' : ''}" data-cat="${cat.id}">
+                    <span>${cat.icon}</span>
+                    <span>${cat.name}</span>
+                  </button>
+                `).join('')}
+              </div>
             </div>
           </div>
 
+          <!-- Component Grid or Empty State -->
           <div class="featured-grid">
-            ${filteredComps.map(comp => `
-              <div class="component-card" data-id="${comp.id}">
-                <div class="component-preview-box" id="card-preview-${comp.id}"></div>
-                <div class="component-details">
-                  <div class="component-meta">
-                    <span class="badge badge-lime">${comp.badge}</span>
-                    <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">${comp.category}</span>
-                  </div>
-                  <h3 class="component-title">${comp.name}</h3>
-                  <p class="component-desc">${comp.description}</p>
-                  <div class="component-card-footer">
-                    <span class="btn-open-playground">
-                      <span>Open Playground</span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </span>
+            ${filteredComps.length === 0 ? `
+              <div class="empty-catalog-state">
+                <div class="empty-catalog-icon">🔍</div>
+                <h3 class="empty-catalog-title">No matching components found</h3>
+                <p class="empty-catalog-desc">We couldn't find any component matching your filters. Try clearing your search query or switching categories.</p>
+                <button class="btn btn-secondary" id="reset-catalog-btn" style="margin-top:8px;">
+                  <span>Reset All Filters</span>
+                </button>
+              </div>
+            ` : filteredComps.map(comp => {
+              const fav = currentFavs.includes(comp.id);
+              const isLive = comp.status === 'complete';
+              return `
+                <div class="component-card" data-id="${comp.id}">
+                  <!-- Favorite Heart Toggle -->
+                  <button 
+                    class="card-fav-btn ${fav ? 'active' : ''}" 
+                    data-fav-id="${comp.id}" 
+                    title="${fav ? 'Remove from favorites' : 'Add to favorites'}" 
+                    aria-label="Toggle favorite"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="${fav ? 'var(--accent-primary)' : 'none'}" stroke="${fav ? 'var(--accent-primary)' : 'currentColor'}" stroke-width="2">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                  </button>
+
+                  <div class="component-preview-box" id="card-preview-${comp.id}" data-comp-id="${comp.id}"></div>
+                  <div class="component-details">
+                    <div class="component-meta">
+                      <span class="badge ${isLive ? 'badge-lime' : 'badge-cyan'}">${isLive ? 'LIVE DEMO' : 'ROADMAP SPEC'}</span>
+                      <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">
+                        ${comp.difficulty || 'intermediate'}
+                      </span>
+                    </div>
+                    <h3 class="component-title">${comp.name}</h3>
+                    <p class="component-desc">${comp.description}</p>
+                    
+                    ${comp.tags && comp.tags.length ? `
+                      <div class="card-tags-list">
+                        ${comp.tags.slice(0, 3).map(tag => `<span class="card-tag-pill">#${tag}</span>`).join('')}
+                      </div>
+                    ` : ''}
+
+                    <div class="component-card-footer">
+                      <span class="btn-open-playground">
+                        <span>Open Playground</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         </section>
 
         <!-- 3. MOTION CATEGORIES SHOWCASE -->
-        <section class="categories-section">
+        <section class="categories-section" id="categories-showcase">
           <div class="section-header">
             <span class="section-tag">Architecture</span>
-            <h2 class="section-title">Organized by Motion Paradigm</h2>
+            <h2 class="section-title">16 Motion Categories</h2>
             <p class="section-desc">
-              From spring-driven micro-interactions to procedural wave shaders and multi-layer stacks.
+              Structured into 16 formal motion categories with 10 production widgets each, covering every layer of the Flutter animation system.
             </p>
           </div>
 
@@ -278,7 +425,7 @@ export function renderLandingView(containerEl, store) {
                     <span class="category-count">${count} widgets</span>
                   </div>
                   <h4>${cat.name}</h4>
-                  <p>High-performance ${cat.name.toLowerCase()} ready for mobile, web, and desktop Flutter apps.</p>
+                  <p>${cat.description || `High-performance ${cat.name.toLowerCase()} ready for mobile, web, and desktop Flutter apps.`}</p>
                 </div>
               `;
             }).join('')}
@@ -300,7 +447,7 @@ export function renderLandingView(containerEl, store) {
               <div class="workflow-step">
                 <div class="step-num">01</div>
                 <h4 class="step-title">Explore</h4>
-                <p class="step-desc">Browse 20 animated motion patterns across 5 organized categories.</p>
+                <p class="step-desc">Browse 160 motion components across 16 formal categories.</p>
               </div>
               <div class="workflow-step">
                 <div class="step-num">02</div>
@@ -348,10 +495,12 @@ export function renderLandingView(containerEl, store) {
                 <div class="footer-column">
                   <h5 class="footer-column-title">Library</h5>
                   <ul class="footer-nav">
-                    <li><a href="#playground">All 26 Components</a></li>
-                    <li><a href="#playground/pop-button">Buttons & Micro-interactions</a></li>
-                    <li><a href="#playground/typing-text">Text & Transitions</a></li>
-                    <li><a href="#playground/cursor-card">Cards & 3D Parallax</a></li>
+                    <li><a href="#playground">All 160 Components</a></li>
+                    <li><a href="#favorites">Saved Favorites</a></li>
+                    <li><a href="#categories">16 Categories</a></li>
+                    <li><a href="#playground/pop-button">Buttons & Controls</a></li>
+                    <li><a href="#playground/cursor-card">Cards & Surfaces</a></li>
+                    <li><a href="#playground/typing-text">Text & Typography</a></li>
                   </ul>
                 </div>
 
@@ -368,8 +517,8 @@ export function renderLandingView(containerEl, store) {
             </div>
 
             <div class="footer-bottom">
-              <span>&copy; ${new Date().getFullYear()} DartNova. Created by Abhishek Madewar. Released under MIT License.</span>
-              <span>Motion for Flutter Developers Worldwide.</span>
+              <span>&copy; ${new Date().getFullYear()} DartNova. Motion for Flutter Developers Worldwide. Released under MIT License.</span>
+              <span>160 Components · Zero External Dependencies.</span>
             </div>
           </div>
         </footer>
@@ -379,12 +528,100 @@ export function renderLandingView(containerEl, store) {
     // Mount Active Hero Stage Demo
     mountHeroDemo(activeHeroComponentId);
 
-    // Mount Featured Cards Previews
-    filteredComps.forEach(comp => {
-      const box = containerEl.querySelector(`#card-preview-${comp.id}`);
-      if (box && comp.render) {
-        comp.render(box, comp.defaultProps);
-      }
+    // Lazy IntersectionObserver for Performance (PRD Section 12)
+    cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const box = entry.target;
+          const compId = box.getAttribute('data-comp-id');
+          if (compId && !activeCardInstances.has(compId)) {
+            const comp = COMPONENTS.find(c => c.id === compId);
+            if (comp && comp.render) {
+              const inst = comp.render(box, comp.defaultProps);
+              activeCardInstances.set(compId, inst);
+            }
+          }
+        }
+      });
+    }, { rootMargin: '200px 0px' });
+
+    containerEl.querySelectorAll('.component-preview-box').forEach(box => {
+      cardObserver.observe(box);
+    });
+
+    // Bind Search Input
+    const searchInput = containerEl.querySelector('#landing-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        landingSearchQuery = e.target.value;
+        render();
+        // Restore focus to input
+        const updatedInput = containerEl.querySelector('#landing-search-input');
+        if (updatedInput) {
+          updatedInput.focus();
+          updatedInput.setSelectionRange(updatedInput.value.length, updatedInput.value.length);
+        }
+      });
+    }
+
+    const clearBtn = containerEl.querySelector('#landing-search-clear');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        sound.playPop();
+        landingSearchQuery = '';
+        render();
+      });
+    }
+
+    // Reset Catalog Button (Empty State)
+    const resetBtn = containerEl.querySelector('#reset-catalog-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        sound.playPop();
+        landingSearchQuery = '';
+        activeCategoryFilter = 'all';
+        activeStatusFilter = 'all';
+        activeSortBy = 'featured';
+        render();
+      });
+    }
+
+    // Status Filter Pills
+    containerEl.querySelectorAll('.status-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sound.playClick();
+        activeStatusFilter = btn.getAttribute('data-status');
+        render();
+      });
+    });
+
+    // Category Select Dropdown
+    const catSelect = containerEl.querySelector('#landing-category-select');
+    if (catSelect) {
+      catSelect.addEventListener('change', (e) => {
+        sound.playClick();
+        activeCategoryFilter = e.target.value;
+        render();
+      });
+    }
+
+    // Sort Select Dropdown
+    const sortSelect = containerEl.querySelector('#landing-sort-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        sound.playClick();
+        activeSortBy = e.target.value;
+        render();
+      });
+    }
+
+    // Horizontal Scroll Category Pills
+    containerEl.querySelectorAll('.cat-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sound.playClick();
+        activeCategoryFilter = btn.getAttribute('data-cat');
+        render();
+      });
     });
 
     // Bind Hero Stage Switcher Pills
@@ -426,12 +663,28 @@ export function renderLandingView(containerEl, store) {
       });
     }
 
-    // Category Filter Pills on Showcase Grid
-    containerEl.querySelectorAll('.filter-pill-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        sound.playClick();
-        activeCategoryFilter = btn.getAttribute('data-cat');
-        render();
+    // Card Favorite Heart Toggle
+    containerEl.querySelectorAll('.card-fav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sound.playPop();
+        const compId = btn.getAttribute('data-fav-id');
+        const isFav = toggleFavorite(compId);
+        btn.classList.toggle('active', isFav);
+        const svg = btn.querySelector('svg');
+        if (svg) {
+          svg.setAttribute('fill', isFav ? 'var(--accent-primary)' : 'none');
+          svg.setAttribute('stroke', isFav ? 'var(--accent-primary)' : 'currentColor');
+        }
+        btn.title = isFav ? 'Remove from favorites' : 'Add to favorites';
+        
+        // Update store favorites count
+        store.setState({ favorites: getFavorites() });
+
+        // If in favorites filter, re-render to reflect removal
+        if (activeStatusFilter === 'favorites') {
+          render();
+        }
       });
     });
 
@@ -459,7 +712,11 @@ export function renderLandingView(containerEl, store) {
     const heroStageMount = containerEl.querySelector('#hero-stage-demo-mount');
     if (!heroStageMount) return;
     if (activeHeroInstance?.destroy) {
-      activeHeroInstance.destroy();
+      try {
+        activeHeroInstance.destroy();
+      } catch (e) {
+        console.warn('Hero demo cleanup error:', e);
+      }
     }
     const comp = COMPONENTS.find(c => c.id === compId);
     if (comp && comp.render) {
@@ -467,6 +724,25 @@ export function renderLandingView(containerEl, store) {
       activeHeroInstance = comp.render(heroStageMount, comp.defaultProps);
     }
   };
+
+  // Subscribe to external favorite changes
+  const unsubscribeFavs = subscribeFavorites(() => {
+    const currentFavs = getFavorites();
+    containerEl.querySelectorAll('.card-fav-btn').forEach(btn => {
+      const id = btn.getAttribute('data-fav-id');
+      const isFav = currentFavs.includes(id);
+      btn.classList.toggle('active', isFav);
+      const svg = btn.querySelector('svg');
+      if (svg) {
+        svg.setAttribute('fill', isFav ? 'var(--accent-primary)' : 'none');
+        svg.setAttribute('stroke', isFav ? 'var(--accent-primary)' : 'currentColor');
+      }
+    });
+    const favCountSpan = containerEl.querySelector('.status-pill-btn[data-status="favorites"] span');
+    if (favCountSpan) {
+      favCountSpan.textContent = `(${currentFavs.length})`;
+    }
+  });
 
   render();
 }

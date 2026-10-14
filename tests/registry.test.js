@@ -41,4 +41,15 @@ describe('DartNova Component Registry', () => {
     const all = getComponentsByCategory('all');
     expect(all).toHaveLength(160);
   });
+
+  it('every one of the 16 formal categories should have exactly 10 components', () => {
+    const formalCategories = CATEGORIES.filter(c => c.id !== 'all');
+    expect(formalCategories).toHaveLength(16);
+
+    for (const cat of formalCategories) {
+      const items = COMPONENTS.filter(c => c.category === cat.id);
+      expect(items, `Category ${cat.id} should have exactly 10 components`).toHaveLength(10);
+    }
+  });
 });
+

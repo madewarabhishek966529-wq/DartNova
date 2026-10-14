@@ -20,10 +20,16 @@ export function setupRouter(store) {
         selectedComponentId: comp.id,
         componentProps: { ...comp.defaultProps }
       });
+    } else if (mainRoute === 'favorites') {
+      store.setState({
+        currentView: 'playground',
+        favoritesOnly: true,
+        filterStatus: 'all',
+        selectedCategory: 'all'
+      });
     } else if (mainRoute === 'docs') {
       store.setState({ currentView: 'docs' });
     } else if (mainRoute === 'components') {
-      // If on landing, scroll to featured components; otherwise switch to landing then scroll
       if (store.getState().currentView === 'landing') {
         const el = document.querySelector('#featured-components');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -31,6 +37,17 @@ export function setupRouter(store) {
         store.setState({ currentView: 'landing' });
         setTimeout(() => {
           const el = document.querySelector('#featured-components');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else if (mainRoute === 'categories') {
+      if (store.getState().currentView === 'landing') {
+        const el = document.querySelector('#categories-showcase');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        store.setState({ currentView: 'landing' });
+        setTimeout(() => {
+          const el = document.querySelector('#categories-showcase');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       }

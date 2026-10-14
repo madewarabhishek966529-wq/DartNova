@@ -82,6 +82,203 @@
   display: flex;
 }
 
+/* Sidebar Filters & Controls Dock */
+.sidebar-filter-dock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 6px;
+}
+
+.sidebar-select {
+  width: 100%;
+  background: #151821;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  font-size: 11px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  outline: none;
+  transition: all var(--duration-fast) ease;
+}
+
+.sidebar-select:focus,
+.sidebar-select:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.filter-pills-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav-scope-btn {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #13151c;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--duration-fast) ease;
+  white-space: nowrap;
+}
+
+.nav-scope-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.nav-scope-btn.active {
+  background: var(--accent-primary-dim);
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.nav-scope-btn.fav-btn {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+}
+
+.nav-scope-btn.fav-btn.active {
+  background: rgba(255, 71, 87, 0.15);
+  color: #ff4757;
+  border-color: #ff4757;
+}
+
+.component-nav-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-fast) ease;
+  position: relative;
+}
+
+.component-nav-row:hover {
+  background: var(--surface-hover);
+}
+
+.component-nav-row.active {
+  background: var(--surface-hover);
+}
+
+.component-nav-row.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  background: var(--accent-primary);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+.component-nav-row .component-nav-item {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.45rem 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.comp-nav-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.component-nav-row.active .comp-nav-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.component-nav-badge.badge-live {
+  background: var(--accent-primary-dim);
+  color: var(--accent-primary);
+  border: 1px solid rgba(197, 255, 53, 0.3);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.component-nav-badge.badge-roadmap {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  font-size: 9px;
+}
+
+.comp-fav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: transform var(--duration-fast) ease, color var(--duration-fast) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comp-fav-btn:hover {
+  color: #ff4757;
+  transform: scale(1.2);
+}
+
+.comp-fav-btn.is-fav {
+  color: #ff4757;
+  text-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
+}
+
+.workspace-fav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  background: #181b23;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.workspace-fav-btn:hover {
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
+.workspace-fav-btn.is-fav {
+  background: rgba(255, 71, 87, 0.12);
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
 .sidebar-nav-scroll {
   flex: 1;
   overflow-y: auto;
