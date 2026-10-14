@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DartNova — Motion for Flutter | Interactive UI Motion Library & Showcase</title>
+  <meta name="description" content="Discover expressive animated UI components, motion effects, and reusable Flutter code. Preview interactive motion in your browser, then copy production-ready Dart code.">
+  <meta name="keywords" content="Flutter, Dart, Motion, Animations, UI Components, Flutter Showcase, Interactive Playground">
+  <meta name="author" content="Abhishek Madewar">
+  <meta name="theme-color" content="#080808">
+
+  <!-- OpenGraph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DartNova — Motion for Flutter">
+  <meta property="og:description" content="Explore motion. Preview interactions. Copy Flutter code. 20 interactive UI motion patterns with direct Flutter code parity.">
+  <meta property="og:image" content="./assets/icons/logo.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="./styles/tokens.css">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/layout.css">
+  <link rel="stylesheet" href="./styles/landing.css">
+  <link rel="stylesheet" href="./styles/playground.css">
+  <link rel="stylesheet" href="./styles/components.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- SITE HEADER -->
+    <header class="site-header">
+      <div class="header-inner">
+        <!-- Brand Link -->
+        <a href="#landing" class="brand-link" id="brand-logo-link">
+          <div class="brand-icon">
+            <svg viewBox="0 0 48 48">
+              <path d="M26 8L14 26H24L22 40L34 22H24L26 8Z" fill="#080808" stroke="#080808" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="brand-text">DartNova</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav aria-label="Main Navigation">
+          <ul class="nav-links">
+            <li><a href="#landing" class="nav-link active">Home</a></li>
+            <li><a href="#components" class="nav-link">Components</a></li>
+            <li><a href="#playground" class="nav-link">Playground</a></li>
+            <li><a href="#docs" class="nav-link">Documentation</a></li>
+          </ul>
+        </nav>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          <a 
+            href="https://github.com/madewarabhishek966529-wq/DartNova" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn-icon" 
+            title="GitHub Repository"
+            aria-label="GitHub Repository"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+
+          <a href="#playground" class="btn btn-primary">
+            <span>Explore Components</span>
+          </a>
+
+          <!-- Mobile Toggle Button -->
+          <button id="mobile-menu-toggle" class="btn-icon mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION DRAWER -->
+    <div class="mobile-nav-drawer" aria-label="Mobile Navigation">
+      <ul class="mobile-nav-links">
+        <li><a href="#landing" class="mobile-nav-link">Home</a></li>
+        <li><a href="#components" class="mobile-nav-link">Components</a></li>
+        <li><a href="#playground" class="mobile-nav-link">Playground</a></li>
+        <li><a href="#docs" class="mobile-nav-link">Documentation</a></li>
+        <li><a href="https://github.com/madewarabhishek966529-wq/DartNova" target="_blank" rel="noopener" class="mobile-nav-link">GitHub Repository</a></li>
+      </ul>
+      <div>
+        <a href="#playground" class="btn btn-primary" style="width:100%; text-align:center;">
+          <span>Explore Components</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- MAIN VIEWS -->
+    <main class="view-container">
+      <!-- 1. LANDING PAGE VIEW -->
+      <div id="view-landing"></div>
+
+      <!-- 2. INTERACTIVE PLAYGROUND VIEW -->
+      <div id="view-playground" class="view-hidden">
+        <!-- Mobile tab switcher (only on small viewports) -->
+        <div class="mobile-view-tabs">
+          <button class="mobile-view-tab-btn active" data-tab="preview">Preview</button>
+          <button class="mobile-view-tab-btn" data-tab="components">Components</button>
+          <button class="mobile-view-tab-btn" data-tab="code">Flutter Code</button>
+        </div>
+
+        <div class="playground-view">
+          <!-- 3-Region Desktop Workspace -->
+          <aside class="playground-sidebar" aria-label="Component Navigation"></aside>
+          <section class="playground-workspace" aria-label="Live Preview Workspace"></section>
+          <aside class="playground-code-panel" aria-label="Flutter Code Viewer"></aside>
+        </div>
+      </div>
+
+      <!-- 3. DOCUMENTATION VIEW -->
+      <div id="view-docs" class="view-hidden"></div>
+    </main>
+  </div>
+
+  <!-- Main JavaScript Module -->
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
