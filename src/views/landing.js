@@ -40,9 +40,50 @@ export function renderLandingView(containerEl, store) {
             <p class="hero-badge-tagline">Explore motion. Preview interactions. Copy Flutter code.</p>
           </div>
 
-          <h1 class="hero-headline">
-            Motion for <span class="text-gradient-lime">Flutter</span>
-          </h1>
+          <!-- Headline with Floating 3D Motion Badges -->
+          <div class="hero-headline-wrap">
+            <!-- Left Floating 3D Motion Card: Spring Physics -->
+            <div class="hero-floating-card float-card-left" title="Spring Physics Demo">
+              <div class="floating-card-glass">
+                <div class="floating-header">
+                  <div class="floating-dot-pulse"></div>
+                  <span class="floating-label">Spring Physics</span>
+                  <span class="floating-tag">120 FPS</span>
+                </div>
+                <div class="floating-speed-dial-mock">
+                  <div class="mini-spring-node node-1">★</div>
+                  <div class="mini-spring-node node-2">✦</div>
+                  <div class="mini-spring-fab">⚡</div>
+                </div>
+                <div class="floating-footer">
+                  <span class="floating-sub">Mass 1.0 · Stiff 180</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Floating 3D Motion Card: Vector Matrix4 -->
+            <div class="hero-floating-card float-card-right" title="Hardware Vector Matrix4">
+              <div class="floating-card-glass">
+                <div class="floating-header">
+                  <div class="floating-dot-cyan"></div>
+                  <span class="floating-label">Matrix4 3D</span>
+                  <span class="floating-tag cyan">Vector</span>
+                </div>
+                <div class="floating-canvas-preview">
+                  <div class="floating-radar-sweep"></div>
+                  <div class="floating-gauge-val">99.4%</div>
+                  <span class="floating-gauge-caption">CustomPainter</span>
+                </div>
+                <div class="floating-footer">
+                  <span class="floating-sub">60–120 FPS Fluid</span>
+                </div>
+              </div>
+            </div>
+
+            <h1 class="hero-headline">
+              Motion for <span class="text-gradient-lime">Flutter</span>
+            </h1>
+          </div>
 
           <p class="hero-description">
             Discover expressive UI animations, interactive components, and reusable Flutter code. 
@@ -51,7 +92,7 @@ export function renderLandingView(containerEl, store) {
 
           <div class="hero-actions">
             <a href="#playground" class="btn btn-primary" id="hero-explore-btn">
-              <span>Explore 20 Components</span>
+              <span>Explore 26 Motion Components</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -66,7 +107,7 @@ export function renderLandingView(containerEl, store) {
           <div class="hero-stats-ribbon">
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-primary);"></span>
-              <span><strong>20</strong> Production Components</span>
+              <span><strong>26</strong> Production Components</span>
             </div>
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-cyan);"></span>
@@ -75,6 +116,10 @@ export function renderLandingView(containerEl, store) {
             <div class="stat-pill">
               <span class="status-dot" style="color:var(--accent-purple);"></span>
               <span><strong>60–120 FPS</strong> Native Motion</span>
+            </div>
+            <div class="stat-pill">
+              <span class="status-dot" style="color:var(--accent-amber);"></span>
+              <span><strong>100% Pure</strong> Flutter & Dart</span>
             </div>
           </div>
 
@@ -87,7 +132,9 @@ export function renderLandingView(containerEl, store) {
                 <span class="window-dot max"></span>
               </div>
               <span class="window-title">dartnova_hero_showcase.dart</span>
-              <span class="badge badge-lime" style="font-size:10px; padding:2px 8px;">LIVE PREVIEW</span>
+              <div class="hero-stage-badge-group">
+                <span class="badge badge-lime" style="font-size:10px; padding:2px 8px;">LIVE PREVIEW</span>
+              </div>
             </div>
 
             <div class="hero-stage-body">
@@ -98,11 +145,14 @@ export function renderLandingView(containerEl, store) {
 
               <div class="hero-stage-info">
                 <div class="hero-stage-switcher">
-                  <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Quick Demo:</span>
+                  <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase;">Quick Motion Demo:</span>
                   <div class="hero-switcher-pills">
                     <button class="hero-pill-btn ${activeHeroComponentId === 'pop-button' ? 'active' : ''}" data-hero-id="pop-button">Pop Button</button>
-                    <button class="hero-pill-btn ${activeHeroComponentId === 'radial-glow-button' ? 'active' : ''}" data-hero-id="radial-glow-button">Radial Glow</button>
+                    <button class="hero-pill-btn ${activeHeroComponentId === 'spring-fab' ? 'active' : ''}" data-hero-id="spring-fab">Spring Speed Dial</button>
                     <button class="hero-pill-btn ${activeHeroComponentId === 'cursor-card' ? 'active' : ''}" data-hero-id="cursor-card">3D Tilt Card</button>
+                    <button class="hero-pill-btn ${activeHeroComponentId === 'neon-gauge' ? 'active' : ''}" data-hero-id="neon-gauge">Neon Gauge</button>
+                    <button class="hero-pill-btn ${activeHeroComponentId === 'fluid-tab-bar' ? 'active' : ''}" data-hero-id="fluid-tab-bar">Fluid Tabs</button>
+                    <button class="hero-pill-btn ${activeHeroComponentId === 'radial-glow-button' ? 'active' : ''}" data-hero-id="radial-glow-button">Radial Glow</button>
                     <button class="hero-pill-btn ${activeHeroComponentId === 'neon-gradient' ? 'active' : ''}" data-hero-id="neon-gradient">Neon Aura</button>
                   </div>
                 </div>
@@ -113,7 +163,7 @@ export function renderLandingView(containerEl, store) {
                   Clean, modular Flutter and Dart code provide the exact implementation you can copy-paste straight into your project.
                 </p>
 
-                <div style="display:flex; align-items:center; gap:12px; margin-top:auto;">
+                <div style="display:flex; align-items:center; gap:12px; margin-top:auto; flex-wrap:wrap;">
                   <a href="#playground/${activeHeroComponentId}" class="btn btn-primary" style="font-size:13px;" id="hero-stage-open-btn">
                     <span>Open in Playground</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -124,11 +174,43 @@ export function renderLandingView(containerEl, store) {
                   <button class="btn btn-secondary" style="font-size:13px;" id="hero-quick-copy-btn">
                     <span>Copy Dart Code</span>
                   </button>
+                  <button class="btn btn-secondary" style="font-size:13px;" id="hero-replay-motion-btn" title="Replay Motion Animation">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="23 4 23 10 17 10"></polyline>
+                      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                    <span>Replay</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- KINETIC TYPOGRAPHY MOTION MARQUEE TICKER BANNER -->
+        <div class="kinetic-ticker-wrapper">
+          <div class="kinetic-ticker-track">
+            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ FLUTTER ANIMATION CONTROLLERS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 3D PERSPECTIVE MATRIX4</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">✨ SHADER MASK SHIMMERS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-purple">🎯 ZERO PUB DEPENDENCIES</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">🚀 60–120 FPS FLUID MOTION</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-amber">📱 TACTILE HAPTIC & AUDIO</span></div>
+            <!-- Seamless loop duplicate -->
+            <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ FLUTTER ANIMATION CONTROLLERS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 3D PERSPECTIVE MATRIX4</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-cyan">✨ SHADER MASK SHIMMERS</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-purple">🎯 ZERO PUB DEPENDENCIES</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-lime">🚀 60–120 FPS FLUID MOTION</span></div>
+            <div class="ticker-item"><span class="ticker-pill accent-amber">📱 TACTILE HAPTIC & AUDIO</span></div>
+          </div>
+        </div>
 
         <!-- 2. FEATURED COMPONENT SHOWCASE -->
         <section class="featured-section" id="featured-components">
@@ -266,7 +348,7 @@ export function renderLandingView(containerEl, store) {
                 <div class="footer-column">
                   <h5 class="footer-column-title">Library</h5>
                   <ul class="footer-nav">
-                    <li><a href="#playground">All 20 Components</a></li>
+                    <li><a href="#playground">All 26 Components</a></li>
                     <li><a href="#playground/pop-button">Buttons & Micro-interactions</a></li>
                     <li><a href="#playground/typing-text">Text & Transitions</a></li>
                     <li><a href="#playground/cursor-card">Cards & 3D Parallax</a></li>
@@ -332,6 +414,15 @@ export function renderLandingView(containerEl, store) {
             heroCopyBtn.innerHTML = orig;
           }, 2000);
         }
+      });
+    }
+
+    // Hero Replay Motion Button
+    const replayBtn = containerEl.querySelector('#hero-replay-motion-btn');
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        sound.playPop();
+        mountHeroDemo(activeHeroComponentId);
       });
     }
 

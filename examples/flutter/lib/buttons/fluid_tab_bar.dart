@@ -44,20 +44,12 @@ class _FluidTabBarState extends State<FluidTabBar> {
               widget.onTabSelected?.call(index);
             },
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutBack,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
                 color: isSelected ? const Color(0xFFC5FF35) : Colors.transparent,
                 borderRadius: BorderRadius.circular(24),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: const Color(0xFFC5FF35).withValues(alpha: 0.35),
-                          blurRadius: 14,
-                        ),
-                      ]
-                    : null,
               ),
               child: Text(
                 widget.tabs[index],

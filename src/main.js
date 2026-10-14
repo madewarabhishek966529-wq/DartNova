@@ -119,8 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const siteHeader = document.querySelector('.site-header');
+
   // 7. View Switcher logic
   const updateView = (currentView) => {
+    if (siteHeader) {
+      siteHeader.classList.toggle('landing-mode', currentView === 'landing');
+    }
+
     if (landingContainer) {
       landingContainer.classList.toggle('view-hidden', currentView !== 'landing');
     }
@@ -149,6 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
       updateView(state.currentView);
     }
   });
+
+  // Sync initial view state
+  updateView(store.getState().currentView || 'landing');
 
   // Mobile Tabs for Playground
   const mobileTabButtons = document.querySelectorAll('.mobile-view-tab-btn');

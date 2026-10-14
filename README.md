@@ -45,37 +45,43 @@ DartNova adopts a dark, high-contrast, motion-focused visual identity:
 
 ---
 
-## 📚 Component Catalog (20 Motion Components)
+## 📚 Component Catalog (26 Production Motion Components)
 
 ### Category A — Buttons & Micro-interactions
 1. **Pop Button (`pop-button`)** — Bouncy spring press response with dynamic scale feedback and neon halo aura.
 2. **Radial Glow Button (`radial-glow-button`)** — Tracks pointer coordinates to cast a high-precision radial gradient spotlight.
 3. **Corner Button (`corner-button`)** — 45-degree polygon beveled corner button with active indicator dot.
 4. **Magnetic Button (`magnetic-button`)** — Attracts the button toward the pointer using physical proximity vectors.
+5. **Spring Speed Dial FAB (`spring-fab`)** — Floating Action Button that unfolds speed-dial action icons using realistic spring damping physics.
+6. **Fluid Tab Bar (`fluid-tab-bar`)** — Segmented control bar with fluid sliding pill and smooth spring interpolation.
 
 ### Category B — Text & Transitions
-5. **Typing Text (`typing-text`)** — Character-by-character typewriter reveal with blinking neon cursor.
-6. **Text Reveal (`text-reveal`)** — Masked geometric slide-up reveal with cubic-bezier easing.
-7. **Staggered Text (`staggered-text`)** — Sequentially animates words into view with staggered index delays.
+7. **Typing Text (`typing-text`)** — Character-by-character typewriter reveal with blinking neon cursor.
+8. **Text Reveal (`text-reveal`)** — Masked geometric slide-up reveal with cubic-bezier easing.
+9. **Staggered Text (`staggered-text`)** — Sequentially animates words into view with staggered index delays.
+10. **Kinetic Marquee (`kinetic-marquee`)** — Infinite hardware-accelerated kinetic typography ticker with pause-on-hover.
 
 ### Category C — Cards & Images
-8. **Cursor Card (`cursor-card`)** — 3D perspective card tilt with specular light reflection following cursor.
-9. **Image Trail (`image-trail`)** — Dynamic thumbnail stamps trailing along pointer motion with organic drift.
-10. **Diagonal Carousel (`diagonal-carousel`)** — Angled skew card track with smooth prev/next translation and focal zoom.
-11. **Animated Card Stack (`animated-card-stack`)** — Overlapping physical card deck that cascades and fans out on tap.
+11. **Cursor Card (`cursor-card`)** — 3D perspective card tilt with specular light reflection following cursor.
+12. **Image Trail (`image-trail`)** — Dynamic thumbnail stamps trailing along pointer motion with organic drift.
+13. **Diagonal Carousel (`diagonal-carousel`)** — Angled skew card track with smooth prev/next translation and focal zoom.
+14. **Animated Card Stack (`animated-card-stack`)** — Overlapping physical card deck that cascades and fans out on tap.
+15. **Swipeable Physics Card (`swipeable-card`)** — Card gesture component with spring-back physics and velocity dismissal.
+16. **Glow Pulse Card (`glow-card`)** — High-tech telemetry card with continuous breathing neon aura and live pulse wave.
 
 ### Category D — Avatars & Tooltips
-12. **Avatar Group (`avatar-group`)** — Overlapping social avatars that expand, scale, and bring profiles to front.
-13. **Tooltip Avatars (`tooltip-avatars`)** — Detailed user badge with animated floating card popover on hover or tap.
+17. **Avatar Group (`avatar-group`)** — Overlapping social avatars that expand, scale, and bring profiles to front.
+18. **Tooltip Avatars (`tooltip-avatars`)** — Detailed user badge with animated floating card popover on hover or tap.
 
 ### Category E — Backgrounds & Visual Effects
-14. **Animated Gradient (`animated-gradient`)** — Smooth shifting multi-stop ambient gradient mesh background.
-15. **Wave Animation (`wave-animation`)** — Multi-layer organic sine waves rendered on canvas with customizable amplitude.
-16. **Neon Gradient Effect (`neon-gradient`)** — Electric animated gradient border aura with double-layer soft blur diffusion.
-17. **Particle Motion (`particle-motion`)** — Dynamic constellation of particles connected by distance-based affinity vectors.
-18. **Animated Welcome Screen (`animated-welcome-screen`)** — Onboarding sequence with progressive typography entrance and CTA.
-19. **Spotlight Effect (`spotlight-effect`)** — Pointer-following circular beam that illuminates dark textured surfaces.
-20. **Shimmer Effect (`shimmer-effect`)** — Iridescent high-speed linear gradient wave sweeping across placeholder skeletons.
+19. **Animated Gradient (`animated-gradient`)** — Smooth shifting multi-stop ambient gradient mesh background.
+20. **Wave Animation (`wave-animation`)** — Multi-layer organic sine waves rendered on canvas with customizable amplitude.
+21. **Neon Gradient Effect (`neon-gradient`)** — Electric animated gradient border aura with double-layer soft blur diffusion.
+22. **Particle Motion (`particle-motion`)** — Dynamic constellation of particles connected by distance-based affinity vectors.
+23. **Animated Welcome Screen (`animated-welcome-screen`)** — Onboarding sequence with progressive typography entrance and CTA.
+24. **Spotlight Effect (`spotlight-effect`)** — Pointer-following circular beam that illuminates dark textured surfaces.
+25. **Shimmer Effect (`shimmer-effect`)** — Iridescent high-speed linear gradient wave sweeping across placeholder skeletons.
+26. **Procedural Neon Gauge (`neon-gauge`)** — Hardware-accelerated radial meter rendered via CustomPainter with glowing sweep.
 
 ---
 

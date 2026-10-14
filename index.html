@@ -31,8 +31,8 @@
   <div id="global-spotlight-glow"></div>
 
   <div class="app-container">
-    <!-- SITE HEADER -->
-    <header class="site-header">
+    <!-- SITE HEADER (starts in landing-mode for clean uncluttered presentation) -->
+    <header class="site-header landing-mode">
       <div class="header-inner">
         <!-- Brand Link -->
         <a href="#landing" class="brand-link" id="brand-logo-link">
@@ -50,11 +50,11 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <span>Search 20 components...</span>
+          <span>Search 26 motion components...</span>
           <kbd>⌘K</kbd>
         </button>
 
-        <!-- Desktop Navigation -->
+        <!-- Desktop Navigation (revealed after clicking explore) -->
         <nav aria-label="Main Navigation">
           <ul class="nav-links">
             <li><a href="#landing" class="nav-link active">Home</a></li>
@@ -96,10 +96,14 @@
             </svg>
           </a>
 
-          <a href="#playground" class="btn btn-primary">
-            <span>Explore Components</span>
+          <!-- Explore Button in Header (Visible on landing, triggers exploration) -->
+          <a href="#playground" class="btn btn-primary" id="header-explore-btn">
+            <span>Explore Motion</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
           </a>
-
           <!-- Mobile Toggle Button -->
           <button id="mobile-menu-toggle" class="btn-icon mobile-menu-toggle" aria-label="Toggle mobile menu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

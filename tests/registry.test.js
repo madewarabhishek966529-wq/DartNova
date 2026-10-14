@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { COMPONENTS, CATEGORIES, getComponentById, getComponentsByCategory } from '../src/registry/components.js';
 
 describe('DartNova Component Registry', () => {
-  it('should register exactly 20 components', () => {
-    expect(COMPONENTS).toHaveLength(20);
+  it('should register all 26 components', () => {
+    expect(COMPONENTS).toHaveLength(26);
   });
 
   it('should have 6 categories defined including all', () => {
@@ -39,6 +39,6 @@ describe('DartNova Component Registry', () => {
     }
 
     const all = getComponentsByCategory('all');
-    expect(all).toHaveLength(20);
+    expect(all).toHaveLength(26);
   });
 });
