@@ -45,11 +45,17 @@ class Store {
   }
 }
 
+import { getFavorites, subscribeFavorites } from './utils/favorites.js';
+
 export const store = new Store({
   currentView: 'landing', // 'landing' | 'playground' | 'docs'
   selectedComponentId: 'pop-button',
   searchQuery: '',
   selectedCategory: 'all',
+  filterStatus: 'all', // 'all' | 'complete' | 'planned'
+  sortBy: 'featured', // 'featured' | 'alphabetical' | 'difficulty' | 'favorites'
+  favoritesOnly: false,
+  favorites: getFavorites(),
   codeTab: 'usage', // 'usage' | 'full' | 'params'
   previewMode: 'desktop', // 'desktop' | 'tablet' | 'mobile'
   canvasBg: 'default', // 'default' | 'black' | 'grid' | 'contrast'
@@ -59,3 +65,9 @@ export const store = new Store({
   mobileTab: 'preview', // 'preview' | 'components' | 'code' | 'controls'
   componentProps: {}
 });
+
+// Sync store when favorites change in localStorage
+subscribeFavorites((favs) => {
+  store.setState({ favorites: favs });
+});
+

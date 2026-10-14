@@ -4,28 +4,28 @@
  */
 
 :root {
-  /* Color Palette */
-  --bg-primary: #080808;
-  --bg-secondary: #0d0d0d;
-  --surface-main: #111111;
-  --surface-elevated: #161616;
-  --surface-card: #131313;
-  --surface-glass: rgba(18, 18, 18, 0.72);
-  --surface-hover: #1f1f1f;
-  --surface-active: #262626;
+  /* Color Palette (PRD Section 6.2) */
+  --bg-primary: #08090B;
+  --bg-secondary: #0d0f14;
+  --surface-main: #111318;
+  --surface-elevated: #191C23;
+  --surface-card: #13151c;
+  --surface-glass: rgba(17, 19, 24, 0.78);
+  --surface-hover: #1f232c;
+  --surface-active: #272c38;
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: #252525;
-  --border-hover: #383838;
+  --border-default: #2A2E38;
+  --border-hover: #3d4352;
   --border-focus: var(--accent-primary);
   --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
 
   /* Text & Content */
-  --text-primary: #F5F5F5;
-  --text-secondary: #A0A0A0;
-  --text-muted: #707070;
-  --text-inverse: #080808;
+  --text-primary: #F5F7FA;
+  --text-secondary: #A1A7B3;
+  --text-muted: #6e7582;
+  --text-inverse: #08090B;
 
   /* Dynamic Brand Primary Accent (Default: Lime) */
   --accent-primary: #C5FF35;
@@ -37,13 +37,13 @@
   --accent-lime-dim: rgba(197, 255, 53, 0.12);
   --accent-lime-glow: rgba(197, 255, 53, 0.35);
 
-  --accent-cyan: #38DDF8;
-  --accent-cyan-dim: rgba(56, 221, 248, 0.12);
-  --accent-cyan-glow: rgba(56, 221, 248, 0.35);
+  --accent-cyan: #42E8F5;
+  --accent-cyan-dim: rgba(66, 232, 245, 0.12);
+  --accent-cyan-glow: rgba(66, 232, 245, 0.35);
 
-  --accent-purple: #A78BFA;
-  --accent-purple-dim: rgba(167, 139, 250, 0.12);
-  --accent-purple-glow: rgba(167, 139, 250, 0.35);
+  --accent-purple: #9B7CFF;
+  --accent-purple-dim: rgba(155, 124, 255, 0.12);
+  --accent-purple-glow: rgba(155, 124, 255, 0.35);
 
   --accent-amber: #FFB300;
   --accent-amber-dim: rgba(255, 179, 0, 0.12);
