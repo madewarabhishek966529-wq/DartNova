@@ -147,14 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.toggle('active', !!isActive);
     });
 
-    if (currentView !== 'playground') {
+    const hash = window.location.hash || '';
+    const isAnchorTarget = hash === '#components' || hash === '#categories' || hash.includes('featured');
+    
+    // Only scroll to top if actually changing views and not targeting an in-page section anchor
+    if (prevView && prevView !== currentView && currentView !== 'playground' && !isAnchorTarget) {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };
 
+  let previousView = store.getState().currentView || 'landing';
   store.subscribe((state, prev) => {
     if (state.currentView !== prev?.currentView || state.favoritesOnly !== prev?.favoritesOnly) {
-      updateView(state.currentView);
+      const prevV = previousView;
+      previousView = state.currentView;
+      updateView(state.currentView, prevV);
     }
   });
 

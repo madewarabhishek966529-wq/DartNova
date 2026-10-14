@@ -11,6 +11,9 @@ export function setupNavigation(sidebarEl, store) {
   if (!sidebarEl) return;
 
   const render = () => {
+    const prevScrollContainer = sidebarEl.querySelector('.sidebar-nav-scroll');
+    const prevScrollTop = prevScrollContainer ? prevScrollContainer.scrollTop : 0;
+
     const { 
       searchQuery, 
       selectedCategory, 
@@ -176,6 +179,12 @@ export function setupNavigation(sidebarEl, store) {
         ` : ''}
       </div>
     `;
+
+    // Restore previous scroll position so sidebar doesn't reset to top
+    const newScrollContainer = sidebarEl.querySelector('.sidebar-nav-scroll');
+    if (newScrollContainer && prevScrollTop) {
+      newScrollContainer.scrollTop = prevScrollTop;
+    }
 
     // Bind event listeners
     const searchInput = sidebarEl.querySelector('#component-search');
