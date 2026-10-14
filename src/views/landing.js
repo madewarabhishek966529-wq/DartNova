@@ -528,7 +528,9 @@ export function renderLandingView(containerEl, store) {
     // Mount Active Hero Stage Demo
     mountHeroDemo(activeHeroComponentId);
 
-    // Lazy IntersectionObserver for Performance (PRD Section 12)
+    // Mount first batch of cards immediately for instant motion, lazy observe the rest
+    const previewBoxes = Array.from(containerEl.querySelectorAll('.component-preview-box'));
+
     cardObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -543,10 +545,21 @@ export function renderLandingView(containerEl, store) {
           }
         }
       });
-    }, { rootMargin: '200px 0px' });
+    }, { rootMargin: '400px 0px' });
 
-    containerEl.querySelectorAll('.component-preview-box').forEach(box => {
-      cardObserver.observe(box);
+    previewBoxes.forEach((box, idx) => {
+      if (idx < 24) {
+        const compId = box.getAttribute('data-comp-id');
+        if (compId && !activeCardInstances.has(compId)) {
+          const comp = COMPONENTS.find(c => c.id === compId);
+          if (comp && comp.render) {
+            const inst = comp.render(box, comp.defaultProps);
+            activeCardInstances.set(compId, inst);
+          }
+        }
+      } else {
+        cardObserver.observe(box);
+      }
     });
 
     // Bind Search Input
