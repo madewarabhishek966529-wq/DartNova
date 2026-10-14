@@ -13,385 +13,467 @@ function createMotionVisualizer(id, category, name, icon, props) {
   let restartFn = () => {};
   let destroyFn = () => {};
 
-  // 1. BUTTONS
-  if (id.includes('neon-glow') || id === 'neon-glow-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-glow-btn-widget';
-    btn.textContent = name;
-    btn.style.boxShadow = `0 0 20px ${accent}66`;
-    btn.addEventListener('click', () => {
-      btn.style.transform = 'scale(0.92)';
-      setTimeout(() => btn.style.transform = 'scale(1)', 100);
-    });
-    stage.appendChild(btn);
-    restartFn = () => {
-      btn.style.transform = 'scale(1.15)';
-      setTimeout(() => btn.style.transform = 'scale(1)', 200);
-    };
-  } else if (id.includes('liquid-fill') || id === 'liquid-fill-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-liquid-btn-widget';
-    btn.innerHTML = `<span>${name}</span><div class="liquid-bg"></div>`;
-    btn.style.borderColor = accent;
-    btn.style.color = accent;
-    const bg = btn.querySelector('.liquid-bg');
-    if (bg) bg.style.background = accent;
-    stage.appendChild(btn);
-  } else if (id.includes('shimmer') || id === 'shimmer-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-shimmer-btn-widget';
-    btn.textContent = name;
-    stage.appendChild(btn);
-  } else if (id.includes('3d-press') || id === '3d-press-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-press3d-btn-widget';
-    btn.textContent = name;
-    btn.style.background = accent;
-    btn.addEventListener('mousedown', () => btn.classList.add('pressed'));
-    btn.addEventListener('mouseup', () => btn.classList.remove('pressed'));
-    btn.addEventListener('mouseleave', () => btn.classList.remove('pressed'));
-    stage.appendChild(btn);
-  } else if (id.includes('border-beam') || id === 'border-beam-button') {
-    const btn = document.createElement('div');
-    btn.className = 'dn-border-beam-widget';
-    btn.innerHTML = `<span>${name}</span>`;
-    stage.appendChild(btn);
-  } else if (id.includes('elastic-bounce') || id === 'elastic-bounce-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-glow-btn-widget';
-    btn.textContent = name;
-    btn.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.8, 0.64, 1)';
-    btn.addEventListener('click', () => {
-      btn.style.transform = 'scale(1.35) rotate(-3deg)';
-      setTimeout(() => btn.style.transform = 'scale(1) rotate(0deg)', 280);
-    });
-    stage.appendChild(btn);
-  } else if (id.includes('particle-burst') || id === 'particle-burst-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-glow-btn-widget';
-    btn.innerHTML = `<span>⚡ ${name}</span>`;
-    btn.addEventListener('click', () => {
-      for (let i = 0; i < 8; i++) {
-        const spark = document.createElement('div');
-        const angle = (i / 8) * Math.PI * 2;
-        const dist = 35 + Math.random() * 20;
-        spark.style.cssText = `
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: ${accent};
-          pointer-events: none;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-          box-shadow: 0 0 8px ${accent};
-          z-index: 10;
-        `;
-        stage.appendChild(spark);
-        setTimeout(() => {
-          spark.style.transform = `translate(calc(-50% + ${Math.cos(angle) * dist}px), calc(-50% + ${Math.sin(angle) * dist}px)) scale(0)`;
-          spark.style.opacity = '0';
-        }, 10);
-        setTimeout(() => spark.remove(), 450);
-      }
-    });
-    stage.appendChild(btn);
-  } else if (id.includes('gradient-shift') || id === 'gradient-shift-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-glow-btn-widget';
-    btn.textContent = name;
-    btn.style.background = `linear-gradient(90deg, #C5FF35, #42E8F5, #9B7CFF, #C5FF35)`;
-    btn.style.backgroundSize = '300% 100%';
-    btn.style.animation = 'dnShimmerSweep 4s linear infinite';
-    btn.style.color = '#08090B';
-    stage.appendChild(btn);
-  } else if (id.includes('morphing-icon') || id === 'morphing-icon-button') {
-    const btn = document.createElement('button');
-    btn.className = 'dn-glow-btn-widget';
-    let isPlaying = false;
-    btn.innerHTML = `<span style="font-size:16px;">▶</span> <span style="margin-left:6px;">Play</span>`;
-    btn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      btn.innerHTML = isPlaying 
-        ? `<span style="font-size:16px;">⏸</span> <span style="margin-left:6px;">Pause</span>`
-        : `<span style="font-size:16px;">▶</span> <span style="margin-left:6px;">Play</span>`;
-      btn.style.transform = 'scale(1.1)';
-      setTimeout(() => btn.style.transform = 'scale(1)', 150);
-    });
-    stage.appendChild(btn);
-
-  // 2. CARDS
-  } else if (id.includes('3d-tilt') || id.includes('cursor-follow')) {
-    const card = document.createElement('div');
-    card.className = 'dn-floating-card-widget';
-    card.style.animation = 'none';
-    card.style.transition = 'transform 0.1s ease-out';
-    card.innerHTML = `
-      <div class="icon-box">${icon}</div>
-      <div>
-        <div style="font-size:13px; font-weight:700; color:#FFF;">${name}</div>
-        <div style="font-size:11px; color:var(--text-muted);">Interactive 3D Matrix4</div>
-      </div>
-    `;
-    stage.addEventListener('mousemove', (e) => {
-      const rect = stage.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `perspective(500px) rotateY(${x * 24}deg) rotateX(${-y * 24}deg) scale(1.04)`;
-    });
-    stage.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(500px) rotateY(0deg) rotateX(0deg) scale(1)';
-    });
-    stage.appendChild(card);
-  } else if (id.includes('flip-profile') || id.includes('flip-tile')) {
-    const flip = document.createElement('div');
-    flip.className = 'dn-flip-card-widget';
-    flip.innerHTML = `
-      <div class="dn-flip-inner">
-        <div class="dn-flip-front">
-          <div style="font-size:26px; margin-bottom:4px;">${icon}</div>
-          <div style="font-size:12px; font-weight:700;">${name}</div>
-          <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">Hover / Tap to Flip</div>
-        </div>
-        <div class="dn-flip-back">
-          <div style="font-size:12px; font-weight:700; color:${accent};">Flutter Matrix4</div>
-          <div style="font-size:10px; color:var(--text-secondary); margin-top:4px;">180° Y-Axis Rotation</div>
-        </div>
-      </div>
-    `;
-    flip.addEventListener('click', () => flip.classList.toggle('flipped'));
-    stage.appendChild(flip);
-  } else if (id.includes('floating-card')) {
-    const card = document.createElement('div');
-    card.className = 'dn-floating-card-widget';
-    card.innerHTML = `
-      <div class="icon-box" style="color:${accent}; background:${accent}22;">${icon}</div>
-      <div>
-        <div style="font-size:13px; font-weight:700; color:#FFF;">${name}</div>
-        <div style="font-size:11px; color:var(--text-muted);">Levitating 60 FPS</div>
-      </div>
-    `;
-    stage.appendChild(card);
-  } else if (id.includes('glassmorphism')) {
-    const card = document.createElement('div');
-    card.className = 'dn-floating-card-widget';
-    card.style.background = 'rgba(255, 255, 255, 0.05)';
-    card.style.backdropFilter = 'blur(16px)';
-    card.style.border = '1px solid rgba(255, 255, 255, 0.15)';
-    card.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.4)';
-    card.innerHTML = `
-      <div class="icon-box" style="background:rgba(255,255,255,0.1); color:#FFF;">❄</div>
-      <div>
-        <div style="font-size:13px; font-weight:700; color:#FFF;">Frosted Glass</div>
-        <div style="font-size:11px; color:var(--text-muted);">BackdropFilter</div>
-      </div>
-    `;
-    stage.appendChild(card);
-  } else if (id.includes('stacked-deck')) {
-    const deck = document.createElement('div');
-    deck.style.cssText = 'position:relative; width:130px; height:80px; cursor:pointer;';
-    deck.innerHTML = `
-      <div style="position:absolute; inset:0; background:#181c25; border:1px solid #2e3444; border-radius:10px; transform:rotate(-8deg); transition:transform 0.3s ease;"></div>
-      <div style="position:absolute; inset:0; background:#202533; border:1px solid #3c445a; border-radius:10px; transform:rotate(5deg); transition:transform 0.3s ease;"></div>
-      <div style="position:absolute; inset:0; background:#282f42; border:1px solid ${accent}; border-radius:10px; display:flex; align-items:center; justify-content:center; gap:8px; color:#FFF; font-size:12px; font-weight:700; transform:rotate(0deg); transition:transform 0.3s ease; box-shadow:0 8px 18px rgba(0,0,0,0.5);">
-        <span>${icon}</span>
-        <span>Stacked Deck</span>
-      </div>
-    `;
-    deck.addEventListener('click', () => {
-      const top = deck.children[2];
-      top.style.transform = 'translateY(-24px) scale(1.05)';
-      setTimeout(() => top.style.transform = 'translateY(0) scale(1)', 250);
-    });
-    stage.appendChild(deck);
-
-  // 3. TEXT & TYPOGRAPHY
-  } else if (id.includes('glitch')) {
-    const el = document.createElement('div');
-    el.className = 'dn-glitch-text-widget';
-    el.textContent = 'DARTNOVA';
-    stage.appendChild(el);
-  } else if (id.includes('gradient-flow')) {
-    const el = document.createElement('div');
-    el.style.cssText = `
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(90deg, #C5FF35, #42E8F5, #9B7CFF, #C5FF35);
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: dnShimmerSweep 3s linear infinite;
-    `;
-    el.textContent = name;
-    stage.appendChild(el);
-  } else if (id.includes('text-wave') || (id.includes('wave') && category === 'typography')) {
-    const el = document.createElement('div');
-    el.style.cssText = 'display:flex; gap:3px; font-size:18px; font-weight:800; font-family:var(--font-mono);';
-    const text = 'SINE WAVE';
-    el.innerHTML = text.split('').map((char, i) => `
-      <span style="display:inline-block; animation:dnTextWaveLetter 1.4s ease-in-out infinite; animation-delay:${i * 0.12}s;">${char === ' ' ? '&nbsp;' : char}</span>
-    `).join('');
-    stage.appendChild(el);
-  } else if (id.includes('scramble') || id.includes('character-stagger') || id.includes('typewriter') || id.includes('word-by-word')) {
-    const el = document.createElement('div');
-    el.style.cssText = `font-family:var(--font-mono); font-size:18px; font-weight:700; color:${accent}; cursor:pointer; text-align:center;`;
-    el.textContent = name;
-    const chars = '!@#$%^&*()_+-=<>?/';
-    let interval = null;
-    const runScramble = () => {
-      let iter = 0;
-      clearInterval(interval);
-      interval = setInterval(() => {
-        el.textContent = name.split('').map((letter, idx) => {
-          if (idx < iter) return name[idx];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('');
-        if (iter >= name.length) clearInterval(interval);
-        iter += 1 / 2;
-      }, 30);
-    };
-    runScramble();
-    el.addEventListener('mouseenter', runScramble);
-    stage.appendChild(el);
-    restartFn = runScramble;
-    destroyFn = () => clearInterval(interval);
-
-  // 4. LOADERS & PROGRESS
-  } else if (id.includes('orbit-loader')) {
-    const el = document.createElement('div');
-    el.className = 'dn-orbit-loader-widget';
-    el.innerHTML = `
-      <div class="dn-orbit-ring ring-1"></div>
-      <div class="dn-orbit-ring ring-2"></div>
-      <div class="dn-orbit-center" style="background:${accent}; box-shadow:0 0 12px ${accent};"></div>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('wave-loader')) {
-    const el = document.createElement('div');
-    el.className = 'dn-wave-loader-widget';
-    el.innerHTML = `
-      <div class="dn-wave-bar"></div>
-      <div class="dn-wave-bar"></div>
-      <div class="dn-wave-bar"></div>
-      <div class="dn-wave-bar"></div>
-      <div class="dn-wave-bar"></div>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('circular-progress') || id.includes('progress-ring')) {
-    const el = document.createElement('div');
-    el.className = 'dn-circular-ring-widget';
-    el.innerHTML = `
-      <svg viewBox="0 0 76 76">
-        <circle class="track" cx="38" cy="38" r="30" stroke-width="5" fill="none"></circle>
-        <circle class="fill" cx="38" cy="38" r="30" stroke-width="5" fill="none" style="stroke:${accent};"></circle>
-      </svg>
-      <div class="ring-val">78%</div>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('dot-matrix')) {
-    const el = document.createElement('div');
-    el.style.cssText = 'display:grid; grid-template-columns:repeat(4, 10px); gap:6px;';
-    for (let i = 0; i < 16; i++) {
-      const dot = document.createElement('div');
-      dot.style.cssText = `
-        width: 10px; height: 10px; border-radius: 50%;
-        background: ${accent};
-        opacity: ${0.2 + (i % 4) * 0.25};
-        animation: dnPulseGlow 1.5s ease-in-out infinite alternate;
-        animation-delay: ${(i % 4) * 0.15 + Math.floor(i / 4) * 0.1}s;
-      `;
-      el.appendChild(dot);
-    }
-    stage.appendChild(el);
-  } else if (id.includes('segmented-progress')) {
-    const el = document.createElement('div');
-    el.style.cssText = 'display:flex; gap:4px; padding:6px; background:#181c25; border-radius:8px; border:1px solid #2e3444;';
-    for (let i = 0; i < 6; i++) {
-      const seg = document.createElement('div');
-      seg.style.cssText = `
-        width: 16px; height: 18px; border-radius: 3px;
-        background: ${i < 4 ? accent : '#2a3142'};
-        box-shadow: ${i < 4 ? `0 0 8px ${accent}66` : 'none'};
-      `;
-      el.appendChild(seg);
-    }
-    stage.appendChild(el);
-  } else if (id.includes('counter') || id.includes('number')) {
-    const el = document.createElement('div');
-    el.style.cssText = `font-family:var(--font-mono); font-size:32px; font-weight:800; color:${accent};`;
-    let count = 0;
-    const interval = setInterval(() => {
-      count = (count + 1) % 100;
-      el.textContent = String(count).padStart(2, '0') + '%';
-    }, 60);
-    stage.appendChild(el);
-    destroyFn = () => clearInterval(interval);
-
-  // 5. NAVIGATION & MENUS
-  } else if (id.includes('floating-dock')) {
-    const dock = document.createElement('div');
-    dock.className = 'dn-floating-dock-widget';
-    dock.innerHTML = `
-      <div class="dn-dock-icon">⚡</div>
-      <div class="dn-dock-icon">🎨</div>
-      <div class="dn-dock-icon" style="background:${accent}; color:#08090B;">🚀</div>
-      <div class="dn-dock-icon">⚙️</div>
-    `;
-    stage.appendChild(dock);
-  } else if (id.includes('bottom-nav') || (id.includes('navigation') && category === 'navigation')) {
-    const nav = document.createElement('div');
-    nav.className = 'dn-mobile-nav-widget';
-    nav.innerHTML = `
-      <div class="dn-mobile-nav-pill" style="left:10px;"></div>
-      <div class="dn-mobile-nav-item active" data-idx="0">⚡</div>
-      <div class="dn-mobile-nav-item" data-idx="1">★</div>
-      <div class="dn-mobile-nav-item" data-idx="2">✦</div>
-      <div class="dn-mobile-nav-item" data-idx="3">⚙</div>
-    `;
-    const pill = nav.querySelector('.dn-mobile-nav-pill');
-    nav.querySelectorAll('.dn-mobile-nav-item').forEach((item, idx) => {
-      item.addEventListener('click', () => {
-        pill.style.left = `${10 + idx * 40}px`;
-        nav.querySelectorAll('.dn-mobile-nav-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
+  // CATEGORY 1: BUTTONS & INTERACTIVE CONTROLS
+  if (category === 'buttons') {
+    if (id.includes('liquid') || id === 'liquid-fill-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-liquid-btn-widget';
+      btn.innerHTML = `<span style="position:relative; z-index:2;">Get Started</span><div class="liquid-bg" style="background:${accent};"></div>`;
+      btn.style.borderColor = accent;
+      btn.style.color = accent;
+      stage.appendChild(btn);
+    } else if (id.includes('shimmer') || id === 'shimmer-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-shimmer-btn-widget';
+      btn.textContent = 'Explore Motion';
+      stage.appendChild(btn);
+    } else if (id.includes('3d-press') || id === '3d-press-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-press3d-btn-widget';
+      btn.textContent = 'Press 3D';
+      btn.style.background = accent;
+      btn.addEventListener('mousedown', () => btn.classList.add('pressed'));
+      btn.addEventListener('mouseup', () => btn.classList.remove('pressed'));
+      btn.addEventListener('mouseleave', () => btn.classList.remove('pressed'));
+      stage.appendChild(btn);
+    } else if (id.includes('elastic') || id === 'elastic-bounce-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-glow-btn-widget';
+      btn.textContent = 'Elastic Spring';
+      btn.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.8, 0.64, 1)';
+      btn.addEventListener('click', () => {
+        btn.style.transform = 'scale(1.35) rotate(-3deg)';
+        setTimeout(() => btn.style.transform = 'scale(1) rotate(0deg)', 280);
       });
-    });
-    stage.appendChild(nav);
-  } else if (id.includes('hamburger')) {
-    const ham = document.createElement('div');
-    ham.style.cssText = 'width:36px; height:28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; padding:2px;';
-    ham.innerHTML = `
-      <div style="height:3px; background:${accent}; border-radius:2px; transition:transform 0.3s ease;"></div>
-      <div style="height:3px; background:${accent}; border-radius:2px; transition:opacity 0.2s ease;"></div>
-      <div style="height:3px; background:${accent}; border-radius:2px; transition:transform 0.3s ease;"></div>
-    `;
-    let open = false;
-    ham.addEventListener('click', () => {
-      open = !open;
-      const [t, m, b] = ham.children;
-      if (open) {
-        t.style.transform = 'translateY(9px) rotate(45deg)';
-        m.style.opacity = '0';
-        b.style.transform = 'translateY(-9px) rotate(-45deg)';
-      } else {
-        t.style.transform = 'none';
-        m.style.opacity = '1';
-        b.style.transform = 'none';
-      }
-    });
-    stage.appendChild(ham);
+      stage.appendChild(btn);
+    } else if (id.includes('border-beam') || id === 'border-beam-button') {
+      const btn = document.createElement('div');
+      btn.className = 'dn-border-beam-widget';
+      btn.innerHTML = `<span>Border Beam</span>`;
+      stage.appendChild(btn);
+    } else if (id.includes('particle-burst') || id === 'particle-burst-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-glow-btn-widget';
+      btn.innerHTML = `<span>⚡ Tap For Sparks</span>`;
+      btn.addEventListener('click', () => {
+        for (let i = 0; i < 10; i++) {
+          const spark = document.createElement('div');
+          const angle = (i / 10) * Math.PI * 2;
+          const dist = 40 + Math.random() * 25;
+          spark.style.cssText = `
+            position: absolute; width: 6px; height: 6px; border-radius: 50%;
+            background: ${accent}; pointer-events: none; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.45s ease-out, opacity 0.45s ease-out;
+            box-shadow: 0 0 10px ${accent}; z-index: 10;
+          `;
+          stage.appendChild(spark);
+          setTimeout(() => {
+            spark.style.transform = `translate(calc(-50% + ${Math.cos(angle) * dist}px), calc(-50% + ${Math.sin(angle) * dist}px)) scale(0)`;
+            spark.style.opacity = '0';
+          }, 10);
+          setTimeout(() => spark.remove(), 480);
+        }
+      });
+      stage.appendChild(btn);
+    } else if (id.includes('morphing-icon') || id === 'morphing-icon-button') {
+      const btn = document.createElement('button');
+      btn.className = 'dn-glow-btn-widget';
+      let isPlaying = false;
+      btn.innerHTML = `<span style="font-size:16px;">▶</span> <span style="margin-left:6px;">Play Audio</span>`;
+      btn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        btn.innerHTML = isPlaying 
+          ? `<span style="font-size:16px;">⏸</span> <span style="margin-left:6px;">Pause</span>`
+          : `<span style="font-size:16px;">▶</span> <span style="margin-left:6px;">Play Audio</span>`;
+        btn.style.transform = 'scale(1.1)';
+        setTimeout(() => btn.style.transform = 'scale(1)', 150);
+      });
+      stage.appendChild(btn);
+    } else {
+      // Default production Neon Glow Button
+      const btn = document.createElement('button');
+      btn.className = 'dn-glow-btn-widget';
+      btn.textContent = 'Explore Motion';
+      btn.style.boxShadow = `0 0 24px ${accent}66`;
+      btn.addEventListener('click', () => {
+        btn.style.transform = 'scale(0.92)';
+        setTimeout(() => btn.style.transform = 'scale(1)', 120);
+      });
+      stage.appendChild(btn);
+      restartFn = () => {
+        btn.style.transform = 'scale(1.15)';
+        setTimeout(() => btn.style.transform = 'scale(1)', 200);
+      };
+    }
 
-  // 6. 3D & PERSPECTIVE
-  } else if (id.includes('rotating-cube') || id.includes('3d') || category === 'three-d') {
+  // CATEGORY 2: CARDS & SURFACES
+  } else if (category === 'cards') {
+    if (id.includes('glassmorphism')) {
+      const card = document.createElement('div');
+      card.style.cssText = `
+        width: 190px; padding: 16px 18px; border-radius: 14px;
+        background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        display: flex; flex-direction: column; gap: 12px; cursor: pointer;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+      `;
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="width:28px; height:20px; background:linear-gradient(135deg, #FFD700, #FFA500); border-radius:4px;"></div>
+          <span style="font-family:var(--font-mono); font-size:10px; color:${accent}; font-weight:700;">PREMIUM</span>
+        </div>
+        <div style="font-family:var(--font-mono); font-size:13px; letter-spacing:2px; color:#FFF;">•••• 8492</div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div>
+            <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase;">Cardholder</div>
+            <div style="font-size:11px; font-weight:700; color:#FFF;">ALEX RIVERA</div>
+          </div>
+          <div style="font-size:11px; font-weight:700; color:${accent};">$12,450</div>
+        </div>
+      `;
+      card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-4px) scale(1.03)');
+      card.addEventListener('mouseleave', () => card.style.transform = 'none');
+      stage.appendChild(card);
+    } else if (id.includes('flip-profile') || id.includes('flip')) {
+      const flip = document.createElement('div');
+      flip.className = 'dn-flip-card-widget';
+      flip.style.cssText = 'perspective:800px; width:170px; height:105px; cursor:pointer;';
+      flip.innerHTML = `
+        <div class="dn-flip-inner">
+          <div class="dn-flip-front" style="gap:6px; padding:12px;">
+            <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, #C5FF35, #42E8F5); display:flex; align-items:center; justify-content:center; font-weight:800; color:#08090B; font-size:16px;">AR</div>
+            <div style="font-size:13px; font-weight:700; color:#FFF;">Alex Rivera</div>
+            <div style="font-size:10px; color:var(--text-muted);">UI/UX Motion Designer</div>
+          </div>
+          <div class="dn-flip-back" style="gap:6px; padding:12px; background:#181c26;">
+            <div style="font-size:11px; font-weight:700; color:${accent};">ACTIVITY METRICS</div>
+            <div style="display:flex; gap:12px; font-size:10px; color:#FFF;">
+              <div><strong>142</strong><br><span style="color:var(--text-muted);">Projects</span></div>
+              <div><strong>99%</strong><br><span style="color:var(--text-muted);">Success</span></div>
+            </div>
+            <div style="font-size:9px; color:var(--accent-cyan); margin-top:2px;">Tap to flip back</div>
+          </div>
+        </div>
+      `;
+      flip.addEventListener('click', () => flip.classList.toggle('flipped'));
+      stage.appendChild(flip);
+    } else if (id.includes('holographic')) {
+      const holo = document.createElement('div');
+      holo.style.cssText = `
+        width: 170px; height: 105px; border-radius: 12px;
+        background: linear-gradient(135deg, #181c25, #222938);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative; overflow: hidden; cursor: pointer;
+        display: flex; flex-direction: column; justify-content: space-between; padding: 12px;
+      `;
+      holo.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:11px; font-weight:800; color:#FFF;">CYBER SHARD</span>
+          <span style="font-size:10px; font-family:var(--font-mono); color:${accent};">#009</span>
+        </div>
+        <div style="position:absolute; inset:0; background:linear-gradient(115deg, transparent 20%, rgba(66,232,245,0.3) 40%, rgba(197,255,53,0.3) 60%, rgba(155,124,255,0.3) 80%, transparent 100%); pointer-events:none; transition:transform 0.2s ease;"></div>
+        <div style="font-size:10px; color:var(--text-secondary); position:relative; z-index:2;">Holographic Iridescence</div>
+      `;
+      stage.addEventListener('mousemove', (e) => {
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width * 100;
+        holo.children[1].style.transform = `translateX(${x - 50}px)`;
+      });
+      stage.appendChild(holo);
+    } else if (id.includes('stacked-deck')) {
+      const deck = document.createElement('div');
+      deck.style.cssText = 'position:relative; width:150px; height:90px; cursor:pointer;';
+      deck.innerHTML = `
+        <div style="position:absolute; inset:0; background:#181c25; border:1px solid #2e3444; border-radius:12px; transform:rotate(-8deg); transition:transform 0.3s ease;"></div>
+        <div style="position:absolute; inset:0; background:#202533; border:1px solid #3c445a; border-radius:12px; transform:rotate(5deg); transition:transform 0.3s ease;"></div>
+        <div style="position:absolute; inset:0; background:#282f42; border:1px solid ${accent}; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:8px; color:#FFF; font-size:12px; font-weight:700; transform:rotate(0deg); transition:transform 0.3s ease; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+          <span>🎴</span> <span>Active Deck Card</span>
+        </div>
+      `;
+      deck.addEventListener('click', () => {
+        const top = deck.children[2];
+        top.style.transform = 'translateY(-28px) scale(1.05)';
+        setTimeout(() => top.style.transform = 'translateY(0) scale(1)', 260);
+      });
+      stage.appendChild(deck);
+    } else {
+      // Default high-performance 3D Tilt Card
+      const card = document.createElement('div');
+      card.style.cssText = `
+        width: 180px; padding: 14px 16px; border-radius: 12px;
+        background: #191C23; border: 1px solid var(--border-default);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4); cursor: pointer;
+        transition: transform 0.1s ease-out, border-color 0.2s ease;
+      `;
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:12px; font-weight:700; color:#FFF;">Live Telemetry</span>
+          <span style="width:8px; height:8px; border-radius:50%; background:${accent}; box-shadow:0 0 8px ${accent};"></span>
+        </div>
+        <div style="font-size:20px; font-family:var(--font-mono); font-weight:800; color:${accent};">120 FPS</div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Hardware Accelerated</div>
+      `;
+      stage.addEventListener('mousemove', (e) => {
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(500px) rotateY(${x * 22}deg) rotateX(${-y * 22}deg) scale(1.03)`;
+        card.style.borderColor = accent;
+      });
+      stage.addEventListener('mouseleave', () => {
+        card.style.transform = 'none';
+        card.style.borderColor = 'var(--border-default)';
+      });
+      stage.appendChild(card);
+    }
+
+  // CATEGORY 3: TEXT & TYPOGRAPHY
+  } else if (category === 'typography') {
+    if (id.includes('glitch')) {
+      const el = document.createElement('div');
+      el.className = 'dn-glitch-text-widget';
+      el.textContent = 'DARTNOVA';
+      stage.appendChild(el);
+    } else if (id.includes('gradient-flow')) {
+      const el = document.createElement('div');
+      el.style.cssText = `
+        font-family: var(--font-display); font-size: 26px; font-weight: 800;
+        letter-spacing: -0.02em;
+        background: linear-gradient(90deg, #C5FF35, #42E8F5, #9B7CFF, #C5FF35);
+        background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        animation: dnShimmerSweep 3s linear infinite;
+      `;
+      el.textContent = 'MOTION FLOW';
+      stage.appendChild(el);
+    } else if (id.includes('wave')) {
+      const el = document.createElement('div');
+      el.style.cssText = 'display:flex; gap:3px; font-size:20px; font-weight:800; font-family:var(--font-mono);';
+      const text = 'SINE WAVE';
+      el.innerHTML = text.split('').map((char, i) => `
+        <span style="display:inline-block; animation:dnTextWaveLetter 1.4s ease-in-out infinite; animation-delay:${i * 0.12}s;">${char === ' ' ? '&nbsp;' : char}</span>
+      `).join('');
+      stage.appendChild(el);
+    } else {
+      // Scramble / Typewriter
+      const el = document.createElement('div');
+      el.style.cssText = `font-family:var(--font-mono); font-size:22px; font-weight:800; color:${accent}; cursor:pointer; text-align:center;`;
+      el.textContent = 'FLUTTER MOTION';
+      const phrase = 'FLUTTER MOTION';
+      const chars = '!@#$%^&*()_+-=<>?/';
+      let interval = null;
+      const runScramble = () => {
+        let iter = 0;
+        clearInterval(interval);
+        interval = setInterval(() => {
+          el.textContent = phrase.split('').map((letter, idx) => {
+            if (idx < iter) return phrase[idx];
+            return chars[Math.floor(Math.random() * chars.length)];
+          }).join('');
+          if (iter >= phrase.length) clearInterval(interval);
+          iter += 1 / 2;
+        }, 30);
+      };
+      runScramble();
+      el.addEventListener('mouseenter', runScramble);
+      stage.appendChild(el);
+      restartFn = runScramble;
+      destroyFn = () => clearInterval(interval);
+    }
+
+  // CATEGORY 4: LOADERS & PROGRESS
+  } else if (category === 'loaders') {
+    if (id.includes('orbit')) {
+      const el = document.createElement('div');
+      el.className = 'dn-orbit-loader-widget';
+      el.innerHTML = `
+        <div class="dn-orbit-ring ring-1" style="border-color:${accent};"></div>
+        <div class="dn-orbit-ring ring-2"></div>
+        <div class="dn-orbit-center" style="background:${accent}; box-shadow:0 0 12px ${accent};"></div>
+      `;
+      stage.appendChild(el);
+    } else if (id.includes('wave')) {
+      const el = document.createElement('div');
+      el.className = 'dn-wave-loader-widget';
+      el.innerHTML = `
+        <div class="dn-wave-bar" style="background:${accent};"></div>
+        <div class="dn-wave-bar" style="background:#42E8F5;"></div>
+        <div class="dn-wave-bar" style="background:#9B7CFF;"></div>
+        <div class="dn-wave-bar" style="background:#42E8F5;"></div>
+        <div class="dn-wave-bar" style="background:${accent};"></div>
+      `;
+      stage.appendChild(el);
+    } else if (id.includes('dot-matrix')) {
+      const el = document.createElement('div');
+      el.style.cssText = 'display:grid; grid-template-columns:repeat(4, 11px); gap:6px;';
+      for (let i = 0; i < 16; i++) {
+        const dot = document.createElement('div');
+        dot.style.cssText = `
+          width: 11px; height: 11px; border-radius: 50%;
+          background: ${accent}; opacity: ${0.2 + (i % 4) * 0.25};
+          animation: dnPulseGlow 1.5s ease-in-out infinite alternate;
+          animation-delay: ${(i % 4) * 0.15 + Math.floor(i / 4) * 0.1}s;
+        `;
+        el.appendChild(dot);
+      }
+      stage.appendChild(el);
+    } else if (id.includes('counter') || id.includes('number')) {
+      const el = document.createElement('div');
+      el.style.cssText = `font-family:var(--font-mono); font-size:36px; font-weight:800; color:${accent};`;
+      let count = 0;
+      const interval = setInterval(() => {
+        count = (count + 1) % 100;
+        el.textContent = String(count).padStart(2, '0') + '%';
+      }, 50);
+      stage.appendChild(el);
+      destroyFn = () => clearInterval(interval);
+    } else {
+      // Circular SVG Progress Ring
+      const el = document.createElement('div');
+      el.className = 'dn-circular-ring-widget';
+      el.innerHTML = `
+        <svg viewBox="0 0 76 76">
+          <circle class="track" cx="38" cy="38" r="30" stroke-width="6" fill="none"></circle>
+          <circle class="fill" cx="38" cy="38" r="30" stroke-width="6" fill="none" style="stroke:${accent};"></circle>
+        </svg>
+        <div class="ring-val" style="color:${accent};">84%</div>
+      `;
+      stage.appendChild(el);
+    }
+
+  // CATEGORY 5: NAVIGATION & MENUS
+  } else if (category === 'navigation') {
+    if (id.includes('floating-dock') || id.includes('dock')) {
+      const dock = document.createElement('div');
+      dock.className = 'dn-floating-dock-widget';
+      dock.innerHTML = `
+        <div class="dn-dock-icon">⚡</div>
+        <div class="dn-dock-icon">🎨</div>
+        <div class="dn-dock-icon" style="background:${accent}; color:#08090B;">🚀</div>
+        <div class="dn-dock-icon">✨</div>
+        <div class="dn-dock-icon">⚙️</div>
+      `;
+      stage.appendChild(dock);
+    } else if (id.includes('hamburger')) {
+      const ham = document.createElement('div');
+      ham.style.cssText = 'width:40px; height:30px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; padding:3px;';
+      ham.innerHTML = `
+        <div style="height:3.5px; background:${accent}; border-radius:2px; transition:transform 0.3s ease;"></div>
+        <div style="height:3.5px; background:${accent}; border-radius:2px; transition:opacity 0.2s ease;"></div>
+        <div style="height:3.5px; background:${accent}; border-radius:2px; transition:transform 0.3s ease;"></div>
+      `;
+      let open = false;
+      ham.addEventListener('click', () => {
+        open = !open;
+        const [t, m, b] = ham.children;
+        if (open) {
+          t.style.transform = 'translateY(10px) rotate(45deg)';
+          m.style.opacity = '0';
+          b.style.transform = 'translateY(-10px) rotate(-45deg)';
+        } else {
+          t.style.transform = 'none';
+          m.style.opacity = '1';
+          b.style.transform = 'none';
+        }
+      });
+      stage.appendChild(ham);
+    } else {
+      // Mobile Bottom Nav with Gliding Pill
+      const nav = document.createElement('div');
+      nav.className = 'dn-mobile-nav-widget';
+      nav.style.width = '190px';
+      nav.innerHTML = `
+        <div class="dn-mobile-nav-pill" style="left:12px; border-color:${accent}; background:${accent}22;"></div>
+        <div class="dn-mobile-nav-item active" data-idx="0">⚡</div>
+        <div class="dn-mobile-nav-item" data-idx="1">★</div>
+        <div class="dn-mobile-nav-item" data-idx="2">✦</div>
+        <div class="dn-mobile-nav-item" data-idx="3">👤</div>
+      `;
+      const pill = nav.querySelector('.dn-mobile-nav-pill');
+      nav.querySelectorAll('.dn-mobile-nav-item').forEach((item, idx) => {
+        item.addEventListener('click', () => {
+          pill.style.left = `${12 + idx * 44}px`;
+          nav.querySelectorAll('.dn-mobile-nav-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+      stage.appendChild(nav);
+    }
+
+  // CATEGORY 6: PAGE & ROUTE TRANSITIONS
+  } else if (category === 'transitions') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:100px; border-radius:12px; overflow:hidden; border:1px solid #2A2E38; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="pane-1" style="position:absolute; inset:0; background:#111318; display:flex; align-items:center; justify-content:center; color:#FFF; font-weight:700; font-size:13px; transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);">Page A</div>
+      <div class="pane-2" style="position:absolute; inset:0; background:${accent}22; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:700; font-size:13px; transform:translateX(100%); transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);">Page B (Active)</div>
+    `;
+    let isB = false;
+    wrap.addEventListener('click', () => {
+      isB = !isB;
+      const p1 = wrap.querySelector('.pane-1');
+      const p2 = wrap.querySelector('.pane-2');
+      p1.style.transform = isB ? 'translateX(-100%)' : 'translateX(0)';
+      p2.style.transform = isB ? 'translateX(0)' : 'translateX(100%)';
+    });
+    stage.appendChild(wrap);
+
+  // CATEGORY 7: MODALS, DIALOGS & OVERLAYS
+  } else if (category === 'overlays') {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      width: 175px; padding: 14px; border-radius: 12px;
+      background: #191C23; border: 1px solid ${accent}66;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 8px;
+      animation: dnFloatLevitate 4s ease-in-out infinite; cursor: pointer;
+    `;
+    modal.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; font-weight:700; color:#FFF;">Modal Dialog</span>
+        <span style="font-size:10px; color:${accent};">ESC ✕</span>
+      </div>
+      <div style="font-size:10px; color:var(--text-muted); line-height:1.4;">Spring physics popover with background blur.</div>
+      <button style="padding:5px; border-radius:6px; background:${accent}; border:none; color:#08090B; font-weight:700; font-size:10px; cursor:pointer;">Confirm Action</button>
+    `;
+    stage.appendChild(modal);
+
+  // CATEGORY 8: GESTURES & PHYSICS
+  } else if (category === 'gestures') {
+    const card = document.createElement('div');
+    card.style.cssText = `
+      width: 160px; padding: 14px 18px; border-radius: 12px;
+      background: #191C23; border: 1.5px solid ${accent};
+      color: #FFF; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: grab; transition: transform 0.2s ease-out; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    `;
+    card.innerHTML = `<span>↔ Swipe Left/Right</span><span>⚡</span>`;
+    card.addEventListener('mousedown', () => {
+      card.style.cursor = 'grabbing';
+      card.style.transform = 'translateX(40px) rotate(6deg)';
+      setTimeout(() => card.style.transform = 'none', 350);
+    });
+    stage.appendChild(card);
+
+  // CATEGORY 9: BACKGROUNDS & AMBIENT
+  } else if (category === 'backgrounds') {
+    const el = document.createElement('div');
+    el.className = 'dn-aurora-bg-widget';
+    el.innerHTML = `
+      <div class="dn-aurora-glow-1" style="background:radial-gradient(circle, ${accent} 0%, transparent 70%);"></div>
+      <div class="dn-aurora-glow-2"></div>
+      <span style="position:relative; z-index:1; font-family:var(--font-mono); font-size:13px; color:#FFF; font-weight:800; letter-spacing:0.1em;">AMBIENT AURA</span>
+    `;
+    stage.appendChild(el);
+
+  // CATEGORY 10: 3D & PERSPECTIVE
+  } else if (category === 'three-d') {
     const stageBox = document.createElement('div');
     stageBox.className = 'dn-cube-stage';
     stageBox.innerHTML = `
       <div class="dn-3d-cube">
-        <div class="dn-cube-face front">⚡</div>
+        <div class="dn-cube-face front" style="border-color:${accent}; color:${accent};">⚡</div>
         <div class="dn-cube-face back">✦</div>
         <div class="dn-cube-face right">★</div>
         <div class="dn-cube-face left">▲</div>
@@ -401,188 +483,206 @@ function createMotionVisualizer(id, category, name, icon, props) {
     `;
     stage.appendChild(stageBox);
 
-  // 7. CHARTS & DATA
-  } else if (id.includes('line-chart') || id.includes('sparkline') || id.includes('area-chart')) {
-    const el = document.createElement('div');
-    el.className = 'dn-linechart-widget';
-    el.innerHTML = `
-      <svg viewBox="0 0 140 55">
-        <defs>
-          <linearGradient id="chartGrad_${id}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="${accent}" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="${accent}" stop-opacity="0.0"/>
-          </linearGradient>
-        </defs>
-        <polygon points="10,50 10,40 35,25 60,35 85,15 110,28 130,10 130,50" fill="url(#chartGrad_${id})"/>
-        <path class="dn-linechart-path" d="M10,40 Q25,20 35,25 T60,35 T85,15 T110,28 T130,10" style="stroke:${accent};"/>
-        <circle cx="130" cy="10" r="3.5" fill="${accent}" style="filter:drop-shadow(0 0 6px ${accent});"/>
-      </svg>
+  // CATEGORY 11: IMAGES & MEDIA
+  } else if (category === 'media') {
+    const box = document.createElement('div');
+    box.style.cssText = 'position:relative; width:160px; height:100px; border-radius:10px; overflow:hidden; border:1px solid #2A2E38;';
+    box.innerHTML = `
+      <div style="position:absolute; inset:0; background:linear-gradient(135deg, #2b1055, #7597de); display:flex; align-items:center; justify-content:center; animation:dnFloatLevitate 4s infinite;">
+        <span style="font-size:32px;">📷</span>
+      </div>
+      <div style="position:absolute; bottom:6px; left:8px; right:8px; display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:#FFF; background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:6px; backdrop-filter:blur(4px);">
+        <span>Ken Burns</span>
+        <span style="color:${accent};">Zoom 1.2x</span>
+      </div>
     `;
-    stage.appendChild(el);
-  } else if (id.includes('bar-chart') || id.includes('growing-bar')) {
-    const el = document.createElement('div');
-    el.className = 'dn-barchart-widget';
-    el.innerHTML = `
-      <div class="dn-barchart-col" style="--target-height:45%; height:45%;"></div>
-      <div class="dn-barchart-col" style="--target-height:85%; height:85%; animation-delay:0.1s;"></div>
-      <div class="dn-barchart-col" style="--target-height:60%; height:60%; animation-delay:0.2s;"></div>
-      <div class="dn-barchart-col" style="--target-height:100%; height:100%; animation-delay:0.3s; background:linear-gradient(180deg, #42E8F5, rgba(66,232,245,0.2));"></div>
-      <div class="dn-barchart-col" style="--target-height:75%; height:75%; animation-delay:0.4s;"></div>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('donut') || id.includes('gauge')) {
-    const el = document.createElement('div');
-    el.className = 'dn-circular-ring-widget';
-    el.innerHTML = `
-      <svg viewBox="0 0 76 76">
-        <circle class="track" cx="38" cy="38" r="30" stroke-width="7" fill="none"></circle>
-        <circle class="fill" cx="38" cy="38" r="30" stroke-width="7" fill="none" style="stroke:#42E8F5; stroke-dasharray:188; stroke-dashoffset:55;"></circle>
-      </svg>
-      <div class="ring-val" style="color:#42E8F5;">92%</div>
-    `;
-    stage.appendChild(el);
+    stage.appendChild(box);
 
-  // 8. FORMS & FEEDBACK
-  } else if (id.includes('checkmark')) {
-    const el = document.createElement('div');
-    el.className = 'dn-checkmark-widget';
-    el.innerHTML = `
-      <svg viewBox="0 0 48 48">
-        <circle class="dn-checkmark-circle" cx="24" cy="24" r="20" style="stroke:${accent};"></circle>
-        <path class="dn-checkmark-stem" d="M14 24 L21 31 L34 17" style="stroke:${accent};"></path>
-      </svg>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('toggle')) {
-    const toggle = document.createElement('div');
-    toggle.className = 'dn-toggle-widget active';
-    toggle.innerHTML = `<div class="dn-toggle-thumb"></div>`;
-    toggle.addEventListener('click', () => toggle.classList.toggle('active'));
-    stage.appendChild(toggle);
-  } else if (id.includes('input') || id.includes('focus') || id.includes('shake')) {
-    const input = document.createElement('div');
-    input.style.cssText = `
-      padding: 10px 18px;
-      border: 1.5px solid ${accent};
-      border-radius: 8px;
-      background: #111318;
-      color: #FFF;
-      font-size: 13px;
-      font-family: var(--font-mono);
-      cursor: pointer;
-      box-shadow: 0 0 14px ${accent}44;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    `;
-    input.innerHTML = `<span>⚡</span> <span>Active Input_</span>`;
-    input.addEventListener('click', () => {
-      input.style.transform = 'translateX(-6px)';
-      setTimeout(() => input.style.transform = 'translateX(6px)', 60);
-      setTimeout(() => input.style.transform = 'translateX(-4px)', 120);
-      setTimeout(() => input.style.transform = 'translateX(4px)', 180);
-      setTimeout(() => input.style.transform = 'none', 240);
-    });
-    stage.appendChild(input);
-
-  // 9. ICONS & MICRO-INTERACTIONS
-  } else if (id.includes('heart-pop') || id.includes('like')) {
-    const heart = document.createElement('div');
-    heart.className = 'dn-heart-pop-widget';
-    heart.textContent = '❤️';
-    heart.addEventListener('click', () => {
-      heart.classList.remove('active');
-      void heart.offsetWidth;
-      heart.classList.add('active');
-    });
-    stage.appendChild(heart);
-  } else if (id.includes('bell')) {
-    const bell = document.createElement('div');
-    bell.className = 'dn-bell-ring-widget';
-    bell.innerHTML = `🔔<div class="dn-bell-badge" style="background:${accent};"></div>`;
-    stage.appendChild(bell);
-
-  // 10. EXPERIMENTS & VISUALIZERS
-  } else if (id.includes('waveform') || id.includes('visualizer')) {
-    const el = document.createElement('div');
-    el.style.cssText = 'display:flex; align-items:center; gap:4px; height:50px;';
-    for (let i = 0; i < 12; i++) {
-      const bar = document.createElement('div');
-      bar.style.cssText = `
-        width: 4px;
-        border-radius: 2px;
-        background: ${i % 2 === 0 ? accent : '#42E8F5'};
-        animation: dnEqBounce ${0.8 + (i % 5) * 0.2}s ease-in-out infinite alternate;
-        animation-delay: ${(i * 0.08)}s;
+  // CATEGORY 12: CHARTS & DATA
+  } else if (category === 'charts') {
+    if (id.includes('bar')) {
+      const el = document.createElement('div');
+      el.className = 'dn-barchart-widget';
+      el.innerHTML = `
+        <div class="dn-barchart-col" style="--target-height:40%; height:40%;"></div>
+        <div class="dn-barchart-col" style="--target-height:85%; height:85%; animation-delay:0.1s; background:${accent};"></div>
+        <div class="dn-barchart-col" style="--target-height:60%; height:60%; animation-delay:0.2s;"></div>
+        <div class="dn-barchart-col" style="--target-height:100%; height:100%; animation-delay:0.3s; background:#42E8F5;"></div>
+        <div class="dn-barchart-col" style="--target-height:75%; height:75%; animation-delay:0.4s;"></div>
       `;
-      el.appendChild(bar);
+      stage.appendChild(el);
+    } else {
+      // Line Chart
+      const el = document.createElement('div');
+      el.className = 'dn-linechart-widget';
+      el.innerHTML = `
+        <svg viewBox="0 0 140 55">
+          <defs>
+            <linearGradient id="chartGrad_${id}" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${accent}" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="${accent}" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <polygon points="10,50 10,40 35,25 60,35 85,15 110,28 130,10 130,50" fill="url(#chartGrad_${id})"/>
+          <path class="dn-linechart-path" d="M10,40 Q25,20 35,25 T60,35 T85,15 T110,28 T130,10" style="stroke:${accent};"/>
+          <circle cx="130" cy="10" r="4" fill="${accent}" style="filter:drop-shadow(0 0 6px ${accent});"/>
+        </svg>
+      `;
+      stage.appendChild(el);
     }
-    stage.appendChild(el);
-  } else if (id.includes('aurora') || id.includes('gradient-mesh')) {
-    const el = document.createElement('div');
-    el.className = 'dn-aurora-bg-widget';
-    el.innerHTML = `
-      <div class="dn-aurora-glow-1" style="background:radial-gradient(circle, ${accent} 0%, transparent 70%);"></div>
-      <div class="dn-aurora-glow-2"></div>
-      <span style="position:relative; z-index:1; font-family:var(--font-mono); font-size:12px; color:#FFF; font-weight:700;">AURORA MESH</span>
-    `;
-    stage.appendChild(el);
-  } else if (id.includes('confetti')) {
-    const el = document.createElement('div');
-    el.style.cssText = 'display:flex; flex-direction:column; align-items:center; cursor:pointer;';
-    el.innerHTML = `<span style="font-size:32px;">🎉</span><span style="font-size:11px; font-family:var(--font-mono); color:${accent}; margin-top:4px;">Tap Confetti</span>`;
-    el.addEventListener('click', () => {
-      for (let i = 0; i < 16; i++) {
-        const c = document.createElement('div');
-        const colors = ['#C5FF35', '#42E8F5', '#9B7CFF', '#FF3C6E', '#FFB800'];
-        c.style.cssText = `
-          position: absolute;
-          width: ${4 + Math.random() * 6}px;
-          height: ${8 + Math.random() * 8}px;
-          background: ${colors[Math.floor(Math.random() * colors.length)]};
-          left: ${20 + Math.random() * 60}%;
-          top: 30%;
-          animation: dnConfettiFall 0.8s ease-out forwards;
-          pointer-events: none;
-        `;
-        stage.appendChild(c);
-        setTimeout(() => c.remove(), 850);
-      }
-    });
-    stage.appendChild(el);
-  } else {
-    // Default high-impact dynamic motion widget
-    const widget = document.createElement('div');
-    widget.style.cssText = `
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 22px;
-      background: #111318;
-      border: 1px solid ${accent}66;
-      border-radius: 12px;
-      box-shadow: 0 0 18px ${accent}22;
-      animation: dnFloatLevitate 3.5s ease-in-out infinite;
-      cursor: pointer;
-    `;
-    widget.innerHTML = `
-      <div style="font-size: 26px;">${icon}</div>
-      <div style="font-size: 13px; font-weight: 700; color: #FFF;">${name}</div>
-    `;
-    widget.addEventListener('click', () => {
-      widget.style.transform = 'scale(1.15) rotate(3deg)';
-      setTimeout(() => widget.style.transform = 'scale(1) rotate(0deg)', 200);
-    });
-    stage.appendChild(widget);
-  }
 
-  // Floating micro caption
-  const caption = document.createElement('div');
-  caption.className = 'dn-motion-caption';
-  caption.textContent = name;
-  stage.appendChild(caption);
+  // CATEGORY 13: FORMS & FEEDBACK
+  } else if (category === 'forms') {
+    if (id.includes('checkmark')) {
+      const el = document.createElement('div');
+      el.className = 'dn-checkmark-widget';
+      el.innerHTML = `
+        <svg viewBox="0 0 48 48">
+          <circle class="dn-checkmark-circle" cx="24" cy="24" r="20" style="stroke:${accent};"></circle>
+          <path class="dn-checkmark-stem" d="M14 24 L21 31 L34 17" style="stroke:${accent};"></path>
+        </svg>
+      `;
+      stage.appendChild(el);
+    } else if (id.includes('toggle')) {
+      const toggle = document.createElement('div');
+      toggle.className = 'dn-toggle-widget active';
+      toggle.style.borderColor = accent;
+      toggle.innerHTML = `<div class="dn-toggle-thumb" style="background:${accent};"></div>`;
+      toggle.addEventListener('click', () => toggle.classList.toggle('active'));
+      stage.appendChild(toggle);
+    } else {
+      const input = document.createElement('div');
+      input.style.cssText = `
+        padding: 10px 18px; border: 1.5px solid ${accent}; border-radius: 8px;
+        background: #111318; color: #FFF; font-size: 13px; font-family: var(--font-mono);
+        cursor: pointer; box-shadow: 0 0 14px ${accent}44; display: flex; align-items: center; gap: 8px;
+      `;
+      input.innerHTML = `<span>⚡</span> <span>Input Focus_</span>`;
+      input.addEventListener('click', () => {
+        input.style.transform = 'translateX(-6px)';
+        setTimeout(() => input.style.transform = 'translateX(6px)', 60);
+        setTimeout(() => input.style.transform = 'translateX(-4px)', 120);
+        setTimeout(() => input.style.transform = 'none', 180);
+      });
+      stage.appendChild(input);
+    }
+
+  // CATEGORY 14: LISTS & COLLECTIONS
+  } else if (category === 'lists') {
+    const list = document.createElement('div');
+    list.style.cssText = 'display:flex; flex-direction:column; gap:6px; width:170px;';
+    for (let i = 0; i < 3; i++) {
+      const item = document.createElement('div');
+      item.style.cssText = `
+        padding: 7px 12px; background: #181c25; border: 1px solid var(--border-default);
+        border-radius: 8px; display: flex; justify-content: space-between; align-items: center;
+        color: #FFF; font-size: 11px; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease;
+      `;
+      item.innerHTML = `<span>Item 0${i + 1}</span><span style="color:${accent};">›</span>`;
+      item.addEventListener('mouseenter', () => {
+        item.style.transform = 'translateX(6px)';
+        item.style.borderColor = accent;
+      });
+      item.addEventListener('mouseleave', () => {
+        item.style.transform = 'none';
+        item.style.borderColor = 'var(--border-default)';
+      });
+      list.appendChild(item);
+    }
+    stage.appendChild(list);
+
+  // CATEGORY 15: ICONS & MICRO-INTERACTIONS
+  } else if (category === 'micro-interactions') {
+    if (id.includes('bell')) {
+      const bell = document.createElement('div');
+      bell.className = 'dn-bell-ring-widget';
+      bell.innerHTML = `🔔<div class="dn-bell-badge" style="background:${accent};"></div>`;
+      stage.appendChild(bell);
+    } else {
+      const heart = document.createElement('div');
+      heart.className = 'dn-heart-pop-widget';
+      heart.textContent = '❤️';
+      heart.addEventListener('click', () => {
+        heart.classList.remove('active');
+        void heart.offsetWidth;
+        heart.classList.add('active');
+      });
+      stage.appendChild(heart);
+    }
+
+  // CATEGORY 16: ADVANCED MOTION EXPERIMENTS
+  } else {
+    if (id.includes('waveform') || id.includes('visualizer')) {
+      const el = document.createElement('div');
+      el.style.cssText = 'display:flex; align-items:center; gap:4px; height:50px;';
+      for (let i = 0; i < 14; i++) {
+        const bar = document.createElement('div');
+        bar.style.cssText = `
+          width: 4px; border-radius: 2px;
+          background: ${i % 2 === 0 ? accent : '#42E8F5'};
+          animation: dnEqBounce ${0.7 + (i % 5) * 0.2}s ease-in-out infinite alternate;
+          animation-delay: ${(i * 0.07)}s;
+        `;
+        el.appendChild(bar);
+      }
+      stage.appendChild(el);
+    } else if (id.includes('confetti')) {
+      const el = document.createElement('div');
+      el.style.cssText = 'display:flex; flex-direction:column; align-items:center; cursor:pointer;';
+      el.innerHTML = `<span style="font-size:36px;">🎉</span><span style="font-size:11px; font-family:var(--font-mono); color:${accent}; margin-top:4px; font-weight:700;">Tap For Confetti</span>`;
+      el.addEventListener('click', () => {
+        for (let i = 0; i < 20; i++) {
+          const c = document.createElement('div');
+          const colors = ['#C5FF35', '#42E8F5', '#9B7CFF', '#FF3C6E', '#FFB800'];
+          c.style.cssText = `
+            position: absolute; width: ${4 + Math.random() * 6}px; height: ${8 + Math.random() * 8}px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            left: ${15 + Math.random() * 70}%; top: 20%;
+            animation: dnConfettiFall 0.8s ease-out forwards; pointer-events: none;
+          `;
+          stage.appendChild(c);
+          setTimeout(() => c.remove(), 850);
+        }
+      });
+      stage.appendChild(el);
+    } else {
+      // Interactive Canvas Sparks
+      const canvas = document.createElement('canvas');
+      canvas.width = 160;
+      canvas.height = 100;
+      canvas.style.cssText = 'width:160px; height:100px; cursor:crosshair;';
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      for (let i = 0; i < 24; i++) {
+        particles.push({
+          x: 80, y: 50,
+          vx: (Math.random() - 0.5) * 3,
+          vy: (Math.random() - 0.5) * 3,
+          color: Math.random() > 0.5 ? accent : '#42E8F5',
+          r: 2 + Math.random() * 2
+        });
+      }
+      let animId;
+      const loop = () => {
+        ctx.fillStyle = 'rgba(8, 9, 11, 0.25)';
+        ctx.fillRect(0, 0, 160, 100);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > 160) p.vx *= -1;
+          if (p.y < 0 || p.y > 100) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+        animId = requestAnimationFrame(loop);
+      };
+      loop();
+      destroyFn = () => cancelAnimationFrame(animId);
+      stage.appendChild(canvas);
+    }
+  }
 
   return {
     element: stage,
