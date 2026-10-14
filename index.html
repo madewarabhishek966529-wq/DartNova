@@ -27,6 +27,9 @@
   <link rel="stylesheet" href="./styles/components.css">
 </head>
 <body>
+  <!-- Ambient Cursor Spotlight Glow -->
+  <div id="global-spotlight-glow"></div>
+
   <div class="app-container">
     <!-- SITE HEADER -->
     <header class="site-header">
@@ -41,6 +44,16 @@
           <span class="brand-text">DartNova</span>
         </a>
 
+        <!-- Quick Command Palette Button -->
+        <button id="header-search-btn" class="header-search-btn" title="Quick Search (Ctrl+K or /)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search 20 components...</span>
+          <kbd>⌘K</kbd>
+        </button>
+
         <!-- Desktop Navigation -->
         <nav aria-label="Main Navigation">
           <ul class="nav-links">
@@ -51,8 +64,25 @@
           </ul>
         </nav>
 
-        <!-- Actions -->
+        <!-- Actions & Personalisations -->
         <div class="header-actions">
+          <!-- Theme Accent Picker -->
+          <div class="accent-picker" title="Accent Theme">
+            <button class="accent-dot-btn active" data-theme="lime" title="Neon Lime"></button>
+            <button class="accent-dot-btn" data-theme="cyan" title="Electric Cyan"></button>
+            <button class="accent-dot-btn" data-theme="purple" title="Cyber Purple"></button>
+            <button class="accent-dot-btn" data-theme="amber" title="Solar Amber"></button>
+          </div>
+
+          <!-- Subtle Audio Feedback Toggle -->
+          <button id="sound-toggle-btn" class="btn-icon" title="Toggle audio clicks" aria-label="Toggle audio feedback">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+
+          <!-- GitHub Link -->
           <a 
             href="https://github.com/madewarabhishek966529-wq/DartNova" 
             target="_blank" 

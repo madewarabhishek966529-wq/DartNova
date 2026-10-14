@@ -1,11 +1,12 @@
 /**
  * Playground Code Panel
- * Displays Flutter code snippets, full widget source, parameters, and copy actions
+ * VS Code / IDE styled code viewer with line numbers, file tabs, parameters, and copy actions
  */
 
 import { getComponentById } from '../registry/components.js';
 import { highlightDart } from '../utils/highlighter.js';
 import { copyToClipboard } from '../utils/clipboard.js';
+import { sound } from '../utils/audio.js';
 
 export function setupCodePanel(codePanelEl, store) {
   if (!codePanelEl) return;
@@ -20,6 +21,9 @@ export function setupCodePanel(codePanelEl, store) {
     } else if (codeTab === 'full') {
       activeCode = comp.flutterFullCode || '';
     }
+
+    const lines = activeCode.split('\n');
+    const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('');
 
     codePanelEl.innerHTML = `
       <div class="code-panel-header">
@@ -37,7 +41,7 @@ export function setupCodePanel(codePanelEl, store) {
 
         <div class="code-actions">
           <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-right: 4px;">
-            Dart
+            ${codeTab === 'params' ? 'Schema' : `${lines.length} lines`}
           </span>
           <button id="code-copy-btn" class="btn-copy" title="Copy Flutter code">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,7 +73,7 @@ export function setupCodePanel(codePanelEl, store) {
               <tbody>
                 ${(comp.params || []).map(p => `
                   <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--accent-lime);">${p.name}</td>
+                    <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--accent-primary);">${p.name}</td>
                     <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--accent-cyan);">${p.type}</td>
                     <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--text-muted);">${p.defaultVal}</td>
                     <td style="padding:8px 4px; color:var(--text-secondary);">${p.description}</td>
@@ -79,27 +83,31 @@ export function setupCodePanel(codePanelEl, store) {
             </table>
 
             <div style="margin-top:8px;">
-              <h5 style="font-size:11px; font-family:var(--font-mono); text-transform:uppercase; color:var(--accent-lime); margin-bottom:4px;">Integration Notes</h5>
+              <h5 style="font-size:11px; font-family:var(--font-mono); text-transform:uppercase; color:var(--accent-primary); margin-bottom:4px;">Integration Notes</h5>
               <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">${comp.notes || 'Drop the widget into your Flutter app with standard AnimationController lifecycle management.'}</p>
             </div>
           </div>
         ` : `
-          <pre class="code-pre"><code>${highlightDart(activeCode)}</code></pre>
+          <div class="code-editor-layout">
+            <div class="code-line-numbers">${lineNumbersHtml}</div>
+            <pre class="code-pre"><code>${highlightDart(activeCode)}</code></pre>
+          </div>
         `}
       </div>
 
       <div class="code-docs-section">
         <div style="display:flex; align-items:center; justify-content:space-between;">
           <h5>Package Support</h5>
-          <span style="font-size:11px; color:var(--accent-lime); font-family:var(--font-mono);">Flutter 3.0+</span>
+          <span style="font-size:11px; color:var(--accent-primary); font-family:var(--font-mono);">Flutter 3.0+ Ready</span>
         </div>
-        <p style="font-size:11px; margin:0;">Zero external pub packages required. Uses pure Flutter core primitives.</p>
+        <p style="font-size:11px; margin:0;">Zero external pub packages required. Pure Flutter framework primitives.</p>
       </div>
     `;
 
     // Bind tab clicks
     codePanelEl.querySelectorAll('.code-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        sound.playClick();
         store.setState({ codeTab: btn.getAttribute('data-tab') });
       });
     });
@@ -108,6 +116,7 @@ export function setupCodePanel(codePanelEl, store) {
     const copyBtn = codePanelEl.querySelector('#code-copy-btn');
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
+        sound.playPop();
         const textToCopy = codeTab === 'params' 
           ? comp.flutterSnippet 
           : activeCode;

@@ -1,9 +1,10 @@
 /**
  * Playground Center Workspace Preview
- * Handles canvas frame, viewport modes, background styles, and component lifecycle
+ * Modern Window Frame, Viewport Switcher, Background Styles, and Component Lifecycle
  */
 
 import { getComponentById } from '../registry/components.js';
+import { sound } from '../utils/audio.js';
 
 export function setupPreview(workspaceEl, store) {
   if (!workspaceEl) return;
@@ -27,42 +28,43 @@ export function setupPreview(workspaceEl, store) {
           <div class="workspace-header-title-row">
             <h2 class="workspace-title">${comp.name}</h2>
             <span class="badge badge-lime">${comp.badge}</span>
+            <span class="badge" style="font-size:10px; font-family:var(--font-mono);">${comp.category}</span>
           </div>
           <p class="workspace-description">${comp.description}</p>
         </div>
 
         <div class="workspace-toolbar">
           <!-- Viewport Mode -->
-          <div class="toolbar-btn-group" title="Preview Viewport">
+          <div class="toolbar-btn-group" title="Preview Viewport Frame">
             <button class="toolbar-tool-btn ${previewMode === 'desktop' ? 'active' : ''}" data-mode="desktop">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="2" y="3" width="20" height="14" rx="2"></rect>
                 <line x1="8" y1="21" x2="16" y2="21"></line>
                 <line x1="12" y1="17" x2="12" y2="21"></line>
               </svg>
-              <span>100%</span>
+              <span>Fluid</span>
             </button>
             <button class="toolbar-tool-btn ${previewMode === 'tablet' ? 'active' : ''}" data-mode="tablet">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="4" y="2" width="16" height="20" rx="2"></rect>
                 <line x1="12" y1="18" x2="12.01" y2="18"></line>
               </svg>
               <span>Tablet</span>
             </button>
             <button class="toolbar-tool-btn ${previewMode === 'mobile' ? 'active' : ''}" data-mode="mobile">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="5" y="2" width="14" height="20" rx="2"></rect>
                 <line x1="12" y1="18" x2="12.01" y2="18"></line>
               </svg>
-              <span>Mobile</span>
+              <span>Phone</span>
             </button>
           </div>
 
           <!-- Canvas Background -->
-          <div class="toolbar-btn-group" title="Canvas Background">
-            <button class="toolbar-tool-btn ${canvasBg === 'default' ? 'active' : ''}" data-bg="default">Dark</button>
+          <div class="toolbar-btn-group" title="Canvas Background Style">
+            <button class="toolbar-tool-btn ${canvasBg === 'default' ? 'active' : ''}" data-bg="default">Obsidian</button>
             <button class="toolbar-tool-btn ${canvasBg === 'grid' ? 'active' : ''}" data-bg="grid">Grid</button>
-            <button class="toolbar-tool-btn ${canvasBg === 'black' ? 'active' : ''}" data-bg="black">Black</button>
+            <button class="toolbar-tool-btn ${canvasBg === 'black' ? 'active' : ''}" data-bg="black">OLED</button>
           </div>
 
           <!-- Restart & Reset -->
@@ -82,7 +84,18 @@ export function setupPreview(workspaceEl, store) {
 
       <div class="preview-canvas-wrapper canvas-bg-${canvasBg}">
         <div class="preview-viewport-frame mode-${previewMode}">
-          <div id="preview-canvas-container"></div>
+          <div class="window-frame" style="width:100%; height:100%; display:flex; flex-direction:column;">
+            <div class="window-titlebar">
+              <div class="window-dots">
+                <span class="window-dot close"></span>
+                <span class="window-dot min"></span>
+                <span class="window-dot max"></span>
+              </div>
+              <span class="window-title">${comp.id}.dart — Live Preview</span>
+              <span style="font-size:10px; color:var(--accent-primary); font-family:var(--font-mono);">60 FPS</span>
+            </div>
+            <div id="preview-canvas-container" style="flex:1; width:100%; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;"></div>
+          </div>
         </div>
       </div>
 
@@ -92,12 +105,14 @@ export function setupPreview(workspaceEl, store) {
     // Bind toolbar actions
     workspaceEl.querySelectorAll('[data-mode]').forEach(btn => {
       btn.addEventListener('click', () => {
+        sound.playClick();
         store.setState({ previewMode: btn.getAttribute('data-mode') });
       });
     });
 
     workspaceEl.querySelectorAll('[data-bg]').forEach(btn => {
       btn.addEventListener('click', () => {
+        sound.playClick();
         store.setState({ canvasBg: btn.getAttribute('data-bg') });
       });
     });
@@ -105,6 +120,7 @@ export function setupPreview(workspaceEl, store) {
     const restartBtn = workspaceEl.querySelector('#toolbar-restart-btn');
     if (restartBtn) {
       restartBtn.addEventListener('click', () => {
+        sound.playPop();
         if (activeComponentInstance?.restart) {
           activeComponentInstance.restart();
         }
@@ -114,6 +130,7 @@ export function setupPreview(workspaceEl, store) {
     const resetBtn = workspaceEl.querySelector('#toolbar-reset-btn');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
+        sound.playClick();
         store.setState({ componentProps: { ...comp.defaultProps } });
       });
     }
@@ -137,7 +154,6 @@ export function setupPreview(workspaceEl, store) {
       state.previewMode !== prev?.previewMode ||
       state.canvasBg !== prev?.canvasBg
     ) {
-      // Light update without destroying active instance
       const wrapper = workspaceEl.querySelector('.preview-canvas-wrapper');
       const frame = workspaceEl.querySelector('.preview-viewport-frame');
       if (wrapper && frame) {
@@ -151,7 +167,6 @@ export function setupPreview(workspaceEl, store) {
         });
       }
     } else if (JSON.stringify(state.componentProps) !== JSON.stringify(prev?.componentProps)) {
-      // Re-render live component with updated properties
       const comp = getComponentById(state.selectedComponentId);
       const canvasContainer = workspaceEl.querySelector('#preview-canvas-container');
       if (canvasContainer && comp.render) {

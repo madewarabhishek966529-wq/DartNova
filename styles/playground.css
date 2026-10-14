@@ -501,21 +501,45 @@
   line-height: 1.6;
 }
 
+.code-editor-layout {
+  display: flex;
+  gap: 16px;
+  min-width: 100%;
+}
+
+.code-line-numbers {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  color: #4b5563;
+  text-align: right;
+  min-width: 26px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.6;
+}
+
 .code-pre {
   margin: 0;
   padding: 0;
   background: transparent !important;
   color: #f1f1f1;
   white-space: pre;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  flex: 1;
 }
 
 /* Syntax Highlighting Tokens */
 .token-keyword { color: #f472b6; font-weight: 600; }
 .token-type { color: #38ddf8; font-weight: 500; }
-.token-string { color: #c5ff35; }
+.token-string { color: var(--accent-primary); }
 .token-number { color: #fb923c; }
 .token-comment { color: #6b7280; font-style: italic; }
 .token-annotation { color: #e879f9; }
+
 
 
 /* Documentation / Integration subpanel inside code viewer */
