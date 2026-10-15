@@ -273,9 +273,11 @@ export function renderLandingView(containerEl, store) {
                 <button class="status-pill-btn" data-status="complete">
                   Live Previews <span class="pill-count">(${liveCount})</span>
                 </button>
+                ${plannedCount > 0 ? `
                 <button class="status-pill-btn" data-status="planned">
                   Roadmap Specs <span class="pill-count">(${plannedCount})</span>
                 </button>
+                ` : ''}
                 <button class="status-pill-btn" data-status="favorites">
                   ♥ Favorites <span class="pill-count">(${currentFavs.length})</span>
                 </button>

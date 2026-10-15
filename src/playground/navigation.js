@@ -65,6 +65,7 @@ export function setupNavigation(sidebarEl, store) {
     }
 
     const liveCount = COMPONENTS.filter(c => c.status === 'complete').length;
+    const plannedCount = COMPONENTS.filter(c => c.status === 'planned').length;
 
     sidebarEl.innerHTML = `
       <div class="sidebar-search-box">
@@ -113,9 +114,10 @@ export function setupNavigation(sidebarEl, store) {
             <button class="nav-scope-btn ${filterStatus === 'complete' && !favoritesOnly ? 'active' : ''}" data-status="complete" title="Published live interactive previews">
               Live (${liveCount})
             </button>
+            ${plannedCount > 0 ? `
             <button class="nav-scope-btn ${filterStatus === 'planned' && !favoritesOnly ? 'active' : ''}" data-status="planned" title="Roadmap specifications">
-              Roadmap
-            </button>
+              Roadmap (${plannedCount})
+            </button>` : ''}
             <button class="nav-scope-btn fav-btn ${favoritesOnly ? 'active' : ''}" id="sidebar-fav-filter-btn" title="Show Favorites Only">
               ♥ ${favorites.length}
             </button>
