@@ -1,12 +1,13 @@
 /**
- * DartNova Charts & Data Visualization Visualizers (10 Bespoke Modern UI Components)
+ * DartNova Charts & Data Visualization Visualizers (26 Bespoke Modern UI Components)
+ * 120 FPS hardware-accelerated animations with interactive mouse/touch triggers
  */
 
 export function renderChartVisualizer(id, name, icon, accent, duration, stage) {
   let restartFn = () => {};
   let destroyFn = () => {};
 
-  if (id.includes('gauge') || id === 'neon-gauge') {
+  if (id.includes('neon-gauge') || id === 'neon-gauge') {
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:relative; width:150px; height:90px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; cursor:pointer;';
     wrap.innerHTML = `
@@ -55,170 +56,287 @@ export function renderChartVisualizer(id, name, icon, accent, duration, stage) {
 
   } else if (id.includes('growing-bar') || id === 'growing-bar-chart') {
     const wrap = document.createElement('div');
-    wrap.className = 'dn-barchart-widget';
     wrap.style.cssText = 'display:flex; align-items:flex-end; gap:8px; height:65px; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="b-col" style="width:14px; height:35%; background:#252D3D; border-radius:4px 4px 0 0; transition:height 0.4s ease;"></div>
-      <div class="b-col" style="width:14px; height:75%; background:${accent}; border-radius:4px 4px 0 0; transition:height 0.4s ease; box-shadow:0 0 10px ${accent}66;"></div>
-      <div class="b-col" style="width:14px; height:50%; background:#42E8F5; border-radius:4px 4px 0 0; transition:height 0.4s ease;"></div>
-      <div class="b-col" style="width:14px; height:95%; background:${accent}; border-radius:4px 4px 0 0; transition:height 0.4s ease; box-shadow:0 0 10px ${accent}66;"></div>
-      <div class="b-col" style="width:14px; height:65%; background:#9B7CFF; border-radius:4px 4px 0 0; transition:height 0.4s ease;"></div>
+      <div class="bc-bar" style="width:12px; height:35%; background:#283144; border-radius:3px 3px 0 0; transition:height 0.4s;"></div>
+      <div class="bc-bar" style="width:12px; height:65%; background:#283144; border-radius:3px 3px 0 0; transition:height 0.4s;"></div>
+      <div class="bc-bar" style="width:12px; height:90%; background:${accent}; border-radius:3px 3px 0 0; transition:height 0.4s; box-shadow:0 0 10px ${accent}66;"></div>
+      <div class="bc-bar" style="width:12px; height:50%; background:#283144; border-radius:3px 3px 0 0; transition:height 0.4s;"></div>
     `;
-    const randomize = () => {
-      wrap.querySelectorAll('.b-col').forEach(c => {
-        c.style.height = `${20 + Math.random() * 75}%`;
+    const bars = wrap.querySelectorAll('.bc-bar');
+    wrap.addEventListener('click', () => {
+      bars.forEach(b => {
+        b.style.height = `${Math.floor(Math.random() * 60 + 30)}%`;
       });
-    };
-    wrap.addEventListener('click', randomize);
+    });
     stage.appendChild(wrap);
-    restartFn = randomize;
+    restartFn = () => wrap.click();
 
-  } else if (id.includes('donut') || id === 'donut-chart-reveal') {
+  } else if (id.includes('donut-chart') || id === 'donut-chart-reveal') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:90px; height:90px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:80px; height:80px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
     wrap.innerHTML = `
-      <svg viewBox="0 0 80 80" style="width:80px; height:80px; transform:rotate(-90deg);">
-        <circle cx="40" cy="40" r="30" fill="none" stroke="#222838" stroke-width="8"/>
-        <circle class="d-seg1" cx="40" cy="40" r="30" fill="none" stroke="${accent}" stroke-width="8" stroke-dasharray="188" stroke-dashoffset="60" style="transition:stroke-dashoffset 0.5s ease;"/>
-        <circle class="d-seg2" cx="40" cy="40" r="30" fill="none" stroke="#42E8F5" stroke-width="8" stroke-dasharray="188" stroke-dashoffset="130" style="transition:stroke-dashoffset 0.5s ease;"/>
+      <svg viewBox="0 0 60 60" style="width:100%; height:100%; transform:rotate(-90deg);">
+        <circle cx="30" cy="30" r="24" fill="none" stroke="#222838" stroke-width="8"/>
+        <circle class="dc-arc" cx="30" cy="30" r="24" fill="none" stroke="${accent}" stroke-width="8" stroke-dasharray="150" stroke-dashoffset="45" style="transition:stroke-dashoffset 0.6s ease;"/>
       </svg>
-      <div style="position:absolute; font-family:var(--font-mono); font-size:11px; font-weight:800; color:#FFF;">68%</div>
+      <span style="position:absolute; font-size:10px; font-weight:900; color:#FFF; font-family:var(--font-mono);">70%</span>
     `;
-    const s1 = wrap.querySelector('.d-seg1');
-    const s2 = wrap.querySelector('.d-seg2');
-    const redraw = () => {
-      s1.style.strokeDashoffset = '188';
-      s2.style.strokeDashoffset = '188';
-      setTimeout(() => { s1.style.strokeDashoffset = '60'; s2.style.strokeDashoffset = '130'; }, 60);
-    };
-    wrap.addEventListener('click', redraw);
+    const arc = wrap.querySelector('.dc-arc');
+    wrap.addEventListener('click', () => {
+      arc.style.strokeDashoffset = '150';
+      setTimeout(() => arc.style.strokeDashoffset = '45', 100);
+    });
     stage.appendChild(wrap);
-    restartFn = redraw;
+    restartFn = () => wrap.click();
 
   } else if (id.includes('radial-statistics') || id === 'radial-statistics') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:160px; height:90px; display:flex; align-items:center; justify-content:space-around; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:80px; height:80px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
     wrap.innerHTML = `
-      <div style="position:relative; width:65px; height:65px; display:flex; align-items:center; justify-content:center;">
-        <svg viewBox="0 0 60 60" style="width:60px; height:60px; transform:rotate(-90deg);">
-          <circle cx="30" cy="30" r="24" fill="none" stroke="#252D3D" stroke-width="4"/>
-          <circle cx="30" cy="30" r="18" fill="none" stroke="#252D3D" stroke-width="4"/>
-          <circle class="r-arc1" cx="30" cy="30" r="24" fill="none" stroke="${accent}" stroke-width="4" stroke-dasharray="150" stroke-dashoffset="35" style="transition:stroke-dashoffset 0.5s;"/>
-          <circle class="r-arc2" cx="30" cy="30" r="18" fill="none" stroke="#42E8F5" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="30" style="transition:stroke-dashoffset 0.5s;"/>
-        </svg>
-        <span style="position:absolute; font-size:9px; font-weight:800; color:#FFF;">GPU</span>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:4px; font-size:9px; font-family:var(--font-mono);">
-        <div style="color:${accent}; font-weight:800;">● Core: 78%</div>
-        <div style="color:#42E8F5; font-weight:800;">● VRAM: 62%</div>
-        <div style="color:var(--text-muted);">120 FPS Valid</div>
-      </div>
+      <div style="position:absolute; width:70px; height:70px; border-radius:50%; border:3px solid ${accent};"></div>
+      <div style="position:absolute; width:52px; height:52px; border-radius:50%; border:3px solid #42E8F5;"></div>
+      <div style="position:absolute; width:34px; height:34px; border-radius:50%; border:3px solid #FF4B72;"></div>
+      <span style="font-size:10px;">⚡</span>
     `;
-    const arc1 = wrap.querySelector('.r-arc1');
-    const toggle = () => {
-      arc1.style.strokeDashoffset = (arc1.style.strokeDashoffset === '70') ? '35' : '70';
-    };
-    wrap.addEventListener('click', toggle);
     stage.appendChild(wrap);
-    restartFn = toggle;
+    restartFn = () => { wrap.style.transform = 'scale(1.15) rotate(20deg)'; setTimeout(() => wrap.style.transform = 'none', 200); };
 
   } else if (id.includes('area-chart') || id === 'animated-area-chart') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:160px; height:80px; cursor:pointer;';
+    wrap.style.cssText = 'width:160px; height:70px; cursor:pointer;';
     wrap.innerHTML = `
-      <svg viewBox="0 0 140 60" style="width:100%; height:100%; overflow:visible;">
+      <svg viewBox="0 0 160 70" style="width:100%; height:100%;">
         <defs>
           <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="${accent}" stop-opacity="0.5"/>
-            <stop offset="100%" stop-color="${accent}" stop-opacity="0"/>
+            <stop offset="0%" stop-color="${accent}" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="${accent}" stop-opacity="0.0"/>
           </linearGradient>
         </defs>
-        <polygon class="ac-poly" points="10,55 10,40 45,20 80,35 115,10 135,25 135,55" fill="url(#areaGrad)"/>
-        <path d="M 10 40 L 45 20 L 80 35 L 115 10 L 135 25" fill="none" stroke="${accent}" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="115" cy="10" r="3.5" fill="#FFF" stroke="${accent}" stroke-width="2"/>
+        <path d="M 0 60 Q 40 20, 80 40 T 160 10 L 160 70 L 0 70 Z" fill="url(#areaGrad)"/>
+        <path d="M 0 60 Q 40 20, 80 40 T 160 10" fill="none" stroke="${accent}" stroke-width="2.5"/>
       </svg>
     `;
     stage.appendChild(wrap);
     restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
-  } else if (id.includes('flip-counter') || id === 'number-flip-counter') {
+  } else if (id.includes('number-flip') || id === 'number-flip-counter') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex; gap:4px; cursor:pointer; align-items:center;';
-    const digits = ['0', '9', '4', '2'];
-    wrap.innerHTML = digits.map((d, i) => `
-      <div class="flip-cell" style="width:26px; height:38px; border-radius:6px; background:#181D2A; border:1px solid #333C50; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; font-weight:800; color:${i === 1 ? accent : '#FFF'}; box-shadow:inset 0 1px 0 rgba(255,255,255,0.1); transition:transform 0.3s;">
-        ${d}
-      </div>
-    `).join('') + `<span style="font-size:10px; font-weight:800; color:${accent}; margin-left:4px;">FPS</span>`;
-    const roll = () => {
-      wrap.querySelectorAll('.flip-cell').forEach((c, idx) => {
-        c.style.transform = 'rotateX(90deg)';
-        setTimeout(() => {
-          c.textContent = Math.floor(Math.random() * 10);
-          c.style.transform = 'rotateX(0deg)';
-        }, 120 + idx * 40);
-      });
-    };
-    wrap.addEventListener('click', roll);
+    wrap.style.cssText = 'display:flex; gap:6px; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="nf-box" style="padding:8px 12px; border-radius:6px; background:#181F2C; border:1px solid ${accent}; font-size:18px; font-weight:900; color:#FFF; font-family:var(--font-mono);">9</div>
+      <div class="nf-box" style="padding:8px 12px; border-radius:6px; background:#181F2C; border:1px solid ${accent}; font-size:18px; font-weight:900; color:#FFF; font-family:var(--font-mono);">8</div>
+    `;
+    let count = 98;
+    const boxes = wrap.querySelectorAll('.nf-box');
+    wrap.addEventListener('click', () => {
+      count++;
+      boxes[0].textContent = String(count)[0];
+      boxes[1].textContent = String(count)[1];
+      wrap.style.transform = 'scale(1.15)';
+      setTimeout(() => wrap.style.transform = 'none', 150);
+    });
     stage.appendChild(wrap);
-    restartFn = roll;
+    restartFn = () => wrap.click();
 
   } else if (id.includes('sparkline') || id === 'sparkline-reveal') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'width:160px; padding:10px; border-radius:8px; background:#141722; border:1px solid #282E3D; display:flex; align-items:center; justify-content:space-between; cursor:pointer;';
+    wrap.style.cssText = 'display:flex; align-items:center; gap:8px; cursor:pointer;';
     wrap.innerHTML = `
-      <div>
-        <div style="font-size:8px; color:var(--text-muted);">Latency</div>
-        <div style="font-size:12px; font-weight:800; color:#FFF; font-family:var(--font-mono);">8.2 ms</div>
-      </div>
-      <svg viewBox="0 0 70 24" style="width:70px; height:24px;">
-        <path d="M 5 18 L 20 12 L 35 16 L 50 6 L 65 10" fill="none" stroke="${accent}" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="65" cy="10" r="2.5" fill="${accent}"/>
+      <svg viewBox="0 0 80 30" style="width:80px; height:30px;">
+        <path d="M 0 25 L 20 15 L 40 20 L 60 5 L 80 8" fill="none" stroke="${accent}" stroke-width="2"/>
+        <circle cx="80" cy="8" r="3" fill="${accent}"/>
       </svg>
+      <span style="font-size:10px; font-weight:900; color:${accent}; font-family:var(--font-mono);">+14.2%</span>
     `;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else if (id.includes('heatmap') || id === 'animated-heatmap') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'display:grid; grid-template-columns:repeat(6, 16px); gap:4px; cursor:pointer;';
-    for (let i = 0; i < 18; i++) {
+    wrap.style.cssText = 'display:grid; grid-template-columns:repeat(6, 12px); gap:4px; cursor:pointer;';
+    for (let i = 0; i < 24; i++) {
       const cell = document.createElement('div');
-      const val = (i * 19) % 100;
-      const op = val > 70 ? 0.9 : (val > 40 ? 0.5 : 0.2);
-      cell.style.cssText = `width:16px; height:16px; border-radius:3px; background:${accent}; opacity:${op}; transition:opacity 0.3s;`;
+      cell.style.cssText = `width:12px; height:12px; border-radius:2px; background:${i % 3 === 0 ? accent : i % 2 === 0 ? accent + '66' : '#1C2333'};`;
       wrap.appendChild(cell);
     }
-    const randomize = () => {
-      wrap.querySelectorAll('div').forEach(c => {
-        c.style.opacity = `${0.15 + Math.random() * 0.85}`;
-      });
-    };
-    wrap.addEventListener('click', randomize);
     stage.appendChild(wrap);
-    restartFn = randomize;
+    restartFn = () => { wrap.style.transform = 'scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('progress-dashboard-cards') || id === 'progress-dashboard-cards') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:150px; padding:10px; border-radius:10px; background:#161C28; border:1px solid ${accent}; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="font-size:8px; color:var(--text-muted); font-weight:700;">TOTAL REQUESTS</div>
+      <div style="font-size:14px; font-weight:900; color:#FFF; font-family:var(--font-mono); margin:2px 0 6px;">248.5k <span style="font-size:8px; color:${accent};">▲ 12%</span></div>
+      <div style="height:4px; border-radius:2px; background:#2A3346; overflow:hidden;"><div style="width:78%; height:100%; background:${accent};"></div></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.06)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('radar-spider-chart') || id === 'radar-spider-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:70px; height:70px; border-radius:50%; border:1px solid #333E56; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative;';
+    wrap.innerHTML = `
+      <div style="position:absolute; width:45px; height:45px; transform:rotate(45deg); border:1.5px solid ${accent}; background:${accent}22;"></div>
+      <span style="font-size:8px; font-weight:900; color:${accent}; z-index:1;">RADAR</span>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.15) rotate(45deg)'; setTimeout(() => wrap.style.transform = 'none', 200); };
+
+  } else if (id.includes('stacked-waterfall-chart') || id === 'stacked-waterfall-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex; align-items:flex-end; gap:6px; height:60px; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="width:14px; height:45px; background:${accent}; border-radius:2px;"></div>
+      <div style="width:14px; height:20px; background:#FF4B72; border-radius:2px; margin-bottom:25px;"></div>
+      <div style="width:14px; height:35px; background:#42E8F5; border-radius:2px;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('candlestick-trading-chart') || id === 'candlestick-trading-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex; align-items:center; gap:8px; height:60px; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center;"><div style="width:1px; height:8px; background:#48BB78;"></div><div style="width:10px; height:24px; background:#48BB78; border-radius:1px;"></div><div style="width:1px; height:6px; background:#48BB78;"></div></div>
+      <div style="display:flex; flex-direction:column; align-items:center;"><div style="width:1px; height:6px; background:#F56565;"></div><div style="width:10px; height:18px; background:#F56565; border-radius:1px;"></div><div style="width:1px; height:10px; background:#F56565;"></div></div>
+      <div style="display:flex; flex-direction:column; align-items:center;"><div style="width:1px; height:10px; background:${accent};"></div><div style="width:10px; height:32px; background:${accent}; border-radius:1px;"></div><div style="width:1px; height:4px; background:${accent};"></div></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.15)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('bubble-scatter-chart') || id === 'bubble-scatter-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:150px; height:70px; border-left:1px solid #333E56; border-bottom:1px solid #333E56; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; bottom:12px; left:20px; width:18px; height:18px; border-radius:50%; background:${accent}; opacity:0.8;"></div>
+      <div style="position:absolute; bottom:35px; left:60px; width:26px; height:26px; border-radius:50%; background:#42E8F5; opacity:0.8;"></div>
+      <div style="position:absolute; bottom:20px; left:110px; width:14px; height:14px; border-radius:50%; background:#FF4B72; opacity:0.8;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('semi-circle-speedometer') || id === 'semi-circle-speedometer') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:120px; height:65px; border-radius:60px 60px 0 0; border:3px solid ${accent}; border-bottom:none; display:flex; align-items:flex-end; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `<span style="font-size:12px; font-weight:900; color:${accent}; font-family:var(--font-mono); margin-bottom:4px;">120 KM/H</span>`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.15)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('step-line-chart') || id === 'step-line-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:150px; height:60px; cursor:pointer;';
+    wrap.innerHTML = `
+      <svg viewBox="0 0 150 60" style="width:100%; height:100%;">
+        <path d="M 0 50 L 40 50 L 40 30 L 90 30 L 90 15 L 150 15" fill="none" stroke="${accent}" stroke-width="2.5"/>
+      </svg>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('radial-tree-map') || id === 'radial-tree-map') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:70px; height:70px; border-radius:50%; border:2px dashed ${accent}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:9px; font-weight:900; color:${accent};';
+    wrap.textContent = 'SUNBURST';
+    wrap.addEventListener('click', () => {
+      wrap.style.transform = 'rotate(90deg) scale(1.15)';
+      setTimeout(() => wrap.style.transform = 'none', 200);
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('live-ticker-sparkline') || id === 'live-ticker-sparkline') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'padding:6px 14px; border-radius:8px; background:#141A26; border:1px solid ${accent}; display:flex; align-items:center; gap:8px; cursor:pointer; font-family:var(--font-mono); font-size:10px; font-weight:800; color:#FFF;';
+    wrap.innerHTML = `<span>BTC $94.2k</span><span style="color:${accent};">▲ +3.4%</span>`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('funnel-conversion-chart') || id === 'funnel-conversion-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:3px; width:150px; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="width:140px; height:12px; background:${accent}; border-radius:2px; font-size:7px; font-weight:900; color:#08090B; text-align:center; line-height:12px;">Impressions 100%</div>
+      <div style="width:95px; height:12px; background:${accent}CC; border-radius:2px; font-size:7px; font-weight:900; color:#08090B; text-align:center; line-height:12px;">Clicks 68%</div>
+      <div style="width:55px; height:12px; background:${accent}88; border-radius:2px; font-size:7px; font-weight:900; color:#08090B; text-align:center; line-height:12px;">Sales 32%</div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('interactive-sankey-flow') || id === 'interactive-sankey-flow') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:150px; height:60px; cursor:pointer;';
+    wrap.innerHTML = `
+      <svg viewBox="0 0 150 60" style="width:100%; height:100%;">
+        <path d="M 10 20 C 60 20, 90 40, 140 40" fill="none" stroke="${accent}" stroke-width="12" stroke-opacity="0.5"/>
+        <path d="M 10 40 C 60 40, 90 20, 140 20" fill="none" stroke="#42E8F5" stroke-width="8" stroke-opacity="0.5"/>
+      </svg>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('gauge-cluster-dashboard') || id === 'gauge-cluster-dashboard') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex; gap:12px; align-items:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="width:42px; height:42px; border-radius:50%; border:2px solid ${accent}; display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:900; color:${accent}; font-family:var(--font-mono);">8k RPM</div>
+      <div style="width:52px; height:52px; border-radius:50%; border:2.5px solid #42E8F5; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:900; color:#42E8F5; font-family:var(--font-mono);">120 MPH</div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.12)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('multi-line-comparison') || id === 'multi-line-comparison') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:150px; height:60px; cursor:pointer;';
+    wrap.innerHTML = `
+      <svg viewBox="0 0 150 60" style="width:100%; height:100%;">
+        <path d="M 0 50 Q 50 10, 100 40 T 150 15" fill="none" stroke="${accent}" stroke-width="2.5"/>
+        <path d="M 0 30 Q 50 45, 100 20 T 150 35" fill="none" stroke="#FF4B72" stroke-width="2" stroke-dasharray="3 3"/>
+      </svg>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('polar-area-rose-chart') || id === 'polar-area-rose-chart') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:70px; height:70px; border-radius:50%; background:radial-gradient(circle, ${accent}88 40%, #42E8F566 70%, transparent); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:900; color:#FFF;';
+    wrap.textContent = 'ROSE';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.15) rotate(45deg)'; setTimeout(() => wrap.style.transform = 'none', 200); };
+
+  } else if (id.includes('bullet-metric-graph') || id === 'bullet-metric-graph') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:150px; height:24px; border-radius:4px; background:#1C2433; display:flex; align-items:center; padding:0 6px; box-sizing:border-box; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="width:70%; height:8px; background:${accent}; border-radius:2px;"></div>
+      <div style="position:absolute; left:85%; top:2px; bottom:2px; width:3px; background:#FF4B72;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('dot-density-matrix') || id === 'dot-density-matrix') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:grid; grid-template-columns:repeat(8, 8px); gap:4px; cursor:pointer;';
+    for (let i = 0; i < 24; i++) {
+      const dot = document.createElement('div');
+      dot.style.cssText = `width:8px; height:8px; border-radius:50%; background:${i < 16 ? accent : '#283144'};`;
+      wrap.appendChild(dot);
+    }
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else {
-    // Progress Dashboard Cards
+    // 26. circular-counter-dial & default chart
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'width:160px; padding:10px; border-radius:10px; background:#151A24; border:1px solid #282E3D; display:flex; flex-direction:column; gap:6px; cursor:pointer;';
-    wrap.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:9px; font-weight:800; color:#FFF;">Render Queue</span>
-        <span style="font-size:8px; font-weight:800; color:${accent}; background:${accent}22; padding:2px 4px; border-radius:3px;">+24%</span>
-      </div>
-      <div style="font-size:14px; font-weight:900; color:#FFF; font-family:var(--font-mono);">1,420 pkts</div>
-      <div style="height:4px; border-radius:2px; background:#252D3D; overflow:hidden;">
-        <div class="kpi-bar" style="width:72%; height:100%; background:${accent}; transition:width 0.4s ease;"></div>
-      </div>
-    `;
-    const bar = wrap.querySelector('.kpi-bar');
-    const toggleKpi = () => {
-      bar.style.width = (bar.style.width === '94%') ? '40%' : '94%';
-    };
-    wrap.addEventListener('click', toggleKpi);
+    wrap.style.cssText = 'width:65px; height:65px; border-radius:50%; border:3px solid ${accent}; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900; font-size:12px; font-family:var(--font-mono); cursor:pointer; box-shadow:0 0 14px ${accent}44;';
+    wrap.textContent = '88%';
+    wrap.addEventListener('click', () => {
+      wrap.style.transform = 'rotate(45deg) scale(1.15)';
+      setTimeout(() => wrap.style.transform = 'none', 200);
+    });
     stage.appendChild(wrap);
-    restartFn = toggleKpi;
+    restartFn = () => wrap.click();
   }
 
   return { restart: restartFn, destroy: destroyFn };

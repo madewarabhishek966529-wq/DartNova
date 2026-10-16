@@ -1,5 +1,6 @@
 /**
- * DartNova Page & Route Transitions Visualizers (10 Bespoke Modern UI Components)
+ * DartNova Page & Route Transitions Visualizers (26 Bespoke Modern UI Components)
+ * 120 FPS hardware-accelerated animations with interactive mouse/touch triggers
  */
 
 export function renderTransitionVisualizer(id, name, icon, accent, duration, stage) {
@@ -89,27 +90,20 @@ export function renderTransitionVisualizer(id, name, icon, accent, duration, sta
       <div class="hero-target" style="width:85px; height:55px; border-radius:8px; background:linear-gradient(135deg, #FF6B6B, #4ECDC4, ${accent}); position:relative; overflow:hidden; transition:all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow:0 8px 18px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:flex-end; padding:6px; box-sizing:border-box;">
         <div class="hero-chip" style="font-size:7px; font-weight:800; background:rgba(0,0,0,0.6); color:#FFF; padding:2px 4px; border-radius:3px; align-self:flex-start;">HERO #01</div>
         <div class="hero-sub" style="font-size:8px; font-weight:800; color:#FFF; margin-top:2px;">Tap Expand</div>
-        <div class="hero-close" style="position:absolute; top:6px; right:6px; width:18px; height:18px; border-radius:50%; background:rgba(0,0,0,0.7); color:#FFF; display:flex; align-items:center; justify-content:center; font-size:9px; opacity:0; transition:opacity 0.2s;">✕</div>
       </div>
     `;
     let expanded = false;
     const target = wrap.querySelector('.hero-target');
-    const close = wrap.querySelector('.hero-close');
-    const sub = wrap.querySelector('.hero-sub');
     const toggleHero = () => {
       expanded = !expanded;
       if (expanded) {
         target.style.width = '100%';
         target.style.height = '100%';
-        target.style.borderRadius = '0px';
-        close.style.opacity = '1';
-        sub.textContent = 'Fullscreen Hero Morph · 120 FPS';
+        target.style.borderRadius = '12px';
       } else {
         target.style.width = '85px';
         target.style.height = '55px';
         target.style.borderRadius = '8px';
-        close.style.opacity = '0';
-        sub.textContent = 'Tap Expand';
       }
     };
     wrap.addEventListener('click', toggleHero);
@@ -118,168 +112,104 @@ export function renderTransitionVisualizer(id, name, icon, accent, duration, sta
 
   } else if (id.includes('cube') || id === 'cube-transition-3d') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'perspective:700px; width:160px; height:100px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.style.cssText = 'perspective:500px; width:170px; height:105px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="cube-box" style="position:relative; width:140px; height:85px; transform-style:preserve-3d; transition:transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
-        <div class="c-face f1" style="position:absolute; inset:0; background:#141822; border:1px solid ${accent}; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; transform:translateZ(42px); backface-visibility:hidden;">
-          <span style="font-size:18px;">🎲</span>
-          <span style="font-size:10px; font-weight:800; color:#FFF;">Face A: Dashboard</span>
-          <span style="font-size:8px; color:${accent};">Tap to 3D Flip ➔</span>
+      <div class="cube-box" style="width:85px; height:85px; position:relative; transform-style:preserve-3d; transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <div style="position:absolute; inset:0; background:#181F2E; border:1.5px solid ${accent}; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800; transform:translateZ(42px);">
+          <span>Face A</span><span style="font-size:8px; color:${accent};">Tap Rotate</span>
         </div>
-        <div class="c-face f2" style="position:absolute; inset:0; background:#181F2C; border:1px solid #42E8F5; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; transform:rotateY(90deg) translateZ(42px); backface-visibility:hidden;">
-          <span style="font-size:18px;">📊</span>
-          <span style="font-size:10px; font-weight:800; color:#FFF;">Face B: Analytics</span>
-          <span style="font-size:8px; color:#42E8F5;">⬅ 3D Cube Yaw</span>
+        <div style="position:absolute; inset:0; background:#221828; border:1.5px solid #FF4B72; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800; transform:rotateY(90deg) translateZ(42px);">
+          <span>Face B</span><span style="font-size:8px; color:#FF4B72;">3D Volume</span>
         </div>
       </div>
     `;
-    let flipped = false;
+    let side = 0;
     const cube = wrap.querySelector('.cube-box');
-    const toggleCube = () => {
-      flipped = !flipped;
-      cube.style.transform = flipped ? 'rotateY(-90deg)' : 'rotateY(0deg)';
+    const rotateCube = () => {
+      side = (side + 1) % 2;
+      cube.style.transform = side === 1 ? 'rotateY(-90deg)' : 'rotateY(0deg)';
     };
-    wrap.addEventListener('click', toggleCube);
+    wrap.addEventListener('click', rotateCube);
     stage.appendChild(wrap);
-    restartFn = toggleCube;
+    restartFn = rotateCube;
 
   } else if (id.includes('diagonal-wipe') || id === 'diagonal-wipe') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3C; background:#12151D; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#11151E; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="wipe-base" style="position:absolute; inset:0; background:#121620; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;">
-        <span style="font-size:18px;">📐</span>
-        <span style="font-size:11px; font-weight:800; color:#FFF;">Screen A (Obsidian)</span>
-        <span style="font-size:8px; color:var(--text-muted);">Tap for Diagonal Wipe</span>
+      <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800;">
+        <span>Scene A</span><span style="font-size:8px; color:var(--text-muted);">Diagonal Angle</span>
       </div>
-      <div class="wipe-layer" style="position:absolute; inset:0; background:linear-gradient(135deg, #182030, #131E28); border:1px solid ${accent}; clip-path:polygon(0 0, 0 0, 0 100%, 0 100%); transition:clip-path 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;">
-        <span style="font-size:18px;">⚡</span>
-        <span style="font-size:11px; font-weight:800; color:${accent};">Screen B Revealed!</span>
-        <span style="font-size:8px; color:#FFF;">Angled Polygon Mask</span>
+      <div class="diag-curtain" style="position:absolute; inset:-50%; background:linear-gradient(135deg, ${accent}, #42E8F5); transform:translateX(-100%) rotate(25deg); transition:transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); display:flex; align-items:center; justify-content:center; color:#08090B; font-weight:900; font-size:12px;">
+        <span style="transform:rotate(-25deg);">Scene B ⚡</span>
       </div>
     `;
     let wiped = false;
-    const layer = wrap.querySelector('.wipe-layer');
+    const curtain = wrap.querySelector('.diag-curtain');
     const toggleWipe = () => {
       wiped = !wiped;
-      layer.style.clipPath = wiped ? 'polygon(0 0, 140% 0, 100% 100%, -40% 100%)' : 'polygon(0 0, 0 0, 0 100%, 0 100%)';
+      curtain.style.transform = wiped ? 'translateX(0%) rotate(25deg)' : 'translateX(-100%) rotate(25deg)';
     };
     wrap.addEventListener('click', toggleWipe);
     stage.appendChild(wrap);
     restartFn = toggleWipe;
 
-  } else if (id.includes('zoom') || id === 'zoom-page-transition') {
+  } else if (id.includes('zoom-page') || id === 'zoom-page-transition') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3C; background:#12151E; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#121622; cursor:pointer; display:flex; align-items:center; justify-content:center;';
     wrap.innerHTML = `
-      <div class="zoom-grid" style="position:absolute; inset:0; padding:10px; display:grid; grid-template-columns:1fr 1fr; gap:6px; transition:transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;">
-        <div style="background:#1B202C; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#FFF;">Stats</div>
-        <div class="zoom-target-item" style="background:${accent}; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#08090B; box-shadow:0 0 12px ${accent}66;">🔍 Zoom</div>
-        <div style="background:#1B202C; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#FFF;">Media</div>
-        <div style="background:#1B202C; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#FFF;">Settings</div>
-      </div>
-      <div class="zoom-detail" style="position:absolute; inset:0; background:#181F2E; border:1.5px solid ${accent}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; transform:scale(0.3); opacity:0; pointer-events:none; transition:transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;">
-        <span style="font-size:12px; font-weight:800; color:${accent};">DETAIL VIEW</span>
-        <span style="font-size:9px; color:#FFF;">High-Velocity Camera Zoom</span>
-        <button style="padding:4px 8px; border-radius:4px; background:${accent}; border:none; color:#08090B; font-weight:800; font-size:9px; cursor:pointer; margin-top:2px;">⬅ Return</button>
+      <div class="zp-pane" style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <span>🔭 Zoom Portal</span>
+        <span style="font-size:8px; color:${accent}; margin-top:4px;">Tap to Scale</span>
       </div>
     `;
     let zoomed = false;
-    const grid = wrap.querySelector('.zoom-grid');
-    const detail = wrap.querySelector('.zoom-detail');
+    const pane = wrap.querySelector('.zp-pane');
     const toggleZoom = () => {
       zoomed = !zoomed;
-      if (zoomed) {
-        grid.style.transform = 'scale(2.5)';
-        grid.style.opacity = '0';
-        detail.style.transform = 'scale(1)';
-        detail.style.opacity = '1';
-        detail.style.pointerEvents = 'auto';
-      } else {
-        grid.style.transform = 'scale(1)';
-        grid.style.opacity = '1';
-        detail.style.transform = 'scale(0.3)';
-        detail.style.opacity = '0';
-        detail.style.pointerEvents = 'none';
-      }
+      pane.style.transform = zoomed ? 'scale(1.8)' : 'scale(1)';
+      pane.style.opacity = zoomed ? '0.2' : '1';
     };
     wrap.addEventListener('click', toggleZoom);
     stage.appendChild(wrap);
     restartFn = toggleZoom;
 
-  } else if (id.includes('slide-fade') || id === 'slide-fade-route') {
+  } else if (id.includes('slide-fade-route') || id === 'slide-fade-route') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3C; background:#0B0D12; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#10141D; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="sf-master" style="position:absolute; inset:0; padding:10px; background:#131720; display:flex; flex-direction:column; gap:6px; transition:transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;">
-        <div style="font-size:11px; font-weight:800; color:#FFF;">Settings</div>
-        <div style="padding:4px 6px; border-radius:4px; background:#1C2230; font-size:9px; color:#FFF; display:flex; justify-content:space-between;"><span>Account</span><span>›</span></div>
-        <div class="sf-trigger" style="padding:4px 6px; border-radius:4px; background:${accent}22; border:1px solid ${accent}66; font-size:9px; color:${accent}; font-weight:700; display:flex; justify-content:space-between;"><span>Motion 120 FPS</span><span>›</span></div>
-      </div>
-      <div class="sf-detail" style="position:absolute; inset:0; padding:10px; background:#171C28; border-left:1px solid ${accent}; display:flex; flex-direction:column; gap:6px; transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow:-8px 0 20px rgba(0,0,0,0.5);">
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:10px; color:${accent}; font-weight:800;">‹ Settings</span>
-        </div>
-        <div style="font-size:10px; font-weight:800; color:#FFF; margin-top:2px;">Motion 120 FPS</div>
-        <div style="font-size:8px; color:var(--text-muted);">Cupertino Parabolic Slide</div>
+      <div class="sfr-card" style="position:absolute; inset:10px; border-radius:8px; background:#171D2B; border:1px solid ${accent}; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800; transition:all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);">
+        <span>Slide & Fade</span>
+        <span style="font-size:8px; color:${accent};">Route Alpha</span>
       </div>
     `;
-    let pushed = false;
-    const master = wrap.querySelector('.sf-master');
-    const detail = wrap.querySelector('.sf-detail');
-    const toggleRoute = () => {
-      pushed = !pushed;
-      if (pushed) {
-        master.style.transform = 'translateX(-28%)';
-        master.style.filter = 'brightness(0.5)';
-        detail.style.transform = 'translateX(0)';
-      } else {
-        master.style.transform = 'translateX(0)';
-        master.style.filter = 'brightness(1)';
-        detail.style.transform = 'translateX(100%)';
-      }
+    let slid = false;
+    const card = wrap.querySelector('.sfr-card');
+    const toggleSlide = () => {
+      slid = !slid;
+      card.style.transform = slid ? 'translateX(100px)' : 'none';
+      card.style.opacity = slid ? '0' : '1';
+      if (slid) setTimeout(() => { card.style.transform = 'none'; card.style.opacity = '1'; }, 400);
     };
-    wrap.addEventListener('click', toggleRoute);
+    wrap.addEventListener('click', toggleSlide);
     stage.appendChild(wrap);
-    restartFn = toggleRoute;
+    restartFn = toggleSlide;
 
-  } else if (id.includes('container') || id === 'morphing-container-transition') {
+  } else if (id.includes('morphing-container') || id === 'morphing-container-transition') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3C; background:#10131A; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; background:#101319; border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="morph-box" style="width:130px; height:34px; border-radius:99px; background:${accent}; color:#08090B; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; transition:all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow:0 0 15px ${accent}66; position:relative; overflow:hidden; box-sizing:border-box;">
-        <span class="morph-lbl">+ Open Container</span>
-        <div class="morph-full" style="position:absolute; inset:0; padding:8px; background:#151A24; color:#FFF; border:1px solid ${accent}; display:flex; flex-direction:column; justify-content:space-between; opacity:0; pointer-events:none; transition:opacity 0.25s ease;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; font-weight:800; color:${accent};">Container Surface</span>
-            <span style="font-size:9px; color:#FFF;">✕</span>
-          </div>
-          <div style="font-size:8px; color:var(--text-muted);">Morphed from button bounds</div>
-          <button style="padding:3px; border-radius:4px; background:${accent}; border:none; color:#08090B; font-weight:800; font-size:9px;">Save</button>
-        </div>
+      <div class="mc-box" style="width:60px; height:40px; border-radius:8px; background:linear-gradient(135deg, ${accent}, #42E8F5); display:flex; align-items:center; justify-content:center; color:#08090B; font-weight:900; font-size:9px; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        Morph
       </div>
     `;
     let morphed = false;
-    const box = wrap.querySelector('.morph-box');
-    const lbl = wrap.querySelector('.morph-lbl');
-    const full = wrap.querySelector('.morph-full');
+    const box = wrap.querySelector('.mc-box');
     const toggleMorph = () => {
       morphed = !morphed;
-      if (morphed) {
-        box.style.width = '100%';
-        box.style.height = '100%';
-        box.style.borderRadius = '0px';
-        lbl.style.opacity = '0';
-        full.style.opacity = '1';
-        full.style.pointerEvents = 'auto';
-      } else {
-        box.style.width = '130px';
-        box.style.height = '34px';
-        box.style.borderRadius = '99px';
-        lbl.style.opacity = '1';
-        full.style.opacity = '0';
-        full.style.pointerEvents = 'none';
-      }
+      box.style.width = morphed ? '150px' : '60px';
+      box.style.height = morphed ? '85px' : '40px';
+      box.style.borderRadius = morphed ? '10px' : '8px';
     };
     wrap.addEventListener('click', toggleMorph);
     stage.appendChild(wrap);
@@ -289,29 +219,290 @@ export function renderTransitionVisualizer(id, name, icon, accent, duration, sta
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3C; background:#11151E; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="lq-base" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:#FFF;">
-        <span style="font-size:20px;">🌊</span>
-        <span style="font-size:11px; font-weight:800;">Liquid Page View</span>
-        <span style="font-size:8px; color:var(--text-muted);">Tap for Wave Curtain</span>
+      <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800;">
+        <span>🌊 Liquid Base</span>
       </div>
-      <div class="lq-curtain" style="position:absolute; inset:0; background:linear-gradient(135deg, ${accent}, #42E8F5); transform:translateY(100%); transition:transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#08090B;">
-        <span style="font-size:18px;">✨</span>
-        <span style="font-size:11px; font-weight:800;">Refreshed State!</span>
-        <span style="font-size:8px; font-weight:700;">Organic Sine Curve</span>
+      <div class="lq-wave" style="position:absolute; inset:0; background:linear-gradient(135deg, ${accent}, #42E8F5); transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); display:flex; align-items:center; justify-content:center; color:#08090B; font-weight:900; font-size:11px;">
+        Sine Wave View ✨
       </div>
     `;
-    let waveActive = false;
-    const curtain = wrap.querySelector('.lq-curtain');
-    const triggerWave = () => {
-      waveActive = !waveActive;
-      curtain.style.transform = waveActive ? 'translateY(0%)' : 'translateY(100%)';
+    let wave = false;
+    const wv = wrap.querySelector('.lq-wave');
+    const toggleWave = () => {
+      wave = !wave;
+      wv.style.transform = wave ? 'translateY(0%)' : 'translateY(100%)';
     };
-    wrap.addEventListener('click', triggerWave);
+    wrap.addEventListener('click', toggleWave);
     stage.appendChild(wrap);
-    restartFn = triggerWave;
+    restartFn = toggleWave;
+
+  } else if (id.includes('curtain-split') || id === 'curtain-split-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#161D2B; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900; font-size:12px;">STAGE READY ✨</div>
+      <div class="cs-left" style="position:absolute; top:0; bottom:0; left:0; width:50%; background:#101319; border-right:1px solid ${accent}; transition:transform 0.4s ease;"></div>
+      <div class="cs-right" style="position:absolute; top:0; bottom:0; right:0; width:50%; background:#101319; border-left:1px solid ${accent}; transition:transform 0.4s ease;"></div>
+    `;
+    let parted = false;
+    const [cL, cR] = [wrap.querySelector('.cs-left'), wrap.querySelector('.cs-right')];
+    wrap.addEventListener('click', () => {
+      parted = !parted;
+      cL.style.transform = parted ? 'translateX(-100%)' : 'none';
+      cR.style.transform = parted ? 'translateX(100%)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('iris-circle') || id === 'iris-circle-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#101319; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `
+      <div style="font-size:10px; font-weight:800; color:#FFF;">Iris Camera</div>
+      <div class="iris-disc" style="position:absolute; width:10px; height:10px; border-radius:50%; background:${accent}; transition:transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); opacity:0.85;"></div>
+    `;
+    let open = false;
+    const disc = wrap.querySelector('.iris-disc');
+    wrap.addEventListener('click', () => {
+      open = !open;
+      disc.style.transform = open ? 'scale(24)' : 'scale(1)';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('shutter-blind') || id === 'shutter-blind-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#10141D; cursor:pointer; display:flex; flex-direction:column;';
+    for (let i = 0; i < 4; i++) {
+      const slat = document.createElement('div');
+      slat.style.cssText = `flex:1; background:${accent}33; border-bottom:1px solid ${accent}; transition:transform 0.35s; transform-origin:top center;`;
+      slat.className = 'blind-slat';
+      wrap.appendChild(slat);
+    }
+    let flipped = false;
+    const slats = wrap.querySelectorAll('.blind-slat');
+    wrap.addEventListener('click', () => {
+      flipped = !flipped;
+      slats.forEach((s, idx) => {
+        s.style.transform = flipped ? 'rotateX(85deg)' : 'none';
+        s.style.transitionDelay = `${idx * 0.05}s`;
+      });
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('origami-fold') || id === 'origami-fold-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'perspective:400px; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#121622; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `
+      <div class="og-paper" style="width:110px; height:70px; background:linear-gradient(135deg, ${accent}, #42E8F5); border-radius:6px; transform-origin:left center; transition:transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); display:flex; align-items:center; justify-content:center; color:#08090B; font-weight:900; font-size:10px;">
+        Origami
+      </div>
+    `;
+    let folded = false;
+    const paper = wrap.querySelector('.og-paper');
+    wrap.addEventListener('click', () => {
+      folded = !folded;
+      paper.style.transform = folded ? 'rotateY(-70deg) scale(0.9)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('pixelate-dissolve') || id === 'pixelate-dissolve-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:grid; grid-template-columns:repeat(5, 1fr); width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#101319; cursor:pointer;';
+    for (let i = 0; i < 20; i++) {
+      const px = document.createElement('div');
+      px.style.cssText = `background:${i % 2 === 0 ? accent : '#1C2333'}; opacity:0.8; transition:opacity 0.3s;`;
+      px.className = 'px-tile';
+      wrap.appendChild(px);
+    }
+    const tiles = wrap.querySelectorAll('.px-tile');
+    wrap.addEventListener('click', () => {
+      tiles.forEach((t, i) => {
+        t.style.opacity = Math.random() > 0.5 ? '0.1' : '0.9';
+      });
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('circular-mask-wipe') || id === 'circular-mask-wipe') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#121622; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800;">Target View</div>
+      <div class="cm-mask" style="position:absolute; inset:0; background:${accent}; color:#08090B; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:11px; clip-path:circle(100% at 50% 50%); transition:clip-path 0.4s ease;">
+        Circular Mask
+      </div>
+    `;
+    let wiped = false;
+    const mask = wrap.querySelector('.cm-mask');
+    wrap.addEventListener('click', () => {
+      wiped = !wiped;
+      mask.style.clipPath = wiped ? 'circle(0% at 50% 50%)' : 'circle(100% at 50% 50%)';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('flip-page-book') || id === 'flip-page-book') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'perspective:400px; width:170px; height:105px; border-radius:12px; background:#101319; border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="fpb-page" style="width:70px; height:80px; background:#181F2E; border:1.5px solid ${accent}; border-radius:4px; transform-origin:left center; transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#FFF; font-size:9px; font-weight:800;">
+        <span>Page 01</span><span style="font-size:7px; color:${accent};">Flip ➔</span>
+      </div>
+    `;
+    let flipped = false;
+    const page = wrap.querySelector('.fpb-page');
+    wrap.addEventListener('click', () => {
+      flipped = !flipped;
+      page.style.transform = flipped ? 'rotateY(-140deg)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('push-slide-parallax') || id === 'push-slide-parallax') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#0E1118; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="psp-bg" style="position:absolute; inset:-20px; background:radial-gradient(circle, ${accent}33, transparent); transition:transform 0.4s ease;"></div>
+      <div class="psp-fg" style="position:absolute; inset:10px; border-radius:8px; background:#161C28; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800; transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">Parallax Push</div>
+    `;
+    let pushed = false;
+    const [bg, fg] = [wrap.querySelector('.psp-bg'), wrap.querySelector('.psp-fg')];
+    wrap.addEventListener('click', () => {
+      pushed = !pushed;
+      bg.style.transform = pushed ? 'translateX(-30px)' : 'none';
+      fg.style.transform = pushed ? 'translateX(60px)' : 'none';
+      if (pushed) setTimeout(() => { bg.style.transform = 'none'; fg.style.transform = 'none'; }, 400);
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('vertical-accordion-wipe') || id === 'vertical-accordion-wipe') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#101319; cursor:pointer; display:flex;';
+    for (let i = 0; i < 4; i++) {
+      const col = document.createElement('div');
+      col.style.cssText = `flex:1; background:${accent}44; border-right:1px solid ${accent}; transition:transform 0.35s; transform-origin:left center;`;
+      col.className = 'acc-col';
+      wrap.appendChild(col);
+    }
+    let collapsed = false;
+    const cols = wrap.querySelectorAll('.acc-col');
+    wrap.addEventListener('click', () => {
+      collapsed = !collapsed;
+      cols.forEach((c, idx) => {
+        c.style.transform = collapsed ? 'scaleX(0)' : 'scaleX(1)';
+        c.style.transitionDelay = `${idx * 0.05}s`;
+      });
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('kaleidoscope-transition') || id === 'kaleidoscope-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:90px; height:90px; border-radius:50%; overflow:hidden; border:2px solid ${accent}; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `<div class="kal-spin" style="width:100%; height:100%; background:conic-gradient(${accent}, #42E8F5, #9B7CFF, ${accent}); transition:transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); opacity:0.8;"></div>`;
+    let angle = 0;
+    const spinner = wrap.querySelector('.kal-spin');
+    wrap.addEventListener('click', () => {
+      angle += 120;
+      spinner.style.transform = `rotate(${angle}deg) scale(1.1)`;
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('burn-through') || id === 'burn-through-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#101218; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `
+      <div style="color:#FFF; font-size:10px; font-weight:800;">Dest View</div>
+      <div class="burn-layer" style="position:absolute; inset:0; background:#FF4B4B; box-shadow:inset 0 0 20px #FFA500; transition:all 0.4s ease; display:flex; align-items:center; justify-content:center; color:#FFF; font-weight:900; font-size:11px;">
+        Burn Edge 🔥
+      </div>
+    `;
+    let burned = false;
+    const bLayer = wrap.querySelector('.burn-layer');
+    wrap.addEventListener('click', () => {
+      burned = !burned;
+      bLayer.style.opacity = burned ? '0' : '1';
+      bLayer.style.transform = burned ? 'scale(1.4)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('glitch-tear') || id === 'glitch-tear-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#0B0E14; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#FFF; font-weight:900; font-size:12px; text-shadow:2px 0 #FF4B72, -2px 0 #42E8F5;';
+    wrap.textContent = 'GLITCH // DISPLACE';
+    wrap.addEventListener('click', () => {
+      wrap.style.transform = 'skewX(12deg) scale(1.05)';
+      setTimeout(() => { wrap.style.transform = 'skewX(-8deg)'; setTimeout(() => wrap.style.transform = 'none', 100); }, 100);
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('vortex-spin') || id === 'vortex-spin-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#101319; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `<div class="vx-spin" style="width:50px; height:50px; border-radius:50%; border:3px dashed ${accent}; transition:all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900;">🌀</div>`;
+    let spun = false;
+    const vx = wrap.querySelector('.vx-spin');
+    wrap.addEventListener('click', () => {
+      spun = !spun;
+      vx.style.transform = spun ? 'rotate(360deg) scale(2.2)' : 'none';
+      vx.style.opacity = spun ? '0.3' : '1';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('card-shuffle') || id === 'card-shuffle-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="csh-1" style="position:absolute; width:100px; height:65px; border-radius:8px; background:#181F2D; border:1px solid #333F56; transition:all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); transform:rotate(-6deg);"></div>
+      <div class="csh-2" style="position:absolute; width:100px; height:65px; border-radius:8px; background:#1E2638; border:1.5px solid ${accent}; transition:all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); display:flex; align-items:center; justify-content:center; color:#FFF; font-size:10px; font-weight:800;">Deck Top</div>
+    `;
+    let shuffled = false;
+    const [c1, c2] = [wrap.querySelector('.csh-1'), wrap.querySelector('.csh-2')];
+    wrap.addEventListener('click', () => {
+      shuffled = !shuffled;
+      c2.style.transform = shuffled ? 'translate(30px, -15px) rotate(12deg)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('elastic-scale') || id === 'elastic-scale-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'padding:14px 28px; border-radius:12px; background:#151A26; border:1.5px solid ${accent}; color:#FFF; font-weight:900; font-size:11px; cursor:pointer; transition:transform 0.4s cubic-bezier(0.34, 1.8, 0.64, 1); box-shadow:0 0 16px ${accent}44;';
+    wrap.textContent = 'Elastic Spring Scale';
+    wrap.addEventListener('click', () => {
+      wrap.style.transform = 'scale(1.3) rotate(-3deg)';
+      setTimeout(() => wrap.style.transform = 'none', 250);
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('tunnel-dive') || id === 'tunnel-dive-transition') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #282E3D; background:#0B0D12; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `
+      <div style="position:absolute; width:120px; height:70px; border:1px solid #333E56; border-radius:8px;"></div>
+      <div style="position:absolute; width:80px; height:50px; border:1px solid ${accent}66; border-radius:6px;"></div>
+      <div class="tn-core" style="position:absolute; width:40px; height:25px; border:1.5px solid ${accent}; border-radius:4px; transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display:flex; align-items:center; justify-content:center; color:${accent}; font-size:10px;">⚡</div>
+    `;
+    let diving = false;
+    const core = wrap.querySelector('.tn-core');
+    wrap.addEventListener('click', () => {
+      diving = !diving;
+      core.style.transform = diving ? 'scale(3.5)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
 
   } else {
-    // Fade Through Transition
+    // 26. fade-through-transition & default crossfade
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:relative; width:170px; height:105px; border-radius:12px; overflow:hidden; border:1px solid #2A2E38; background:#111318; cursor:pointer;';
     wrap.innerHTML = `
@@ -331,17 +522,10 @@ export function renderTransitionVisualizer(id, name, icon, accent, duration, sta
     const pB = wrap.querySelector('.ft-b');
     const toggleFade = () => {
       toB = !toB;
-      if (toB) {
-        pA.style.opacity = '0';
-        pA.style.transform = 'scale(0.92)';
-        pB.style.opacity = '1';
-        pB.style.transform = 'scale(1)';
-      } else {
-        pA.style.opacity = '1';
-        pA.style.transform = 'scale(1)';
-        pB.style.opacity = '0';
-        pB.style.transform = 'scale(0.92)';
-      }
+      pA.style.opacity = toB ? '0' : '1';
+      pA.style.transform = toB ? 'scale(0.92)' : 'scale(1)';
+      pB.style.opacity = toB ? '1' : '0';
+      pB.style.transform = toB ? 'scale(1)' : 'scale(0.92)';
     };
     wrap.addEventListener('click', toggleFade);
     stage.appendChild(wrap);

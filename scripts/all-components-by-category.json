@@ -1,0 +1,2378 @@
+{
+  "buttons": [
+    {
+      "id": "pop-button",
+      "name": "Pop Button",
+      "icon": "Micro-interaction"
+    },
+    {
+      "id": "radial-glow-button",
+      "name": "Radial Glow Button",
+      "icon": "Shader Effect"
+    },
+    {
+      "id": "corner-button",
+      "name": "Corner Button",
+      "icon": "Sci-Fi UI"
+    },
+    {
+      "id": "magnetic-button",
+      "name": "Magnetic Button",
+      "icon": "Physics"
+    },
+    {
+      "id": "liquid-fill-button",
+      "name": "Liquid Fill Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "shimmer-button",
+      "name": "Shimmer Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "elastic-bounce-button",
+      "name": "Elastic Bounce Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "border-beam-button",
+      "name": "Border Beam Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gradient-shift-button",
+      "name": "Gradient Shift Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "particle-burst-button",
+      "name": "Particle Burst Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cyber-glitch-button",
+      "name": "Cyber Glitch Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "ripple-pulse-button",
+      "name": "Ripple Pulse Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gravity-tilt-button",
+      "name": "Gravity Tilt Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-pill-button",
+      "name": "Morphing Pill Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "corner-bracket-button",
+      "name": "Corner Bracket Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slide-arrow-button",
+      "name": "Slide Arrow Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "confetti-blast-button",
+      "name": "Confetti Blast Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "jelly-squeeze-button",
+      "name": "Jelly Squeeze Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "outline-draw-button",
+      "name": "Outline Draw Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-halo-button",
+      "name": "Floating Halo Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radar-sweep-button",
+      "name": "Radar Sweep Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "segmented-toggle-button",
+      "name": "Segmented Toggle Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "split-reveal-button",
+      "name": "Split Reveal Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "audio-click-button",
+      "name": "Audio Click Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "laser-scan-button",
+      "name": "Laser Scan Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "firefly-swarm-button",
+      "name": "Firefly Swarm Button",
+      "icon": "Live Demo"
+    }
+  ],
+  "text": [
+    {
+      "id": "typing-text",
+      "name": "Typing Text",
+      "icon": "Sequential"
+    },
+    {
+      "id": "text-reveal",
+      "name": "Text Reveal",
+      "icon": "Mask Transition"
+    },
+    {
+      "id": "staggered-text",
+      "name": "Staggered Text",
+      "icon": "Stagger Animation"
+    },
+    {
+      "id": "kinetic-marquee",
+      "name": "Kinetic Marquee Banner",
+      "icon": "Continuous Flow"
+    },
+    {
+      "id": "word-reveal",
+      "name": "Word Reveal Animation",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gradient-flow-text",
+      "name": "Gradient Flow Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glitch-text",
+      "name": "Glitch Text Effect",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "scramble-text",
+      "name": "Scramble Text Decoder",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "text-wave",
+      "name": "Sine Wave Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-text",
+      "name": "Morphing Text Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "neon-flicker-text",
+      "name": "Neon Flicker Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-text-extrusion",
+      "name": "3D Text Extrusion",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "split-character-stagger",
+      "name": "Split Character Stagger",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "blur-focus-text",
+      "name": "Blur Focus Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "kinetic-counter-text",
+      "name": "Kinetic Odometer Counter",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "mask-clip-text",
+      "name": "Mask Clip Video Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "vaporwave-gradient-text",
+      "name": "Vaporwave Gradient Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "smoke-dissolve-text",
+      "name": "Smoke Dissolve Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "matrix-decode-text",
+      "name": "Matrix Glyph Decoder",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bouncing-letters-text",
+      "name": "Bouncing Letters Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "laser-burn-text",
+      "name": "Laser Burn Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "typewriter-cursor-text",
+      "name": "Typewriter Block Cursor",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "curved-path-text",
+      "name": "Curved Path Kinetic Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "rotary-dial-text",
+      "name": "Rotary Dial 3D Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "chromatic-zoom-text",
+      "name": "Chromatic Zoom Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "aurora-glow-text",
+      "name": "Aurora Glow Typography",
+      "icon": "Live Demo"
+    }
+  ],
+  "cards": [
+    {
+      "id": "cursor-card",
+      "name": "Cursor Card",
+      "icon": "3D Parallax"
+    },
+    {
+      "id": "animated-card-stack",
+      "name": "Animated Card Stack",
+      "icon": "Stack Layout"
+    },
+    {
+      "id": "glow-pulse-card",
+      "name": "Glow Pulse Card",
+      "icon": "Breathing Glow"
+    },
+    {
+      "id": "cursor-follow-card",
+      "name": "Cursor-Follow Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glassmorphism-card",
+      "name": "Glassmorphism Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "holographic-card",
+      "name": "Holographic Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "spotlight-card",
+      "name": "Spotlight Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-card",
+      "name": "Floating Elevation Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "flip-profile-card",
+      "name": "Flip Profile Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "expandable-card",
+      "name": "Expandable Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "isometric-layer-card",
+      "name": "Isometric Layer Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "frosted-glass-card",
+      "name": "Frosted Glass Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glitch-reveal-card",
+      "name": "Glitch Reveal Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "depth-perspective-card",
+      "name": "Depth Perspective Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "accordion-fold-card",
+      "name": "Accordion Fold Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "mesh-gradient-card",
+      "name": "Mesh Gradient Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipeable-stack-card",
+      "name": "Swipeable Stack Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "neon-outline-card",
+      "name": "Neon Outline Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "shimmer-sheen-card",
+      "name": "Shimmer Sheen Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magnifier-zoom-card",
+      "name": "Magnifier Zoom Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "parchment-peel-card",
+      "name": "Parchment Peel Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "kinetic-tilt-card",
+      "name": "Kinetic Tilt Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "border-trail-card",
+      "name": "Border Trail Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "reveal-drawer-card",
+      "name": "Reveal Drawer Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cuboid-flip-card",
+      "name": "Cuboid Flip Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-portal-card",
+      "name": "Liquid Portal Card",
+      "icon": "Live Demo"
+    }
+  ],
+  "experiments": [
+    {
+      "id": "image-trail",
+      "name": "Image Trail",
+      "icon": "Pointer Physics"
+    },
+    {
+      "id": "particle-explosion",
+      "name": "Multi-Color Particle Blast",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "text-to-particle",
+      "name": "Text-to-Particle Dispersal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "svg-path-drawing",
+      "name": "Procedural Path Tracer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-svg-shapes",
+      "name": "Geometric Shape Morph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-metal-effect",
+      "name": "Liquid Metal Mercury",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magnetic-cursor-field",
+      "name": "Magnetic Compass Field",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "waveform-visualizer",
+      "name": "Real-Time Audio Spectrum",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-logo-reveal",
+      "name": "DartNova Lightning Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "confetti-celebration",
+      "name": "Two-Cannon Confetti Blast",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gravity-cloth-mesh",
+      "name": "Verlet Cloth Mesh Physics",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "boids-flocking-simulation",
+      "name": "Autonomous Boid Flocking",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fireworks-sky-display",
+      "name": "Cascading Willow Fireworks",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "chaos-pendulum-fractal",
+      "name": "Chaotic Double Pendulum",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gravitational-attractor",
+      "name": "Lorenz Butterfly Attractor",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sound-frequency-mandala",
+      "name": "Acoustic Sacred Mandala",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "ferrofluid-spike-magnet",
+      "name": "Ferrofluid Magnetic Spikes",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "raymarched-metaball-swarm",
+      "name": "Raymarched Organic Metaballs",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "smoke-ring-vortex",
+      "name": "Toroidal Smoke Vortex Cannon",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slime-mold-physarum",
+      "name": "Physarum Slime Mold Network",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "aurora-borealis-canvas",
+      "name": "Atmospheric Aurora Sheets",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "kinetic-typography-spiral",
+      "name": "Kinetic 3D Typography Vortex",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "light-prism-refraction",
+      "name": "Light Beam Glass Prism",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fractal-tree-growth",
+      "name": "Recursive Fractal Tree Growth",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "wave-interference-pool",
+      "name": "Dual-Point Wave Interference",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "procedural-lightning-arc",
+      "name": "High-Voltage Lightning Bolt",
+      "icon": "Live Demo"
+    }
+  ],
+  "three-d": [
+    {
+      "id": "diagonal-carousel",
+      "name": "Diagonal Carousel",
+      "icon": "3D Gallery"
+    },
+    {
+      "id": "flip-tile-3d",
+      "name": "3D Flip Tile",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "rotating-cube-3d",
+      "name": "Interactive 3D Cube",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "parallax-depth-card",
+      "name": "Parallax Multi-Plane Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "perspective-image-tilt",
+      "name": "Perspective Image Tilt",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "orbiting-elements",
+      "name": "3D Orbiting Satellites",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "rotating-product-showcase",
+      "name": "3D Product Pedestal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "layered-stack-3d",
+      "name": "Exploding 3D Layer Stack",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "perspective-text",
+      "name": "Perspective Crawl Text",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "interactive-globe",
+      "name": "Wireframe 3D Globe",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-torus-donut",
+      "name": "Volumetric 3D Torus Donut",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-isometric-islands",
+      "name": "Floating Isometric Island",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dna-helix-3d",
+      "name": "3D DNA Double Helix",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pyramid-prism-scatter",
+      "name": "Glass Pyramid Light Prism",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "card-carousel-cylinder",
+      "name": "3D Cylinder Card Carousel",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-depth-shadow-box",
+      "name": "Layered Papercut Diorama",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "wireframe-sphere-3d",
+      "name": "Geodesic Wireframe Sphere",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "isometric-room-builder",
+      "name": "3D Isometric Room Pop-In",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "interactive-rubiks-cube",
+      "name": "Interactive Puzzle Cube",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-coin-flip",
+      "name": "Specular 3D Coin Flip",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-portal-ring",
+      "name": "Stargate 3D Portal Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "isometric-bar-chart-3d",
+      "name": "3D Isometric Bar Graph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-book-flip",
+      "name": "Hardcover 3D Book Open",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "polyhedron-gem-crystal",
+      "name": "Faceted Gemstone Crystal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-credit-card-3d",
+      "name": "3D Titanium Credit Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-compass-gyroscope",
+      "name": "Triple Gimbal Gyroscope",
+      "icon": "Live Demo"
+    }
+  ],
+  "media": [
+    {
+      "id": "avatar-group",
+      "name": "Avatar Group",
+      "icon": "Hover Expansion"
+    },
+    {
+      "id": "image-zoom-reveal",
+      "name": "Zoom Image Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "ken-burns-image",
+      "name": "Ken Burns Pan & Zoom",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "image-comparison-slider",
+      "name": "Before/After Comparison Slider",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "diagonal-image-reveal",
+      "name": "Diagonal Image Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "image-blur-to-sharp",
+      "name": "Progressive Blur-to-Sharp",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "image-mask-transition",
+      "name": "Shape Mask Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circular-image-reveal",
+      "name": "Circular Aperture Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "masonry-grid-entrance",
+      "name": "Staggered Masonry Cascade",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "video-thumbnail-hover",
+      "name": "Video Thumbnail Scrub",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glitch-photo-distort",
+      "name": "Glitch Photo Distortion",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "lens-flare-panorama",
+      "name": "Lens Flare Cinematic Pan",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "polaroid-scatter-desk",
+      "name": "Polaroid Scatter Desk",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "film-strip-reel",
+      "name": "35mm Film Strip Reel",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "duotone-color-shift",
+      "name": "Duotone Palette Shift",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "hover-silhouette-reveal",
+      "name": "Silhouette to Color Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "spotlight-magnifier-lens",
+      "name": "Detail Magnifier Loupe",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "card-stack-gallery",
+      "name": "Card Stack Media Deck",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "split-image-curtain",
+      "name": "Split Vertical Slats Image",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dynamic-blur-reflection",
+      "name": "Ambient Glass Floor Reflection",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "audio-visualizer-artwork",
+      "name": "Album Artwork Audio Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "kaleidoscopic-photo",
+      "name": "Kaleidoscopic Photo Mirror",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "brush-stroke-reveal",
+      "name": "Artistic Watercolor Brush Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pixel-grid-photo-mosaic",
+      "name": "Pixel Mosaic Assembly",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "3d-parallax-photo-layer",
+      "name": "Subject-Separation Parallax",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "video-play-button-pulse",
+      "name": "Luminescent Video Play Ring",
+      "icon": "Live Demo"
+    }
+  ],
+  "overlays": [
+    {
+      "id": "tooltip-avatars",
+      "name": "Tooltip Avatars",
+      "icon": "Interactive Popover"
+    },
+    {
+      "id": "spring-modal",
+      "name": "Spring Modal Dialog",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bottom-sheet-slide",
+      "name": "Bottom Sheet Slide",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "expandable-bottom-sheet",
+      "name": "Expandable Bottom Sheet",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "blur-backdrop-dialog",
+      "name": "Blur Backdrop Dialog",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fullscreen-modal-reveal",
+      "name": "Fullscreen Modal Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "toast-pop-in",
+      "name": "Toast Notification Pop-In",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "snackbar-slide",
+      "name": "Snackbar Slide & Dismiss",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "popover-morph",
+      "name": "Popover Bubble Morph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "notification-stack",
+      "name": "Cascading Notification Stack",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-action-sheet",
+      "name": "Floating Action Sheet",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "spotlight-walkthrough",
+      "name": "Spotlight Walkthrough Tour",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dropdown-bubble-menu",
+      "name": "Dropdown Bubble Arrow Menu",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "banner-alert-slide",
+      "name": "Banner Alert Top Slide",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magnetic-cursor-tooltip",
+      "name": "Magnetic Cursor Tooltip",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slide-panel-drawer",
+      "name": "Slide-out Inspector Drawer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "interactive-dialog-shake",
+      "name": "Interactive Dialog Shake",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "toast-stack-queue",
+      "name": "Toast Stack Multi-Queue",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radial-context-overlay",
+      "name": "Radial Context Menu",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "blur-lightbox-gallery",
+      "name": "Blur Lightbox Media View",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fab-speed-dial-overlay",
+      "name": "Speed Dial Barrier Scrim",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "command-palette-modal",
+      "name": "Command Palette Spotlight",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-pip-window",
+      "name": "Picture-in-Picture Mini Overlay",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "confetti-modal-burst",
+      "name": "Confetti Modal Celebration",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "peeking-drawer-tab",
+      "name": "Peeking Drawer Edge Tab",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bottom-snack-undo",
+      "name": "Bottom Snack with Undo Ring",
+      "icon": "Live Demo"
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "animated-gradient",
+      "name": "Animated Gradient",
+      "icon": "Atmosphere"
+    },
+    {
+      "id": "wave-animation",
+      "name": "Wave Animation",
+      "icon": "Procedural Wave"
+    },
+    {
+      "id": "neon-gradient",
+      "name": "Neon Gradient Effect",
+      "icon": "Cyberpunk Glow"
+    },
+    {
+      "id": "particle-motion",
+      "name": "Particle Motion",
+      "icon": "Physics Canvas"
+    },
+    {
+      "id": "spotlight-effect",
+      "name": "Spotlight Effect",
+      "icon": "Pointer Mask"
+    },
+    {
+      "id": "aurora-background",
+      "name": "Aurora Borealis Waves",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "starfield-motion",
+      "name": "Hyperspace Starfield",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "interactive-constellation",
+      "name": "Interactive Constellation",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-blob-background",
+      "name": "Liquid Blob Ambience",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-grid",
+      "name": "Perspective Cyber Grid",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "matrix-cyber-hex-bg",
+      "name": "Hexagonal Cyber Honeycomb",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-dust-motes",
+      "name": "Atmospheric Dust Motes",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "warp-speed-hyperdrive",
+      "name": "Warp Speed Hyperdrive",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "perlin-noise-terrain",
+      "name": "Perlin Noise Wireframe Terrain",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "voronoi-cell-mesh",
+      "name": "Organic Voronoi Cellular Mesh",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magnetic-gravity-particles",
+      "name": "Magnetic Gravity Field",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "flowing-silk-ribbons",
+      "name": "Flowing Silk Sine Ribbons",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cyberpunk-city-grid",
+      "name": "Synthwave Sunset Grid",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "digital-rain-code",
+      "name": "Digital Rain Waterfall",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "nebula-cloud-drift",
+      "name": "Deep Space Nebula Cloud",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "subtle-dot-grid-shift",
+      "name": "Interactive Dot Grid Distort",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "plasma-energy-mesh",
+      "name": "Electric Plasma Discharge",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bokeh-blur-orbs",
+      "name": "Floating Bokeh Blur Orbs",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sunburst-radial-rays",
+      "name": "Sunburst Rotating Rays",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "water-ripple-pool",
+      "name": "Interactive Water Pool",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circuit-board-traces",
+      "name": "Illuminated PCB Circuit Traces",
+      "icon": "Live Demo"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "animated-welcome-screen",
+      "name": "Animated Welcome Screen",
+      "icon": "Full Canvas Flow"
+    },
+    {
+      "id": "fade-through-transition",
+      "name": "Fade Through Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "shared-axis-transition",
+      "name": "Shared Axis Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "hero-image-transition",
+      "name": "Hero Image Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cube-transition-3d",
+      "name": "3D Cube Page Turn",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "diagonal-wipe",
+      "name": "Diagonal Wipe Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "zoom-page-transition",
+      "name": "Zoom Page Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slide-fade-route",
+      "name": "Slide and Fade Route",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-container-transition",
+      "name": "Morphing Container Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-page-transition",
+      "name": "Liquid Page Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "curtain-split-transition",
+      "name": "Curtain Split Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "iris-circle-transition",
+      "name": "Iris Circle Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "shutter-blind-transition",
+      "name": "Shutter Blind Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "origami-fold-transition",
+      "name": "Origami Fold Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pixelate-dissolve-transition",
+      "name": "Pixelate Dissolve Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circular-mask-wipe",
+      "name": "Circular Mask Wipe",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "flip-page-book",
+      "name": "Flip Page Book Turn",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "push-slide-parallax",
+      "name": "Push Slide Parallax",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "vertical-accordion-wipe",
+      "name": "Vertical Accordion Wipe",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "kaleidoscope-transition",
+      "name": "Kaleidoscope Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "burn-through-transition",
+      "name": "Burn Through Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glitch-tear-transition",
+      "name": "Glitch Tear Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "vortex-spin-transition",
+      "name": "Vortex Spin Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "card-shuffle-transition",
+      "name": "Card Shuffle Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "elastic-scale-transition",
+      "name": "Elastic Scale Transition",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "tunnel-dive-transition",
+      "name": "Tunnel Dive Transition",
+      "icon": "Live Demo"
+    }
+  ],
+  "loaders": [
+    {
+      "id": "shimmer-effect",
+      "name": "Shimmer Effect",
+      "icon": "Loading Skeleton"
+    },
+    {
+      "id": "orbit-loader",
+      "name": "Orbit Rings Spinner",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "particle-loader",
+      "name": "Swirling Particle Swarm",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-loader",
+      "name": "Liquid Blob Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circular-progress-ring",
+      "name": "Circular Progress Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "wave-loader",
+      "name": "Waveform Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dot-matrix-loader",
+      "name": "Dot Matrix Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-blob-loader",
+      "name": "Morphing Blob Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "segmented-progress-bar",
+      "name": "Segmented Progress Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-number-counter",
+      "name": "Animated Number Counter",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "quantum-spinner-loader",
+      "name": "Quantum Spinner Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-hourglass-loader",
+      "name": "Liquid Hourglass Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radar-sweep-loader",
+      "name": "Radar Sweep Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dna-helix-loader",
+      "name": "DNA Helix Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gear-mesh-loader",
+      "name": "Gear Mesh Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cube-grid-loader",
+      "name": "Cube Grid Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "infinity-loop-loader",
+      "name": "Infinity Loop Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pacman-chomp-loader",
+      "name": "Pacman Chomp Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fidget-spinner-loader",
+      "name": "Fidget Spinner Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "battery-charge-loader",
+      "name": "Battery Charge Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "audio-equalizer-loader",
+      "name": "Audio Equalizer Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "concentric-ripple-loader",
+      "name": "Concentric Ripple Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pulse-ring-loader",
+      "name": "Pulse Ring Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "hypnotic-spiral-loader",
+      "name": "Hypnotic Spiral Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bar-shuffler-loader",
+      "name": "Bar Shuffler Loader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "digital-clock-loader",
+      "name": "Digital Dial Loader",
+      "icon": "Live Demo"
+    }
+  ],
+  "navigation": [
+    {
+      "id": "spring-fab",
+      "name": "Spring Speed Dial FAB",
+      "icon": "Elastic Spring"
+    },
+    {
+      "id": "fluid-tab-bar",
+      "name": "Fluid Elastic Tab Bar",
+      "icon": "Liquid Navigation"
+    },
+    {
+      "id": "animated-bottom-nav",
+      "name": "Animated Bottom Navigation",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-dock",
+      "name": "Mac OS Floating Dock",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "expanding-menu",
+      "name": "Expanding Speed Dial",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radial-menu",
+      "name": "Radial Menu",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "morphing-hamburger",
+      "name": "Morphing Hamburger Icon",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-sidebar",
+      "name": "Animated Sidebar Drawer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pill-tab-switcher",
+      "name": "Pill Tab Switcher",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "breadcrumb-reveal",
+      "name": "Breadcrumb Path Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "elastic-bottom-bar",
+      "name": "Elastic Curve Bottom Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circular-speed-dial",
+      "name": "Circular Speed Dial",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magic-indicator-nav",
+      "name": "Magic Indicator Nav",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bubble-tab-nav",
+      "name": "Bubble Pop Tab Nav",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "mega-menu-cascade",
+      "name": "Mega Menu Cascade",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bottom-sheet-nav",
+      "name": "Bottom Sheet Navigation",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "carousel-indicator-nav",
+      "name": "Snake Carousel Indicator",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "drawer-morph-nav",
+      "name": "3D Perspective Drawer Nav",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "floating-pill-dock",
+      "name": "Floating Pill Dock",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "segmented-control-nav",
+      "name": "iOS Segmented Control",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "staggered-tree-nav",
+      "name": "Staggered Tree Hierarchy",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sticky-header-morph",
+      "name": "Sticky Header Morph Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "magnetic-menu-item",
+      "name": "Magnetic Menu Links",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "corner-fab-menu",
+      "name": "Corner Anchor Speed Menu",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slide-indicator-tabs",
+      "name": "Sliding Underline Tabs",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pie-menu-wheel",
+      "name": "8-Sector Pie Menu Wheel",
+      "icon": "Live Demo"
+    }
+  ],
+  "gestures": [
+    {
+      "id": "swipeable-card",
+      "name": "Swipeable Physics Card",
+      "icon": "Physics Gesture"
+    },
+    {
+      "id": "rubber-band-drag",
+      "name": "Rubber Band Drag",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "spring-drag-object",
+      "name": "Spring-Physics Drag Object",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipe-carousel",
+      "name": "Swipeable Carousel Deck",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pull-to-refresh",
+      "name": "Elastic Pull-to-Refresh",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "draggable-floating-widget",
+      "name": "Draggable Floating Widget",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "inertial-scrolling",
+      "name": "Inertial Momentum Scroll",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "elastic-overscroll",
+      "name": "Elastic Overscroll Glow",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipe-reveal-actions",
+      "name": "Swipe-to-Reveal Actions",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gesture-driven-reveal",
+      "name": "Gesture-Driven Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pinch-to-zoom-target",
+      "name": "Pinch to Zoom Target",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pan-tilt-surface",
+      "name": "Pan Tilt 3D Surface",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "flick-dismiss-card",
+      "name": "Flick Dismiss Velocity Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gyroscope-parallax",
+      "name": "Gyroscope Tilt Parallax",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "long-press-radial-fill",
+      "name": "Long Press Radial Fill",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "double-tap-heart-burst",
+      "name": "Double Tap Heart Burst",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "drag-to-reorder-grid",
+      "name": "Drag-to-Reorder Grid",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radial-swipe-stepper",
+      "name": "Radial Swipe Stepper",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "stretch-pull-canvas",
+      "name": "Stretch Pull Rubber Canvas",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "throw-and-catch-puck",
+      "name": "Air Hockey Puck Physics",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "two-finger-rotate",
+      "name": "Two Finger Multitouch Rotate",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipe-to-complete-slider",
+      "name": "Swipe to Complete Slider",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "edge-swipe-back",
+      "name": "Edge Swipe Back Navigation",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "hold-to-confirm-button",
+      "name": "Hold to Confirm Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "joystick-controller",
+      "name": "Virtual 2D Thumbstick",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipe-to-favorite-dock",
+      "name": "Swipe-to-Favorite Toss",
+      "icon": "Live Demo"
+    }
+  ],
+  "charts": [
+    {
+      "id": "neon-gauge",
+      "name": "Procedural Neon Gauge",
+      "icon": "CustomPainter Arc"
+    },
+    {
+      "id": "animated-line-chart",
+      "name": "Animated Spline Line Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "growing-bar-chart",
+      "name": "Staggered Bar Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "donut-chart-reveal",
+      "name": "Donut Segment Reveal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radial-statistics",
+      "name": "Multi-Ring Activity Tracker",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-area-chart",
+      "name": "Gradient Fill Area Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "number-flip-counter",
+      "name": "Mechanical Number Flip",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sparkline-reveal",
+      "name": "Crypto Micro-Sparkline",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-heatmap",
+      "name": "Matrix Activity Heatmap",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "progress-dashboard-cards",
+      "name": "KPI Metric Dashboard Pill",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radar-spider-chart",
+      "name": "Polygonal Radar Spider Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "stacked-waterfall-chart",
+      "name": "Financial Waterfall Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "candlestick-trading-chart",
+      "name": "Live Candlestick Trading Graph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bubble-scatter-chart",
+      "name": "Physics Bubble Scatter Plot",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "semi-circle-speedometer",
+      "name": "Semi-Circle Gauge Speedometer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "step-line-chart",
+      "name": "Discrete Step-Line Trajectory",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radial-tree-map",
+      "name": "Sunburst Radial Hierarchy",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "live-ticker-sparkline",
+      "name": "Real-Time Streaming Sparkline",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "funnel-conversion-chart",
+      "name": "Sales Funnel Conversion Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "interactive-sankey-flow",
+      "name": "Bezier Sankey Flow Ribbons",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "gauge-cluster-dashboard",
+      "name": "Tri-Gauge Digital Cluster",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "multi-line-comparison",
+      "name": "Dual-Series Line Comparison",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "polar-area-rose-chart",
+      "name": "Nightingale Rose Chart",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bullet-metric-graph",
+      "name": "Executive Bullet Graph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dot-density-matrix",
+      "name": "Dot Density Threshold Matrix",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "circular-counter-dial",
+      "name": "Concentric Percentage Wheel",
+      "icon": "Live Demo"
+    }
+  ],
+  "forms": [
+    {
+      "id": "floating-label-input",
+      "name": "Floating Label Text Field",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-focus-border",
+      "name": "Animated Focus Border",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "success-checkmark",
+      "name": "Animated Success Checkmark",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "error-shake-input",
+      "name": "Error Shake Feedback",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "password-strength-meter",
+      "name": "Password Strength Indicator",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "otp-input-animation",
+      "name": "6-Digit OTP Verification Box",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "checkbox-draw-animation",
+      "name": "Animated Checkbox Draw",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "radio-ripple",
+      "name": "Radio Button Ripple Wave",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "toggle-morph",
+      "name": "Morphing Switch Toggle",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "form-step-transition",
+      "name": "Multi-Step Form Wizard",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "credit-card-input-morph",
+      "name": "Interactive 3D Credit Card",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "slider-tooltip-bubble",
+      "name": "Floating Value Slider Bubble",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "multi-select-chip-cloud",
+      "name": "Multi-Select Tag Cloud",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "file-upload-drag-drop",
+      "name": "Drag & Drop Upload Zone",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "segmented-switch-pill",
+      "name": "Sliding Segmented Form Pill",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "rating-star-burst",
+      "name": "5-Star Rating Burst",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "inline-validation-badge",
+      "name": "Inline Validation Shield",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dynamic-tag-input",
+      "name": "Dynamic Keyword Tag Input",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "password-reveal-eye",
+      "name": "Password Reveal Eye Morph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "color-picker-wheel",
+      "name": "Chromatic Color Picker Wheel",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "stepper-counter-button",
+      "name": "Numeric Stepper Slide",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "address-autocomplete-pill",
+      "name": "Address Autocomplete Drop",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "character-countdown-ring",
+      "name": "Character Countdown Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "signature-pad-draw",
+      "name": "Vector Signature Pad",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "toggle-switch-emoji",
+      "name": "Day/Night Emoji Switch",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "submit-progress-button",
+      "name": "Submit Progress Transformation",
+      "icon": "Live Demo"
+    }
+  ],
+  "lists": [
+    {
+      "id": "staggered-list-entrance",
+      "name": "Staggered List Entrance",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-grid-entrance",
+      "name": "Staggered Grid Cascade",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "expandable-list-item",
+      "name": "Expandable Accordion Row",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "drag-reorder-list",
+      "name": "Reorderable List Row",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipeable-list-row",
+      "name": "Swipe-to-Dismiss Row",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-search-results",
+      "name": "Search Result Highlight",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "filter-chip-transition",
+      "name": "Filter Chip Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "list-item-morph",
+      "name": "Row-to-Detail Expansion",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "infinite-scroll-reveal",
+      "name": "Infinite Stream Skeleton",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "animated-empty-state",
+      "name": "Animated Empty State Box",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "accordion-chevron-list",
+      "name": "Accordion FAQ Chevron List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "virtualized-infinite-stream",
+      "name": "Virtualized Infinite Feed",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "carousel-card-deck-list",
+      "name": "Horizontal Card Deck List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "nested-tree-hierarchy-list",
+      "name": "Nested Folder Tree List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "selection-checkbox-list",
+      "name": "Bulk Selection Checklist",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "swipe-to-archive-row",
+      "name": "Swipe-to-Archive Drawer Row",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "masonry-cascade-feed",
+      "name": "Pinterest Masonry Grid",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "notification-inbox-list",
+      "name": "Notification Inbox List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "contact-avatar-directory",
+      "name": "Alphabetical Scrubber List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pill-badge-table-list",
+      "name": "Data Table Status Rows",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pull-to-refresh-list",
+      "name": "Elastic Pulley Refresh List",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "timeline-milestone-list",
+      "name": "Vertical Roadmap Timeline",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "shuffled-rank-leaderboard",
+      "name": "Real-Time Rank Leaderboard",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "chat-bubble-thread",
+      "name": "Conversational Chat Feed",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "filterable-catalog-grid",
+      "name": "FLIP Layout Filter Grid",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "collapsible-section-headers",
+      "name": "Sticky Header Section Groups",
+      "icon": "Live Demo"
+    }
+  ],
+  "micro-interactions": [
+    {
+      "id": "heart-pop",
+      "name": "Heart Pop & Sparkle",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bell-ring",
+      "name": "Notification Bell Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "bookmark-morph",
+      "name": "Bookmark Morph & Fill",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "like-burst",
+      "name": "Thumbs-Up Particle Burst",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "icon-spin-transition",
+      "name": "Icon State Cross-Spin",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "icon-draw-on",
+      "name": "Vector Path Draw-On",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "copy-success-animation",
+      "name": "Copy to Clipboard Feedback",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "theme-switch-animation",
+      "name": "Sun-to-Moon Theme Toggle",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cart-add-animation",
+      "name": "Add to Cart Parabolic Arc",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "drag-handle-feedback",
+      "name": "Drag Handle Haptic Grip",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "share-action-fan",
+      "name": "Share Icon Circular Fan",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "download-cloud-morph",
+      "name": "Download Cloud Morph Arrow",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "battery-charging-spark",
+      "name": "Battery Spark Pulse",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "wifi-signal-bars-wave",
+      "name": "Wi-Fi Signal Broadcast Wave",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "thumbs-up-sparkle",
+      "name": "Thumbs Up Floating Stars",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "trash-can-lid-flip",
+      "name": "Trash Bin Lid Toss",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "refresh-dual-arrow-spin",
+      "name": "Dual Arrow Spin Spring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "search-to-close-morph",
+      "name": "Search to Close Morph",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "volume-speaker-waves",
+      "name": "Speaker Acoustic Waves",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "lock-to-unlock-shackle",
+      "name": "Padlock Shackle Unlock",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "star-rating-favorite",
+      "name": "Star Liquid Fill Up",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pin-drop-bounce",
+      "name": "Location Pin Drop & Bounce",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "trophy-cup-glow",
+      "name": "Trophy Cup Flash & Gleam",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "eye-peek-toggle",
+      "name": "Stylized Eye Blink Peek",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "link-chain-snap",
+      "name": "Chain Links Interlock Snap",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "compass-needle-spin",
+      "name": "Magnetic Compass True North",
+      "icon": "Live Demo"
+    }
+  ],
+  "shaders": [
+    {
+      "id": "glsl-fluid-smoke",
+      "name": "GLSL Fluid Smoke Shader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "crt-scanline-display",
+      "name": "CRT Scanline Display",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "iridescent-glass-refraction",
+      "name": "Iridescent Glass Refraction",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "matrix-rain-terminal",
+      "name": "Matrix Rain Terminal",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "vortex-tunnel",
+      "name": "Vortex Tunnel 3D",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "plasma-energy-field",
+      "name": "Plasma Energy Field",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dissolve-burn-shader",
+      "name": "Noise Dissolve Burn Shader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "caustics-water-reflection",
+      "name": "Water Caustics Reflection",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "heat-distortion-wave",
+      "name": "Heat Distortion Wave",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "neon-laser-wireframe",
+      "name": "Neon Laser Wireframe",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "raymarched-black-hole",
+      "name": "Gravitational Black Hole Lensing",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "holographic-foil-iridescence",
+      "name": "Holographic Foil Iridescence",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "vaporwave-retro-sun",
+      "name": "Vaporwave Neon Horizon Sun",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "pixel-sorting-glitch",
+      "name": "Luminance Pixel Sorting Glitch",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "glassmorphic-blur-refractor",
+      "name": "Optical Glassmorphism Refractor",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "liquid-mercury-blob",
+      "name": "Liquid Mercury Viscosity",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "frosted-ice-frosting",
+      "name": "Crystalline Ice Frosting",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "cyberpunk-scanline-hud",
+      "name": "Tactical HUD Scanline Shader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "voronoi-water-ripples",
+      "name": "Voronoi Liquid Wave Pool",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "fire-ember-convection",
+      "name": "Volumetric Fire & Ember Smoke",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "aurora-spectral-bands",
+      "name": "Spectral Aurora Ribbon Shader",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "crt-color-aberration",
+      "name": "CRT Barrel Distortion & RGB Aberration",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "neon-contour-topography",
+      "name": "Fluorescent Contour Topography",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "speed-line-anime-burst",
+      "name": "Anime Action Speed Lines",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "metallic-flow-sheen",
+      "name": "Brushed Titanium Sheen",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dither-halftone-dots",
+      "name": "Retro Newspaper Halftone Dither",
+      "icon": "Live Demo"
+    }
+  ],
+  "ai-interactions": [
+    {
+      "id": "voice-orb-pulsar",
+      "name": "Voice Orb Pulsar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "thinking-dots-wave",
+      "name": "AI Thinking Dots Wave",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "waveform-speech-streamer",
+      "name": "Waveform Speech Streamer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "prompt-input-morph",
+      "name": "Prompt Input Morph Bar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "streaming-token-cascade",
+      "name": "Streaming Token Cascade",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "context-pill-radar",
+      "name": "Context Pill Radar Scanner",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "agentic-step-progress",
+      "name": "Agentic Step Progressor",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sparkle-ai-badge",
+      "name": "Sparkle AI Agent Badge",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "neural-synapse-network",
+      "name": "Neural Synapse Network",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "voice-listening-ring",
+      "name": "Voice Listening Active Ring",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "llm-reasoning-tree",
+      "name": "Chain-of-Thought Reasoning Tree",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "multimodal-attachment-drop",
+      "name": "Multimodal Attachment Drop Dock",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "sentiment-spectrum-pulse",
+      "name": "Sentiment Spectrum Aura Pulse",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "code-diff-synthesizer",
+      "name": "AI Code Diff Synthesizer",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "ai-persona-avatar-switch",
+      "name": "AI Persona Morphing Avatar",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "context-window-gauge",
+      "name": "Context Window Token Gauge",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "prompt-template-builder",
+      "name": "Modular Prompt Building Blocks",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "soundwave-voice-mic",
+      "name": "Live Mic Soundwave Button",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "agent-tool-execution-pill",
+      "name": "Agent Tool Call Indicator",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "memory-retrieval-cascade",
+      "name": "RAG Vector Memory Cascade",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "dynamic-thought-bubble",
+      "name": "Cognitive Thought Bubble",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "confidence-score-dial",
+      "name": "Model Confidence Arc Dial",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "speech-to-text-streamer",
+      "name": "Real-Time Speech Transcription",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "agent-decision-matrix",
+      "name": "Multi-Agent Decision Matrix",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "citation-source-card",
+      "name": "Interactive Source Citation Badge",
+      "icon": "Live Demo"
+    },
+    {
+      "id": "voice-waveform-sphere",
+      "name": "Deformable 3D Speech Mesh Sphere",
+      "icon": "Live Demo"
+    }
+  ]
+}
