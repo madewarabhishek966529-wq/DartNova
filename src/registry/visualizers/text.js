@@ -1,5 +1,5 @@
 /**
- * DartNova Text & Typography Visualizers (10 Bespoke Modern UI Components)
+ * DartNova Text & Typography Visualizers (26 Bespoke Modern UI Components)
  */
 
 export function renderTextVisualizer(id, name, icon, accent, duration, stage) {
@@ -58,114 +58,182 @@ export function renderTextVisualizer(id, name, icon, accent, duration, stage) {
         el.textContent = words[idx];
         el.style.opacity = '1';
         el.style.transform = 'translateY(0) scale(1)';
-      }, 220);
+      }, 200);
     };
+    const t = setInterval(nextWord, 1800);
+    destroyFn = () => clearInterval(t);
     el.addEventListener('click', nextWord);
     stage.appendChild(el);
     restartFn = nextWord;
 
-  } else if (id.includes('typing') || id === 'typing-text') {
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `font-family:var(--font-mono); font-size:16px; font-weight:800; color:#FFF; cursor:pointer; display:flex; align-items:center; background:#12151E; padding:8px 12px; border-radius:6px; border:1px solid #282E3D;`;
-    wrap.innerHTML = `<span style="color:${accent}; margin-right:6px;">$</span><span class="tt-txt">flutter run</span><span class="tt-caret" style="display:inline-block; width:8px; height:16px; background:${accent}; margin-left:3px; animation:dnPulseGlow 0.8s infinite;"></span>`;
-    const txt = wrap.querySelector('.tt-txt');
-    const phrase = 'flutter run --release';
-    let charIdx = 0;
+  } else if (id.includes('scramble') || id === 'scramble-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-mono); font-size:20px; font-weight:800; color:${accent}; cursor:pointer;`;
+    const target = 'DECRYPTED';
+    const chars = '!@#$%^&*()_+-=<>?';
+    let frame = 0;
     let timer = null;
-    const typeLoop = () => {
-      charIdx = 0;
-      txt.textContent = '';
+    const scramble = () => {
+      frame = 0;
       clearInterval(timer);
       timer = setInterval(() => {
-        if (charIdx < phrase.length) {
-          txt.textContent += phrase[charIdx];
-          charIdx++;
-        } else {
-          clearInterval(timer);
+        let out = '';
+        for (let i = 0; i < target.length; i++) {
+          if (frame / 2 > i) {
+            out += target[i];
+          } else {
+            out += chars[Math.floor(Math.random() * chars.length)];
+          }
         }
-      }, 60);
+        el.textContent = out;
+        frame++;
+        if (frame > target.length * 2 + 4) clearInterval(timer);
+      }, 45);
     };
-    typeLoop();
-    wrap.addEventListener('click', typeLoop);
+    scramble();
     destroyFn = () => clearInterval(timer);
-    stage.appendChild(wrap);
-    restartFn = typeLoop;
+    el.addEventListener('click', scramble);
+    stage.appendChild(el);
+    restartFn = scramble;
 
-  } else if (id.includes('text-reveal') || id === 'text-reveal') {
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'overflow:hidden; height:32px; display:flex; align-items:center; cursor:pointer;';
-    wrap.innerHTML = `<div class="tr-inner" style="font-size:22px; font-weight:900; color:#FFF; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);"><span style="color:${accent};">HIGH VELOCITY</span> REVEAL</div>`;
-    const inner = wrap.querySelector('.tr-inner');
-    const playReveal = () => {
-      inner.style.transform = 'translateY(100%)';
-      setTimeout(() => { inner.style.transform = 'translateY(0)'; }, 40);
-    };
-    playReveal();
-    wrap.addEventListener('click', playReveal);
-    stage.appendChild(wrap);
-    restartFn = playReveal;
+  } else if (id.includes('neon-flicker') || id === 'neon-flicker-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-display); font-size:24px; font-weight:900; color:${accent}; text-shadow:0 0 10px ${accent}, 0 0 20px ${accent}, 0 0 40px ${accent}; animation:dnPulseGlow 1.5s infinite alternate; cursor:pointer;`;
+    el.textContent = 'NEON SIGN';
+    stage.appendChild(el);
+    restartFn = () => { el.style.opacity = '0.3'; setTimeout(() => el.style.opacity = '1', 120); };
 
-  } else if (id.includes('staggered-text') || id === 'staggered-text') {
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex; gap:2px; font-size:20px; font-weight:900; font-family:var(--font-display); cursor:pointer;';
-    const letters = 'CASCADE'.split('');
-    wrap.innerHTML = letters.map((l, i) => `
-      <span class="st-char" style="display:inline-block; opacity:0; transform:translateY(-16px); transition:all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); transition-delay:${i * 0.05}s; color:${i % 2 === 0 ? accent : '#FFF'};">
-        ${l}
-      </span>
-    `).join('');
-    const runCascade = () => {
-      wrap.querySelectorAll('.st-char').forEach(c => {
-        c.style.opacity = '0';
-        c.style.transform = 'translateY(-16px)';
-      });
-      setTimeout(() => {
-        wrap.querySelectorAll('.st-char').forEach(c => {
-          c.style.opacity = '1';
-          c.style.transform = 'translateY(0)';
-        });
-      }, 30);
-    };
-    runCascade();
-    wrap.addEventListener('click', runCascade);
-    stage.appendChild(wrap);
-    restartFn = runCascade;
+  } else if (id.includes('3d-text') || id === '3d-text-extrusion') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-display); font-size:24px; font-weight:900; color:#FFF; text-shadow:1px 1px 0 #181E2E, 2px 2px 0 #181E2E, 3px 3px 0 ${accent}, 4px 4px 0 ${accent}, 5px 5px 8px rgba(0,0,0,0.8); cursor:pointer; transform:rotateX(20deg) rotateY(-15deg);`;
+    el.textContent = '3D EXTRUDE';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1) rotateX(10deg)'; setTimeout(() => el.style.transform = 'rotateX(20deg) rotateY(-15deg)', 200); };
 
-  } else if (id.includes('marquee') || id === 'kinetic-marquee') {
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `width:180px; overflow:hidden; white-space:nowrap; border-radius:6px; background:#141722; border:1px solid #282E3D; padding:6px 0; cursor:pointer;`;
-    wrap.innerHTML = `
-      <div class="mq-track" style="display:inline-block; font-size:10px; font-weight:800; font-family:var(--font-mono); color:${accent}; animation:dnBorderBeam 10s linear infinite;">
-        ✦ 120 FPS FLUTTER ✦ DARTNOVA MOTION ✦ ZERO LAG SHADERS ✦
-      </div>
-    `;
-    stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+  } else if (id.includes('split-character') || id === 'split-character-stagger') {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex; font-size:22px; font-weight:900; font-family:var(--font-display); cursor:pointer;';
+    const text = 'CASCADE';
+    el.innerHTML = text.split('').map((c, i) => `<span style="animation:dnFloatLevitate ${1 + i * 0.1}s infinite alternate; color:${i % 2 === 0 ? accent : '#FFF'};">${c}</span>`).join('');
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.15)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('blur-focus') || id === 'blur-focus-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-display); font-size:22px; font-weight:900; color:#FFF; transition:filter 0.5s ease; cursor:pointer; filter:blur(0px);`;
+    el.textContent = 'LENS FOCUS';
+    el.addEventListener('click', () => {
+      el.style.filter = 'blur(10px)';
+      setTimeout(() => el.style.filter = 'blur(0px)', 300);
+    });
+    stage.appendChild(el);
+    restartFn = () => el.click();
+
+  } else if (id.includes('kinetic-counter') || id === 'kinetic-counter-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-mono); font-size:26px; font-weight:900; color:${accent}; cursor:pointer;`;
+    let count = 120;
+    el.textContent = `${count} FPS`;
+    el.addEventListener('click', () => {
+      count = count === 120 ? 240 : 120;
+      el.textContent = `${count} FPS`;
+      el.style.transform = 'scale(1.2)';
+      setTimeout(() => el.style.transform = 'none', 180);
+    });
+    stage.appendChild(el);
+    restartFn = () => el.click();
+
+  } else if (id.includes('mask-clip') || id === 'mask-clip-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-display); font-size:26px; font-weight:900; background:radial-gradient(circle, ${accent}, #42E8F5, #9B7CFF); background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:dnShimmerSweep 4s infinite alternate; cursor:pointer;`;
+    el.textContent = 'MASK VIDEO';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('vaporwave') || id === 'vaporwave-gradient-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-display); font-size:24px; font-weight:900; background:linear-gradient(135deg, #FF71CE, #01CDFE); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; letter-spacing:2px;';
+    el.textContent = 'VAPORWAVE';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('smoke-dissolve') || id === 'smoke-dissolve-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-display); font-size:22px; font-weight:900; color:#FFF; cursor:pointer; transition:all 0.4s;';
+    el.textContent = 'SMOKE PUFF';
+    el.addEventListener('click', () => {
+      el.style.filter = 'blur(8px)';
+      el.style.opacity = '0.2';
+      setTimeout(() => { el.style.filter = 'none'; el.style.opacity = '1'; }, 400);
+    });
+    stage.appendChild(el);
+    restartFn = () => el.click();
+
+  } else if (id.includes('matrix-decode') || id === 'matrix-decode-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-mono); font-size:18px; font-weight:900; color:#39FF14; text-shadow:0 0 8px #39FF14; cursor:pointer;';
+    el.textContent = '> MATRIX_CODE';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('bouncing-letters') || id === 'bouncing-letters-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex; gap:2px; font-size:22px; font-weight:900; cursor:pointer;';
+    const text = 'BOUNCE';
+    el.innerHTML = text.split('').map((c, i) => `<span style="animation:dnFloatLevitate ${0.8 + i * 0.1}s infinite alternate; color:${accent};">${c}</span>`).join('');
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.15)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('laser-burn') || id === 'laser-burn-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `font-family:var(--font-mono); font-size:20px; font-weight:900; color:#FF5722; text-shadow:0 0 12px #FF5722; cursor:pointer;`;
+    el.textContent = '⚡ LASER BURN';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('typewriter') || id === 'typewriter-cursor-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-mono); font-size:18px; font-weight:800; color:#FFF; display:flex; align-items:center; cursor:pointer;';
+    el.innerHTML = `<span>terminal_init()</span><span style="display:inline-block; width:8px; height:18px; background:${accent}; animation:dnPulseGlow 0.8s infinite; margin-left:4px;"></span>`;
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.05)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('curved-path') || id === 'curved-path-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex; gap:3px; font-size:20px; font-weight:900; cursor:pointer;';
+    const text = 'S-CURVE';
+    el.innerHTML = text.split('').map((c, i) => `<span style="transform:translateY(${Math.sin(i * 0.8) * 8}px); color:${accent};">${c}</span>`).join('');
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('rotary-dial') || id === 'rotary-dial-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-display); font-size:20px; font-weight:900; color:#FFF; cursor:pointer; perspective:300px;';
+    el.innerHTML = `<span style="display:inline-block; transform:rotateX(25deg); color:${accent};">CYLINDER 3D</span>`;
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('chromatic-zoom') || id === 'chromatic-zoom-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-display); font-size:24px; font-weight:900; color:#FFF; text-shadow:2px 0 #FF0055, -2px 0 #00FFFF; cursor:pointer;';
+    el.textContent = 'CHROMATIC';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.2)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('aurora-glow') || id === 'aurora-glow-text') {
+    const el = document.createElement('div');
+    el.style.cssText = `position:relative; font-family:var(--font-display); font-size:22px; font-weight:900; color:#FFF; cursor:pointer; text-shadow:0 0 20px ${accent};`;
+    el.textContent = 'AURORA GLOW';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
 
   } else {
-    // Scramble Text
+    // Default text visualizer
     const el = document.createElement('div');
-    el.style.cssText = `font-family:var(--font-mono); font-size:20px; font-weight:800; color:${accent}; cursor:pointer; text-align:center;`;
-    const phrase = 'FLUTTER CODE';
-    const chars = '!@#$%^&*()_+-=<>?/';
-    let interval = null;
-    const runScramble = () => {
-      let iter = 0;
-      clearInterval(interval);
-      interval = setInterval(() => {
-        el.textContent = phrase.split('').map((letter, idx) => {
-          if (idx < iter) return phrase[idx];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('');
-        if (iter >= phrase.length) clearInterval(interval);
-        iter += 0.5;
-      }, 30);
-    };
-    runScramble();
-    el.addEventListener('mouseenter', runScramble);
+    el.style.cssText = `font-family:var(--font-display); font-size:22px; font-weight:800; color:${accent}; cursor:pointer;`;
+    el.textContent = name || 'DARTNOVA';
     stage.appendChild(el);
-    restartFn = runScramble;
-    destroyFn = () => clearInterval(interval);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
   }
 
   return { restart: restartFn, destroy: destroyFn };

@@ -96,24 +96,24 @@ class _NovaSpringScaleState extends State<NovaSpringScale>
           <h3 style="font-size:1.15rem; color:var(--accent-lime);">Discover motion. Preview it instantly. Customize it. Copy the Flutter code.</h3>
           <p style="color:var(--text-secondary); line-height:1.6; font-size:14px;">
             DartNova is a modern, interactive motion UI library and developer showcase for Flutter.
-            It provides a catalog of <strong>160 planned components</strong> structured across <strong>16 motion categories</strong>.
+            It provides a catalog of <strong>180 planned components</strong> structured across <strong>18 motion categories</strong>.
             The website is implemented in pure HTML5, CSS3, and vanilla JavaScript for lightweight, instant responsiveness in any modern browser.
             Every component corresponds to a 100% pure Flutter and Dart implementation that developers can drop straight into their projects.
           </p>
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:4px;">
             <span class="badge badge-lime">Zero Pub Dependencies</span>
             <span class="badge badge-cyan">60–120 FPS Native Motion</span>
-            <span class="badge badge-purple">16 Formal Categories</span>
+            <span class="badge badge-purple">18 Formal Categories</span>
             <span class="badge badge-amber">100% Free & Open Source</span>
           </div>
         </div>
       </section>
 
-      <!-- 2. The 16 Motion Categories -->
+      <!-- 2. The 18 Motion Categories -->
       <section style="display:flex; flex-direction:column; gap:12px;">
-        <h2 style="font-size:1.5rem; color:var(--text-primary);">2. The 16 Motion Categories</h2>
+        <h2 style="font-size:1.5rem; color:var(--text-primary);">2. The 18 Motion Categories</h2>
         <p style="color:var(--text-secondary); font-size:14px; line-height:1.6;">
-          DartNova organizes its 160 components into 16 distinct categories with 10 components each.
+          DartNova organizes its 180 components into 18 distinct categories with 10 components each.
           Each category represents a specific UI layer and interaction paradigm:
         </p>
 

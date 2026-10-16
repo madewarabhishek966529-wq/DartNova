@@ -2,12 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { COMPONENTS, CATEGORIES, getComponentById, getComponentsByCategory } from '../src/registry/components.js';
 
 describe('DartNova Component Registry', () => {
-  it('should register all 160 components defined in PRD Section 9', () => {
-    expect(COMPONENTS).toHaveLength(160);
+  it('should register all 180 components (18 formal categories x 10 components)', () => {
+    expect(COMPONENTS).toHaveLength(180);
   });
 
-  it('should have 17 categories defined including all (16 formal categories)', () => {
-    expect(CATEGORIES).toHaveLength(17);
+  it('should have 19 categories defined including all (18 formal categories)', () => {
+    expect(CATEGORIES).toHaveLength(19);
   });
 
   it('every component should have id, name, category, description, and valid render function', () => {
@@ -38,13 +38,19 @@ describe('DartNova Component Registry', () => {
       expect(b.category).toBe('buttons');
     }
 
+    const shaders = getComponentsByCategory('shaders');
+    expect(shaders).toHaveLength(10);
+
+    const ai = getComponentsByCategory('ai-interactions');
+    expect(ai).toHaveLength(10);
+
     const all = getComponentsByCategory('all');
-    expect(all).toHaveLength(160);
+    expect(all).toHaveLength(180);
   });
 
-  it('every one of the 16 formal categories should have exactly 10 components', () => {
+  it('every one of the 18 formal categories should have exactly 10 components', () => {
     const formalCategories = CATEGORIES.filter(c => c.id !== 'all');
-    expect(formalCategories).toHaveLength(16);
+    expect(formalCategories).toHaveLength(18);
 
     for (const cat of formalCategories) {
       const items = COMPONENTS.filter(c => c.category === cat.id);
@@ -91,7 +97,7 @@ describe('DartNova Component Registry', () => {
     }
   });
 
-  it('verifies that all 160 components across all 16 categories render and execute lifecycles cleanly', () => {
+  it('verifies that all 180 components across all 18 categories render and execute lifecycles cleanly', () => {
     for (const comp of COMPONENTS) {
       const container = document.createElement('div');
       const props = Object.assign({}, comp.defaultProps, { accentColor: '#C5FF35', duration: 350 });

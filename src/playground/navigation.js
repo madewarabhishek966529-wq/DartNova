@@ -1,6 +1,6 @@
 /**
  * Playground Sidebar Navigation
- * Search filtering across 160 components, 16 categories, status filters, sorting, and favorites
+ * Search filtering across 180 components, 18 categories, status filters, sorting, and favorites
  */
 
 import { CATEGORIES, COMPONENTS } from '../registry/components.js';
@@ -78,7 +78,7 @@ export function setupNavigation(sidebarEl, store) {
             type="text" 
             id="component-search" 
             class="search-input" 
-            placeholder="Search 160 components & tags... (/)" 
+            placeholder="Search 180 components & tags... (/)" 
             value="${searchQuery}"
             autocomplete="off"
             spellcheck="false"

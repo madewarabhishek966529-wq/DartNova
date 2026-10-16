@@ -105,5 +105,17 @@ export const CATEGORIES = [
     name: 'Motion Experiments', 
     icon: '🧪', 
     description: 'Particle explosions, SVG path draws, fluid trails, and confetti celebrations' 
+  },
+  {
+    id: 'shaders',
+    name: 'Shaders & Impeller Canvas',
+    icon: '🔮',
+    description: 'GLSL fragment shaders, Impeller dispersion, fluid smoke, scanlines, and refractive water caustics'
+  },
+  {
+    id: 'ai-interactions',
+    name: 'Smart AI & Voice Interactions',
+    icon: '🤖',
+    description: 'Voice orb pulsars, neural synapse graphs, streaming token cascades, and conversational micro-interactions'
   }
 ];

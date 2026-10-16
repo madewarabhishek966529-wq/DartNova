@@ -108,7 +108,7 @@ export function renderLandingView(containerEl, store) {
         </div>
 
         <p class="hero-description">
-          DartNova is a curated collection of 160 animated UI components, interactive effects, 
+          DartNova is a curated collection of 180 animated UI components, interactive effects, 
           transitions, loaders, gestures, backgrounds, and advanced motion experiments built for Flutter developers.
         </p>
 
@@ -129,11 +129,11 @@ export function renderLandingView(containerEl, store) {
         <div class="hero-stats-ribbon">
           <div class="stat-pill">
             <span class="status-dot" style="color:var(--accent-primary);"></span>
-            <span><strong>160</strong> Planned Components</span>
+            <span><strong>180</strong> Planned Components</span>
           </div>
           <div class="stat-pill">
             <span class="status-dot" style="color:var(--accent-cyan);"></span>
-            <span><strong>16</strong> Motion Categories</span>
+            <span><strong>18</strong> Motion Categories</span>
           </div>
           <div class="stat-pill">
             <span class="status-dot" style="color:var(--accent-purple);"></span>
@@ -212,8 +212,8 @@ export function renderLandingView(containerEl, store) {
       <!-- KINETIC TYPOGRAPHY MOTION MARQUEE TICKER BANNER -->
       <div class="kinetic-ticker-wrapper">
         <div class="kinetic-ticker-track">
-          <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 160 MOTION COMPONENTS</span></div>
-          <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 16 FORMAL CATEGORIES</span></div>
+          <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 180 MOTION COMPONENTS</span></div>
+          <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 18 FORMAL CATEGORIES</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
@@ -222,8 +222,8 @@ export function renderLandingView(containerEl, store) {
           <div class="ticker-item"><span class="ticker-pill accent-lime">🚀 60–120 FPS FLUID MOTION</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-amber">📱 TACTILE HAPTIC & AUDIO</span></div>
           <!-- Seamless loop duplicate -->
-          <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 160 MOTION COMPONENTS</span></div>
-          <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 16 FORMAL CATEGORIES</span></div>
+          <div class="ticker-item"><span class="ticker-pill accent-lime">⚡ 180 MOTION COMPONENTS</span></div>
+          <div class="ticker-item"><span class="ticker-pill accent-cyan">🌀 18 FORMAL CATEGORIES</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-purple">🎨 HARDWARE CUSTOMPAINTER</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-amber">🌊 PROCEDURAL SINE WAVES</span></div>
           <div class="ticker-item"><span class="ticker-pill accent-lime">🧲 POINTER MAGNETICS</span></div>
@@ -241,7 +241,7 @@ export function renderLandingView(containerEl, store) {
           <span class="section-tag">Catalog & Playground</span>
           <h2 class="section-title">Motion Component Library</h2>
           <p class="section-desc">
-            Browse, filter, and inspect 160 motion components engineered with Flutter timing curves and clean Dart architectures.
+            Browse, filter, and inspect 180 motion components engineered with Flutter timing curves and clean Dart architectures.
           </p>
 
           <!-- Enhanced Multi-Faceted Filter Dock -->
@@ -256,7 +256,7 @@ export function renderLandingView(containerEl, store) {
                 type="text" 
                 id="landing-search-input" 
                 class="landing-search-input" 
-                placeholder="Search 160 components, tags, Flutter APIs (e.g. 'button', 'matrix4', 'spring')..." 
+                placeholder="Search 180 components, tags, Flutter APIs (e.g. 'button', 'matrix4', 'spring')..." 
                 value="${landingSearchQuery}"
                 autocomplete="off"
                 spellcheck="false"
@@ -359,7 +359,7 @@ export function renderLandingView(containerEl, store) {
             <div class="workflow-step">
               <div class="step-num">01</div>
               <h4 class="step-title">Explore</h4>
-              <p class="step-desc">Browse 160 motion components across 16 formal categories.</p>
+              <p class="step-desc">Browse 180 motion components across 18 formal categories.</p>
             </div>
             <div class="workflow-step">
               <div class="step-num">02</div>
@@ -407,9 +407,9 @@ export function renderLandingView(containerEl, store) {
               <div class="footer-column">
                 <h5 class="footer-column-title">Library</h5>
                 <ul class="footer-nav">
-                  <li><a href="#playground">All 160 Components</a></li>
+                  <li><a href="#playground">All 180 Components</a></li>
                   <li><a href="#favorites">Saved Favorites</a></li>
-                  <li><a href="#categories">16 Categories</a></li>
+                  <li><a href="#categories">18 Categories</a></li>
                   <li><a href="#playground/pop-button">Buttons & Controls</a></li>
                   <li><a href="#playground/cursor-card">Cards & Surfaces</a></li>
                   <li><a href="#playground/typing-text">Text & Typography</a></li>
@@ -430,7 +430,7 @@ export function renderLandingView(containerEl, store) {
 
           <div class="footer-bottom">
             <span>&copy; ${new Date().getFullYear()} DartNova. Motion for Flutter Developers Worldwide. Released under MIT License.</span>
-            <span>160 Components · Zero External Dependencies.</span>
+            <span>180 Components · Zero External Dependencies.</span>
           </div>
         </div>
       </footer>

@@ -21,6 +21,8 @@ import { renderFormVisualizer } from './visualizers/forms.js';
 import { renderListVisualizer } from './visualizers/lists.js';
 import { renderMicroInteractionVisualizer } from './visualizers/micro-interactions.js';
 import { renderExperimentVisualizer } from './visualizers/experiments.js';
+import { renderShaderVisualizer } from './visualizers/shaders.js';
+import { renderAiInteractionVisualizer } from './visualizers/ai-interactions.js';
 
 export function createMotionVisualizer(id, category, name, icon, props) {
   const accent = props.accentColor || '#C5FF35';
@@ -56,7 +58,11 @@ export function createMotionVisualizer(id, category, name, icon, props) {
     forms: renderFormVisualizer,
     lists: renderListVisualizer,
     'micro-interactions': renderMicroInteractionVisualizer,
-    experiments: renderExperimentVisualizer
+    experiments: renderExperimentVisualizer,
+    shaders: renderShaderVisualizer,
+    shader: renderShaderVisualizer,
+    'ai-interactions': renderAiInteractionVisualizer,
+    ai: renderAiInteractionVisualizer
   };
 
   const handler = categoryHandlers[category] || renderExperimentVisualizer;

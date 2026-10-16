@@ -1243,5 +1243,189 @@ export const ROADMAP_COMPONENTS = [
     difficulty: 'intermediate',
     tags: ['experiments', 'confetti', 'party', 'celebration'],
     description: 'Two-cannon confetti blast with physical rotation, fluttering, and gravity drag.'
+  }),
+
+  // --- Category 17: Shaders & Impeller Canvas ---
+  createRoadmapComponent({
+    id: 'glsl-fluid-smoke',
+    name: 'GLSL Fluid Smoke Shader',
+    category: 'shaders',
+    icon: '💨',
+    difficulty: 'advanced',
+    tags: ['shaders', 'fluid', 'smoke', 'glsl', 'impeller'],
+    description: 'Real-time Navier-Stokes fluid smoke simulation rendered via custom FragmentProgram shader.'
+  }),
+  createRoadmapComponent({
+    id: 'crt-scanline-display',
+    name: 'CRT Scanline Display',
+    category: 'shaders',
+    icon: '📺',
+    difficulty: 'intermediate',
+    tags: ['shaders', 'crt', 'scanline', 'retro', 'glitch'],
+    description: 'Vintage cathode ray tube raster scanlines, RGB chromatic aberration, and phosphorescent phosphor glow.'
+  }),
+  createRoadmapComponent({
+    id: 'iridescent-glass-refraction',
+    name: 'Iridescent Glass Refraction',
+    category: 'shaders',
+    icon: '💎',
+    difficulty: 'advanced',
+    tags: ['shaders', 'glass', 'iridescent', 'refraction', 'specular'],
+    description: 'Optical light dispersion through frosted frosted glass with spectral rainbow caustic fringes.'
+  }),
+  createRoadmapComponent({
+    id: 'matrix-rain-terminal',
+    name: 'Matrix Rain Terminal',
+    category: 'shaders',
+    icon: '🟢',
+    difficulty: 'intermediate',
+    tags: ['shaders', 'matrix', 'terminal', 'cyberpunk', 'code'],
+    description: 'Digital glyph streams falling vertically at staggered velocities with phosphorescent head pulses.'
+  }),
+  createRoadmapComponent({
+    id: 'vortex-tunnel',
+    name: 'Vortex Tunnel 3D',
+    category: 'shaders',
+    icon: '🌀',
+    difficulty: 'advanced',
+    tags: ['shaders', 'vortex', 'tunnel', 'impeller', 'depth'],
+    description: 'Procedural spiral wormhole with rotating orbital rings and infinite focal depth illusion.'
+  }),
+  createRoadmapComponent({
+    id: 'plasma-energy-field',
+    name: 'Plasma Energy Field',
+    category: 'shaders',
+    icon: '⚡',
+    difficulty: 'advanced',
+    tags: ['shaders', 'plasma', 'energy', 'sine', 'aurora'],
+    description: 'Multi-harmonic sine wave plasma synthesized entirely in GPU fragment shader registers at 120 FPS.'
+  }),
+  createRoadmapComponent({
+    id: 'dissolve-burn-shader',
+    name: 'Noise Dissolve Burn Shader',
+    category: 'shaders',
+    icon: '🔥',
+    difficulty: 'advanced',
+    tags: ['shaders', 'dissolve', 'burn', 'noise', 'perlin'],
+    description: 'Simplex noise threshold mask with incandescent burning ember edges dissolving widget geometry.'
+  }),
+  createRoadmapComponent({
+    id: 'caustics-water-reflection',
+    name: 'Water Caustics Reflection',
+    category: 'shaders',
+    icon: '🌊',
+    difficulty: 'advanced',
+    tags: ['shaders', 'water', 'caustics', 'refraction', 'ocean'],
+    description: 'Procedural Voronoi water mesh refracting ambient light beams beneath aquatic ripple surface.'
+  }),
+  createRoadmapComponent({
+    id: 'heat-distortion-wave',
+    name: 'Heat Distortion Wave',
+    category: 'shaders',
+    icon: '♨️',
+    difficulty: 'intermediate',
+    tags: ['shaders', 'heat', 'distortion', 'mirage', 'haze'],
+    description: 'High-temperature atmospheric refraction displacing pixels vertically with turbulent phase offset.'
+  }),
+  createRoadmapComponent({
+    id: 'neon-laser-wireframe',
+    name: 'Neon Laser Wireframe',
+    category: 'shaders',
+    icon: '📐',
+    difficulty: 'advanced',
+    tags: ['shaders', 'wireframe', 'laser', 'neon', 'perspective'],
+    description: 'Volumetric perspective grid bathed in ultraviolet laser light with glowing gridline pulses.'
+  }),
+
+  // --- Category 18: Smart AI & Voice Interactions ---
+  createRoadmapComponent({
+    id: 'voice-orb-pulsar',
+    name: 'Voice Orb Pulsar',
+    category: 'ai-interactions',
+    icon: '🎙️',
+    difficulty: 'advanced',
+    tags: ['ai', 'voice', 'orb', 'siri', 'assistant'],
+    description: 'Multi-chromatic glowing energy orb that expands, rotates, and morphs in response to vocal amplitude.'
+  }),
+  createRoadmapComponent({
+    id: 'thinking-dots-wave',
+    name: 'AI Thinking Dots Wave',
+    category: 'ai-interactions',
+    icon: '💭',
+    difficulty: 'beginner',
+    tags: ['ai', 'thinking', 'dots', 'loader', 'reasoning'],
+    description: 'Synchronized levitating color nodes indicating active LLM chain-of-thought cognitive processing.'
+  }),
+  createRoadmapComponent({
+    id: 'waveform-speech-streamer',
+    name: 'Waveform Speech Streamer',
+    category: 'ai-interactions',
+    icon: '📊',
+    difficulty: 'intermediate',
+    tags: ['ai', 'waveform', 'speech', 'audio', 'stream'],
+    description: '16-band reactive equalizer reacting to real-time audio chunk decoding and text-to-speech cadence.'
+  }),
+  createRoadmapComponent({
+    id: 'prompt-input-morph',
+    name: 'Prompt Input Morph Bar',
+    category: 'ai-interactions',
+    icon: '✨',
+    difficulty: 'intermediate',
+    tags: ['ai', 'prompt', 'input', 'morph', 'search'],
+    description: 'Elastic pill input field that morphs into multi-line query composer with animated neon focus border.'
+  }),
+  createRoadmapComponent({
+    id: 'streaming-token-cascade',
+    name: 'Streaming Token Cascade',
+    category: 'ai-interactions',
+    icon: '💬',
+    difficulty: 'intermediate',
+    tags: ['ai', 'token', 'streaming', 'typewriter', 'cascade'],
+    description: 'Smooth kinetic token delivery mimicking real-time server-sent LLM completions with glowing caret.'
+  }),
+  createRoadmapComponent({
+    id: 'context-pill-radar',
+    name: 'Context Pill Radar Scanner',
+    category: 'ai-interactions',
+    icon: '📡',
+    difficulty: 'intermediate',
+    tags: ['ai', 'radar', 'context', 'memory', 'scanner'],
+    description: 'Radial radar beacon highlighting working memory embeddings and active document references.'
+  }),
+  createRoadmapComponent({
+    id: 'agentic-step-progress',
+    name: 'Agentic Step Progressor',
+    category: 'ai-interactions',
+    icon: '⚙️',
+    difficulty: 'intermediate',
+    tags: ['ai', 'agent', 'step', 'progress', 'workflow'],
+    description: 'Autonomous agent lifecycle tracker featuring checkmark transitions and live pulsing status beacons.'
+  }),
+  createRoadmapComponent({
+    id: 'sparkle-ai-badge',
+    name: 'Sparkle AI Agent Badge',
+    category: 'ai-interactions',
+    icon: '⭐',
+    difficulty: 'beginner',
+    tags: ['ai', 'sparkle', 'badge', 'glow', 'pill'],
+    description: 'Chameleon gradient pill with periodic starburst flares highlighting generative AI features.'
+  }),
+  createRoadmapComponent({
+    id: 'neural-synapse-network',
+    name: 'Neural Synapse Network',
+    category: 'ai-interactions',
+    icon: '🧠',
+    difficulty: 'advanced',
+    tags: ['ai', 'neural', 'synapse', 'network', 'graph'],
+    description: 'Interactive node graph demonstrating electrical pulse propagation across multi-layer perceptron layers.'
+  }),
+  createRoadmapComponent({
+    id: 'voice-listening-ring',
+    name: 'Voice Listening Active Ring',
+    category: 'ai-interactions',
+    icon: '🔊',
+    difficulty: 'intermediate',
+    tags: ['ai', 'voice', 'ring', 'microphone', 'listener'],
+    description: 'Concentric audio-responsive rings radiating outward to indicate microphone readiness and listening state.'
   })
 ];

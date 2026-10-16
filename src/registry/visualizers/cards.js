@@ -1,5 +1,5 @@
 /**
- * DartNova Cards & Surfaces Visualizers (10 Bespoke Modern UI Components)
+ * DartNova Cards & Surfaces Visualizers (26 Bespoke Modern UI Components)
  */
 
 export function renderCardVisualizer(id, name, icon, accent, duration, stage) {
@@ -58,96 +58,215 @@ export function renderCardVisualizer(id, name, icon, accent, duration, stage) {
     exp.style.cssText = `width:175px; border-radius:10px; background:#161922; border:1px solid #282E3C; padding:10px 12px; cursor:pointer; transition:all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);`;
     exp.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:12px; font-weight:700; color:#FFF;">Expandable Card</span><span style="color:${accent}; font-weight:800;">+</span></div><div class="exp-content" style="max-height:0; overflow:hidden; font-size:10px; color:var(--text-muted); line-height:1.4; transition:max-height 0.3s ease, margin-top 0.3s ease;">Animated height expansion reveals detailed telemetry data.</div>`;
     let isOpen = false;
-    exp.addEventListener('click', () => {
+    const content = exp.querySelector('.exp-content');
+    const toggle = () => {
       isOpen = !isOpen;
-      exp.querySelector('.exp-content').style.maxHeight = isOpen ? '60px' : '0';
-      exp.querySelector('.exp-content').style.marginTop = isOpen ? '8px' : '0';
-      exp.querySelector('span:last-child').textContent = isOpen ? '−' : '+';
-      exp.style.borderColor = isOpen ? accent : '#282E3C';
-    });
+      content.style.maxHeight = isOpen ? '60px' : '0';
+      content.style.marginTop = isOpen ? '8px' : '0';
+    };
+    exp.addEventListener('click', toggle);
     stage.appendChild(exp);
-    restartFn = () => exp.click();
+    restartFn = toggle;
 
-  } else if (id.includes('card-stack') || id === 'animated-card-stack') {
+  } else if (id.includes('isometric-layer') || id === 'isometric-layer-card') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:150px; height:90px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.style.cssText = 'perspective:600px; width:160px; height:100px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
     wrap.innerHTML = `
-      <div class="cs-3" style="position:absolute; width:130px; height:70px; border-radius:8px; background:#131620; border:1px solid #222838; transform:translateY(-8px) scale(0.9); opacity:0.6; transition:transform 0.3s;"></div>
-      <div class="cs-2" style="position:absolute; width:130px; height:70px; border-radius:8px; background:#181D2A; border:1px solid #2D354A; transform:translateY(-4px) scale(0.95); opacity:0.85; transition:transform 0.3s;"></div>
-      <div class="cs-1" style="position:absolute; width:130px; height:70px; border-radius:8px; background:#1E2536; border:1.5px solid ${accent}; display:flex; flex-direction:column; justify-content:space-between; padding:8px; box-sizing:border-box; box-shadow:0 8px 20px rgba(0,0,0,0.5); transition:transform 0.3s;">
-        <span style="font-size:9px; font-weight:800; color:${accent};">TOP DECK</span>
-        <span style="font-size:8px; color:#FFF;">Tap to fan out</span>
+      <div class="iso-box" style="position:relative; width:100px; height:60px; transform:rotateX(55deg) rotateZ(-45deg); transform-style:preserve-3d; transition:transform 0.4s ease;">
+        <div style="position:absolute; inset:0; background:#181F2E; border:1px solid ${accent}; transform:translateZ(0px);"></div>
+        <div style="position:absolute; inset:0; background:${accent}44; border:1px solid ${accent}; transform:translateZ(18px);"></div>
+        <div style="position:absolute; inset:0; background:#FFF; opacity:0.8; transform:translateZ(36px); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:900; color:#08090B;">LAYERS</div>
       </div>
     `;
-    let fanned = false;
-    const c3 = wrap.querySelector('.cs-3');
-    const c2 = wrap.querySelector('.cs-2');
-    const c1 = wrap.querySelector('.cs-1');
-    const toggleFan = () => {
-      fanned = !fanned;
-      c3.style.transform = fanned ? 'translateX(24px) rotate(10deg) scale(0.95)' : 'translateY(-8px) scale(0.9)';
-      c2.style.transform = fanned ? 'translateX(-24px) rotate(-10deg) scale(0.95)' : 'translateY(-4px) scale(0.95)';
-      c1.style.transform = fanned ? 'scale(1.05)' : 'none';
-    };
-    wrap.addEventListener('click', toggleFan);
+    const box = wrap.querySelector('.iso-box');
+    wrap.addEventListener('mouseenter', () => box.style.transform = 'rotateX(55deg) rotateZ(-45deg) scale(1.15)');
+    wrap.addEventListener('mouseleave', () => box.style.transform = 'rotateX(55deg) rotateZ(-45deg)');
     stage.appendChild(wrap);
-    restartFn = toggleFan;
+    restartFn = () => { box.style.transform = 'rotateX(55deg) rotateZ(-45deg) scale(1.15)'; setTimeout(() => box.style.transform = 'rotateX(55deg) rotateZ(-45deg)', 300); };
 
-  } else if (id.includes('glow-pulse') || id === 'glow-pulse-card') {
+  } else if (id.includes('frosted-glass') || id === 'frosted-glass-card') {
     const card = document.createElement('div');
-    card.style.cssText = `width:170px; padding:14px; border-radius:12px; background:#141822; border:1.5px solid ${accent}; box-shadow:0 0 16px ${accent}44; animation:dnPulseGlow 2.5s ease-in-out infinite alternate; display:flex; flex-direction:column; gap:6px; cursor:pointer;`;
+    card.style.cssText = `width:170px; height:95px; border-radius:12px; background:rgba(255,255,255,0.04); backdrop-filter:blur(20px); border:1px solid ${accent}55; box-shadow:0 8px 32px rgba(0,0,0,0.6); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; gap:4px;`;
+    card.innerHTML = `<span style="font-size:20px;">❄️</span><span style="font-size:11px; font-weight:800; color:#FFF;">Frosted Glass</span><span style="font-size:8px; color:${accent}; font-family:var(--font-mono);">BLUR 20PX</span>`;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.05)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('glitch-reveal') || id === 'glitch-reveal-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `width:170px; height:95px; border-radius:8px; background:#0F121C; border:1px solid #FF0055; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; font-family:var(--font-mono);`;
+    card.innerHTML = `<span style="font-size:11px; font-weight:900; color:#FF0055; text-shadow:2px 0 ${accent}; animation:dnGlitchJitter 2s infinite;">[ CORRUPT // REVEAL ]</span><span style="font-size:8px; color:var(--text-muted); margin-top:4px;">PARITY CHECK OK</span>`;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'translateX(-3px)'; setTimeout(() => card.style.transform = 'none', 100); };
+
+  } else if (id.includes('depth-perspective') || id === 'depth-perspective-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `perspective:500px; width:170px; height:95px; border-radius:10px; background:linear-gradient(135deg, #1A2130, #10141D); border:1px solid #2B374E; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.1s;`;
+    card.innerHTML = `<div style="text-align:center;"><div style="font-size:18px;">🪟</div><div style="font-size:10px; font-weight:800; color:#FFF;">Depth Tilt 3D</div></div>`;
+    stage.addEventListener('mousemove', (e) => {
+      const r = stage.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 30;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * -30;
+      card.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+    });
+    stage.addEventListener('mouseleave', () => card.style.transform = 'none');
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('accordion-fold') || id === 'accordion-fold-card') {
+    const card = document.createElement('div');
+    card.style.cssText = 'width:170px; border-radius:8px; background:#141924; border:1px solid #2B354C; padding:10px; cursor:pointer;';
     card.innerHTML = `
-      <div style="font-size:11px; font-weight:800; color:#FFF;">Breathing Aura Card</div>
-      <div style="font-size:8px; color:var(--text-muted);">Perimeter harmonic luminescence</div>
-      <div style="font-size:9px; font-weight:700; color:${accent};">● Active Shaders</div>
+      <div style="font-size:11px; font-weight:800; color:#FFF; display:flex; justify-content:space-between;"><span>Accordion Section</span><span>▼</span></div>
+      <div class="af-body" style="font-size:8px; color:var(--text-muted); margin-top:6px; line-height:1.4;">Unfolds vertical compartments with animated spring easing.</div>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.05)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('mesh-gradient') || id === 'mesh-gradient-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; overflow:hidden; width:170px; height:95px; border-radius:12px; background:#0B0E14; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `
+      <div style="position:absolute; inset:0; background:radial-gradient(circle at 20% 30%, ${accent}44 0%, transparent 60%), radial-gradient(circle at 80% 70%, #9B7CFF55 0%, transparent 60%); filter:blur(10px); animation:dnAuroraShift 3s infinite alternate;"></div>
+      <span style="position:relative; z-index:2; font-size:11px; font-weight:800; color:#FFF;">Mesh Aura Card</span>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.06)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('swipeable-stack') || id === 'swipeable-stack-card') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:130px; height:85px; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; width:100%; height:100%; border-radius:10px; background:#181F2E; border:1px solid #2D3A54; transform:scale(0.9) translateY(10px);"></div>
+      <div class="ss-top" style="position:absolute; width:100%; height:100%; border-radius:10px; background:#1E273A; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#FFF; transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">Toss Deck Card</div>
+    `;
+    const top = wrap.querySelector('.ss-top');
+    let tossed = false;
+    wrap.addEventListener('click', () => {
+      tossed = !tossed;
+      top.style.transform = tossed ? 'translateX(50px) rotate(15deg) scale(0.9)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('neon-outline') || id === 'neon-outline-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `width:170px; height:95px; border-radius:10px; background:#0B0E14; border:1.5px solid ${accent}; box-shadow:0 0 16px ${accent}44; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `<span style="font-size:18px;">💡</span><span style="font-size:11px; font-weight:800; color:#FFF;">Neon Silhouette</span>`;
+    stage.appendChild(card);
+    restartFn = () => { card.style.boxShadow = `0 0 28px ${accent}`; setTimeout(() => card.style.boxShadow = `0 0 16px ${accent}44`, 250); };
+
+  } else if (id.includes('shimmer-sheen') || id === 'shimmer-sheen-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; overflow:hidden; width:170px; height:95px; border-radius:10px; background:#141A26; border:1px solid #283248; display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `
+      <div style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:linear-gradient(60deg, transparent, ${accent}33, transparent); animation:dnShimmerSweep 2.5s infinite linear; pointer-events:none;"></div>
+      <span style="font-size:11px; font-weight:800; color:#FFF; position:relative; z-index:2;">Specular Sheen</span>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.06)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('magnifier-zoom') || id === 'magnifier-zoom-card') {
+    const card = document.createElement('div');
+    card.style.cssText = 'position:relative; width:170px; height:95px; border-radius:10px; background:#121622; border:1px solid #283144; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden;';
+    card.innerHTML = `
+      <div class="mz-lens" style="position:absolute; width:44px; height:44px; border-radius:50%; border:2px solid ${accent}; background:rgba(255,255,255,0.1); pointer-events:none; transition:transform 0.1s;"></div>
+      <span style="font-size:11px; font-weight:800; color:#FFF;">Optical Loupe</span>
+    `;
+    const lens = card.querySelector('.mz-lens');
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      lens.style.transform = `translate(${e.clientX - r.left - 22}px, ${e.clientY - r.top - 22}px)`;
+    });
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('parchment-peel') || id === 'parchment-peel-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; width:170px; height:95px; border-radius:8px; background:#1B1E28; border:1px solid #32384A; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden;`;
+    card.innerHTML = `
+      <div style="position:absolute; top:0; right:0; width:0; height:0; border-style:solid; border-width:0 24px 24px 0; border-color:transparent ${accent} transparent transparent;"></div>
+      <span style="font-size:11px; font-weight:800; color:#FFF;">📜 Curled Page</span>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.05)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('kinetic-tilt') || id === 'kinetic-tilt-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `width:170px; height:95px; border-radius:10px; background:#161B26; border:1px solid ${accent}55; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s cubic-bezier(0.34, 1.8, 0.64, 1);`;
+    card.innerHTML = `<span style="font-size:11px; font-weight:800; color:#FFF;">🛹 Kinetic Inertia</span>`;
+    card.addEventListener('click', () => {
+      card.style.transform = 'rotate(-8deg) scale(1.1)';
+      setTimeout(() => card.style.transform = 'none', 250);
+    });
+    stage.appendChild(card);
+    restartFn = () => card.click();
+
+  } else if (id.includes('border-trail') || id === 'border-trail-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; width:170px; height:95px; border-radius:10px; background:#11141E; border:1px solid #232B3C; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `
+      <div style="position:absolute; width:120px; height:120px; background:conic-gradient(transparent, ${accent}, transparent 40%); animation:dnBorderBeam 2.8s linear infinite;"></div>
+      <div style="position:absolute; inset:2px; border-radius:8px; background:#11141E; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#FFF;">Border Comet</div>
     `;
     stage.appendChild(card);
     restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
 
-  } else if (id.includes('cursor-follow') || id === 'cursor-follow-card') {
+  } else if (id.includes('reveal-drawer') || id === 'reveal-drawer-card') {
     const card = document.createElement('div');
-    card.style.cssText = `position:relative; width:170px; height:100px; border-radius:12px; background:#12151D; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px;`;
+    card.style.cssText = `position:relative; width:170px; height:95px; border-radius:10px; background:#141924; border:1px solid #293348; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:10px; cursor:pointer;`;
     card.innerHTML = `
-      <div class="cf-track" style="position:absolute; width:90px; height:90px; border-radius:50%; background:radial-gradient(circle, ${accent}44 0%, transparent 70%); pointer-events:none; transform:translate(-50%, -50%); opacity:0; transition:opacity 0.2s;"></div>
-      <span style="font-size:18px;">🎯</span>
-      <span style="font-size:10px; font-weight:800; color:#FFF;">Dual Specular Follow</span>
+      <span style="font-size:10px; font-weight:800; color:#FFF;">Main Asset Card</span>
+      <div class="rd-drawer" style="padding:6px; border-radius:6px; background:${accent}; color:#08090B; font-size:9px; font-weight:800; transform:translateY(35px); transition:transform 0.3s ease;">Hidden Meta Drawer</div>
     `;
-    const track = card.querySelector('.cf-track');
-    card.addEventListener('mouseenter', () => track.style.opacity = '1');
-    card.addEventListener('mouseleave', () => track.style.opacity = '0');
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      track.style.left = `${e.clientX - r.left}px`;
-      track.style.top = `${e.clientY - r.top}px`;
-    });
+    const drawer = card.querySelector('.rd-drawer');
+    card.addEventListener('mouseenter', () => drawer.style.transform = 'translateY(0)');
+    card.addEventListener('mouseleave', () => drawer.style.transform = 'translateY(35px)');
     stage.appendChild(card);
-    restartFn = () => { track.style.opacity = '1'; track.style.left = '50%'; track.style.top = '50%'; };
+    restartFn = () => { drawer.style.transform = 'translateY(0)'; setTimeout(() => drawer.style.transform = 'translateY(35px)', 400); };
+
+  } else if (id.includes('cuboid-flip') || id === 'cuboid-flip-card') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'perspective:500px; width:160px; height:90px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div class="cf-box" style="position:relative; width:120px; height:70px; transform-style:preserve-3d; transition:transform 0.5s;">
+        <div style="position:absolute; inset:0; border-radius:8px; background:#181F2E; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#FFF;">🎲 Face A</div>
+      </div>
+    `;
+    const box = wrap.querySelector('.cf-box');
+    let flipped = false;
+    wrap.addEventListener('click', () => {
+      flipped = !flipped;
+      box.style.transform = flipped ? 'rotateY(180deg)' : 'none';
+    });
+    stage.appendChild(wrap);
+    restartFn = () => wrap.click();
+
+  } else if (id.includes('liquid-portal') || id === 'liquid-portal-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; overflow:hidden; width:170px; height:95px; border-radius:10px; background:#0B0E14; border:1px solid #202738; display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `
+      <div style="position:absolute; width:70px; height:70px; border-radius:50%; background:radial-gradient(circle, ${accent}88 0%, #42E8F555 50%, transparent 70%); animation:dnOrbitRotate 4s linear infinite; filter:blur(8px);"></div>
+      <span style="position:relative; z-index:2; font-size:11px; font-weight:800; color:#FFF;">🌀 Portal Core</span>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.1)'; setTimeout(() => card.style.transform = 'none', 180); };
 
   } else if (id.includes('floating') || id === 'floating-card') {
     const card = document.createElement('div');
-    card.style.cssText = `width:170px; padding:14px; border-radius:12px; background:#161B26; border:1px solid #2C3548; box-shadow:0 12px 28px rgba(0,0,0,0.6); animation:dnFloatLevitate 3.5s ease-in-out infinite; cursor:pointer; text-align:center;`;
-    card.innerHTML = `
-      <div style="font-size:11px; font-weight:800; color:#FFF;">Anti-Gravity Levitate</div>
-      <div style="font-size:9px; color:${accent}; font-family:var(--font-mono); margin-top:4px;">Z-Axis Oscillation</div>
-    `;
+    card.style.cssText = `width:170px; height:95px; border-radius:12px; background:linear-gradient(135deg, #181d28, #131720); border:1px solid #2b3344; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); animation:dnFloatLevitate 2.5s infinite ease-in-out;`;
+    card.innerHTML = `<span style="font-size:22px;">☁️</span><span style="font-size:11px; font-weight:800; color:#FFF; margin-top:4px;">Floating Card</span>`;
     stage.appendChild(card);
-    restartFn = () => { card.style.transform = 'translateY(-14px) scale(1.08)'; setTimeout(() => card.style.transform = 'none', 240); };
+    restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
 
   } else {
-    // Cursor 3D Tilt Card
+    // Cursor Card Default
     const card = document.createElement('div');
-    card.style.cssText = `width:170px; padding:14px; border-radius:12px; background:#181B24; border:1px solid #2A3040; box-shadow:0 10px 25px rgba(0,0,0,0.4); cursor:pointer; transition:transform 0.15s ease-out, border-color 0.2s;`;
-    card.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:12px; font-weight:700; color:#FFF;">${name}</span><span style="width:8px; height:8px; border-radius:50%; background:${accent}; box-shadow:0 0 8px ${accent};"></span></div><div style="font-size:20px; font-family:var(--font-mono); font-weight:800; color:${accent};">120 FPS</div><div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Tilt Vector Ready</div>`;
-    stage.addEventListener('mousemove', (e) => {
-      const rect = stage.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `perspective(500px) rotateY(${x * 24}deg) rotateX(${-y * 24}deg) scale(1.03)`;
-      card.style.borderColor = accent;
-    });
-    stage.addEventListener('mouseleave', () => { card.style.transform = 'none'; card.style.borderColor = '#2A3040'; });
+    card.style.cssText = `width:170px; height:95px; border-radius:10px; background:#141722; border:1px solid #262D3D; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s;`;
+    card.innerHTML = `<span style="font-size:11px; font-weight:800; color:${accent};">🎴 Responsive Card</span>`;
+    card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-4px)');
+    card.addEventListener('mouseleave', () => card.style.transform = 'none');
     stage.appendChild(card);
-    restartFn = () => { card.style.transform = 'perspective(500px) rotateY(15deg) scale(1.05)'; setTimeout(() => card.style.transform = 'none', 260); };
+    restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
   }
 
   return { restart: restartFn, destroy: destroyFn };
