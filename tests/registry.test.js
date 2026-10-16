@@ -51,5 +51,44 @@ describe('DartNova Component Registry', () => {
       expect(items, `Category ${cat.id} should have exactly 10 components`).toHaveLength(10);
     }
   });
+
+  it('verifies that all 18 bespoke interactive components render and execute cleanly', () => {
+    const bespokeIds = [
+      'radial-menu',
+      'animated-sidebar',
+      'pill-tab-switcher',
+      'breadcrumb-reveal',
+      'shared-axis-transition',
+      'hero-image-transition',
+      'cube-transition-3d',
+      'diagonal-wipe',
+      'zoom-page-transition',
+      'slide-fade-route',
+      'morphing-container-transition',
+      'liquid-page-transition',
+      'expandable-bottom-sheet',
+      'blur-backdrop-dialog',
+      'fullscreen-modal-reveal',
+      'snackbar-slide',
+      'popover-morph',
+      'notification-stack'
+    ];
+
+    for (const id of bespokeIds) {
+      const comp = getComponentById(id);
+      expect(comp, `Component ${id} must exist in registry`).toBeTruthy();
+      expect(comp.id).toBe(id);
+
+      const container = document.createElement('div');
+      const instance = comp.render(container, { accentColor: '#C5FF35', duration: 350 });
+      expect(container.children.length).toBeGreaterThan(0);
+      expect(typeof instance.restart).toBe('function');
+      expect(typeof instance.destroy).toBe('function');
+
+      // Verify lifecycle execution does not crash
+      expect(() => instance.restart()).not.toThrow();
+      expect(() => instance.destroy()).not.toThrow();
+    }
+  });
 });
 
