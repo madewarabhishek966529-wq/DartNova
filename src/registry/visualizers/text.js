@@ -227,6 +227,35 @@ export function renderTextVisualizer(id, name, icon, accent, duration, stage) {
     stage.appendChild(el);
     restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
 
+  } else if (id.includes('typing-text') || id === 'typing-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:var(--font-mono); font-size:18px; font-weight:800; color:#FFF; display:flex; align-items:center; cursor:pointer;';
+    el.innerHTML = `<span>flutter run -d chrome</span><span style="display:inline-block; width:8px; height:18px; background:${accent}; animation:dnPulseGlow 0.8s infinite; margin-left:4px;"></span>`;
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.08)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('text-reveal') || id === 'text-reveal') {
+    const el = document.createElement('div');
+    el.style.cssText = `position:relative; font-family:var(--font-display); font-size:22px; font-weight:900; color:${accent}; cursor:pointer; overflow:hidden;`;
+    el.innerHTML = `<span>TEXT REVEAL ✦</span><div style="position:absolute; inset:0; background:#101319; transform:translateX(100%); transition:transform 0.5s ease;"></div>`;
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.1)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('staggered-text') || id === 'staggered-text') {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex; gap:3px; font-size:22px; font-weight:900; cursor:pointer;';
+    const text = 'STAGGER';
+    el.innerHTML = text.split('').map((c, i) => `<span style="animation:dnFloatLevitate ${0.6 + i * 0.1}s infinite alternate; color:${accent};">${c}</span>`).join('');
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.15)'; setTimeout(() => el.style.transform = 'none', 180); };
+
+  } else if (id.includes('kinetic-marquee') || id === 'kinetic-marquee') {
+    const el = document.createElement('div');
+    el.style.cssText = 'padding:6px 14px; border-radius:99px; background:#151A26; border:1px solid ${accent}; font-family:var(--font-mono); font-size:11px; font-weight:900; color:${accent}; cursor:pointer;';
+    el.textContent = '◀ 120 FPS ULTRA SMOOTH MARQUEE ▶';
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.08)'; setTimeout(() => el.style.transform = 'none', 180); };
+
   } else {
     // Default text visualizer
     const el = document.createElement('div');

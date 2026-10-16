@@ -221,8 +221,38 @@ export function renderLoaderVisualizer(id, name, icon, accent, duration, stage) 
     stage.appendChild(wrap);
     restartFn = () => { wrap.style.transform = 'scale(1.2)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
+  } else if (id.includes('particle-loader') || id === 'particle-loader') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:60px; height:60px; cursor:pointer;';
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement('div');
+      p.style.cssText = `position:absolute; width:6px; height:6px; border-radius:50%; background:${accent}; top:${27 + Math.sin(i * 0.8) * 20}px; left:${27 + Math.cos(i * 0.8) * 20}px; animation:dnFloatLevitate 1s infinite alternate; animation-delay:${i * 0.1}s;`;
+      wrap.appendChild(p);
+    }
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.2)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('liquid-loader') || id === 'liquid-loader') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:50px; height:50px; border-radius:45% 55% 60% 40%; background:linear-gradient(135deg, ${accent}, #42E8F5); animation:dnOrbitRotate 3s linear infinite; cursor:pointer; box-shadow:0 0 16px ${accent}66;`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.25)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('circular-progress-ring') || id === 'circular-progress-ring') {
+    const el = document.createElement('div');
+    el.style.cssText = 'width:50px; height:50px; cursor:pointer;';
+    el.innerHTML = `<svg viewBox="0 0 50 50" style="width:100%; height:100%; animation:dnOrbitRotate 1.4s linear infinite;"><circle cx="25" cy="25" r="20" fill="none" stroke="${accent}" stroke-width="4" stroke-dasharray="80" stroke-dashoffset="20" stroke-linecap="round"/></svg>`;
+    stage.appendChild(el);
+    restartFn = () => { el.style.transform = 'scale(1.2)'; setTimeout(() => el.style.transform = 'none', 200); };
+
+  } else if (id.includes('morphing-blob-loader') || id === 'morphing-blob-loader') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:45px; height:45px; border-radius:30% 70% 70% 30% / 30% 30% 70% 70%; background:${accent}; animation:dnPulseGlow 1.2s infinite alternate; cursor:pointer; box-shadow:0 0 18px ${accent}66;`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.25)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
   } else {
-    // Circular Progress Default
+    // Default Loader
     const el = document.createElement('div');
     el.className = 'dn-circular-ring-widget';
     el.style.cssText = 'width:50px; height:50px; cursor:pointer;';

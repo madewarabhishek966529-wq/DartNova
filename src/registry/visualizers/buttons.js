@@ -319,7 +319,7 @@ export function renderButtonVisualizer(id, name, icon, accent, duration, stage) 
     stage.appendChild(btn);
     restartFn = () => { glow.style.opacity = '1'; glow.style.left = '50%'; glow.style.top = '50%'; };
 
-  } else {
+  } else if (id.includes('pop-button') || id === 'pop-button') {
     // Pop Button
     const btn = document.createElement('button');
     btn.style.cssText = `padding:12px 26px; border-radius:10px; background:${accent}; color:#08090B; border:none; font-weight:900; font-size:13px; cursor:pointer; box-shadow:0 8px 20px ${accent}66; transition:transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);`;
@@ -331,6 +331,14 @@ export function renderButtonVisualizer(id, name, icon, accent, duration, stage) 
     });
     stage.appendChild(btn);
     restartFn = () => btn.click();
+
+  } else {
+    // Default Button
+    const btn = document.createElement('button');
+    btn.style.cssText = `padding:12px 26px; border-radius:10px; background:${accent}; color:#08090B; border:none; font-weight:900; font-size:13px; cursor:pointer;`;
+    btn.textContent = name || 'Button';
+    stage.appendChild(btn);
+    restartFn = () => { btn.style.transform = 'scale(1.1)'; setTimeout(() => btn.style.transform = 'none', 180); };
   }
 
   return { restart: restartFn, destroy: destroyFn };

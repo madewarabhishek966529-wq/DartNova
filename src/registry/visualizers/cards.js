@@ -258,8 +258,56 @@ export function renderCardVisualizer(id, name, icon, accent, duration, stage) {
     stage.appendChild(card);
     restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
 
+  } else if (id.includes('cursor-card') || id === 'cursor-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `perspective:400px; width:160px; height:90px; border-radius:10px; background:#161D2B; border:1.5px solid ${accent}; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 10px 24px rgba(0,0,0,0.6); transition:transform 0.2s;`;
+    card.innerHTML = `<span style="font-size:18px;">🎴</span><span style="font-size:10px; font-weight:800; color:#FFF; margin-top:2px;">Cursor 3D Card</span>`;
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${x * 25}deg) rotateX(${-y * 25}deg)`;
+    });
+    card.addEventListener('mouseleave', () => card.style.transform = 'none');
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.1)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('animated-card-stack') || id === 'animated-card-stack') {
+    const card = document.createElement('div');
+    card.style.cssText = 'position:relative; width:140px; height:85px; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    card.innerHTML = `
+      <div style="position:absolute; width:110px; height:65px; border-radius:8px; background:#121622; border:1px solid #283144; transform:translateY(-8px) scale(0.92);"></div>
+      <div style="position:absolute; width:120px; height:70px; border-radius:8px; background:#161C28; border:1px solid #333F54; transform:translateY(-4px) scale(0.96);"></div>
+      <div style="position:absolute; width:130px; height:75px; border-radius:8px; background:#1C2436; border:1.5px solid ${accent}; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:9px; font-weight:800;">Card Stack</div>
+    `;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.1)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('glow-pulse-card') || id === 'glow-pulse-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `width:160px; height:90px; border-radius:10px; background:#141824; border:1.5px solid ${accent}; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 20px ${accent}66; animation:dnPulseGlow 2s infinite alternate;`;
+    card.innerHTML = `<span style="font-size:18px;">💡</span><span style="font-size:10px; font-weight:800; color:#FFF;">Glow Pulse Card</span>`;
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.1)'; setTimeout(() => card.style.transform = 'none', 180); };
+
+  } else if (id.includes('cursor-follow-card') || id === 'cursor-follow-card') {
+    const card = document.createElement('div');
+    card.style.cssText = `position:relative; width:160px; height:90px; border-radius:10px; background:#11151E; border:1px solid #282E3D; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    card.innerHTML = `
+      <div class="cfc-spot" style="position:absolute; width:80px; height:80px; border-radius:50%; background:radial-gradient(circle, ${accent}44, transparent); pointer-events:none;"></div>
+      <span style="position:relative; z-index:1; font-size:10px; font-weight:800; color:#FFF;">Cursor Follow</span>
+    `;
+    const spot = card.querySelector('.cfc-spot');
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      spot.style.left = `${e.clientX - r.left - 40}px`;
+      spot.style.top = `${e.clientY - r.top - 40}px`;
+    });
+    stage.appendChild(card);
+    restartFn = () => { card.style.transform = 'scale(1.08)'; setTimeout(() => card.style.transform = 'none', 180); };
+
   } else {
-    // Cursor Card Default
+    // Default Card
     const card = document.createElement('div');
     card.style.cssText = `width:170px; height:95px; border-radius:10px; background:#141722; border:1px solid #262D3D; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s;`;
     card.innerHTML = `<span style="font-size:11px; font-weight:800; color:${accent};">🎴 Responsive Card</span>`;

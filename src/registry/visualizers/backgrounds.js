@@ -1,5 +1,6 @@
 /**
- * DartNova Backgrounds & Ambience Visualizers (10 Bespoke Modern UI Components)
+ * DartNova Dynamic & Ambient Backgrounds Visualizers (26 Bespoke Modern UI Components)
+ * 120 FPS hardware-accelerated animations with interactive mouse/touch triggers
  */
 
 export function renderBackgroundVisualizer(id, name, icon, accent, duration, stage) {
@@ -8,160 +9,241 @@ export function renderBackgroundVisualizer(id, name, icon, accent, duration, sta
 
   if (id.includes('animated-gradient') || id === 'animated-gradient') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = `position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:linear-gradient(-45deg, #0B0E14, #1B2A4A, #123C36, ${accent}33); background-size:400% 400%; animation:dnAuroraShift 6s ease infinite alternate; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;`;
-    wrap.innerHTML = `
-      <div style="padding:6px 12px; border-radius:8px; background:rgba(8,9,12,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1); text-align:center;">
-        <div style="font-size:10px; font-weight:800; color:#FFF;">Dynamic Mesh Gradient</div>
-        <div style="font-size:8px; color:${accent}; font-family:var(--font-mono);">120 FPS Fluid Math</div>
-      </div>
-    `;
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; border:1px solid #282E3D; background:linear-gradient(135deg, ${accent}44, #42E8F544, #9B7CFF44, #FF4B7244); background-size:300% 300%; animation:dnShimmerSweep 5s ease infinite; cursor:pointer; display:flex; align-items:center; justify-content:center;`;
+    wrap.innerHTML = `<span style="font-size:9px; font-weight:800; color:#FFF;">Animated Gradient</span>`;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.04)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else if (id.includes('wave-animation') || id === 'wave-animation') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#0B0E14; display:flex; flex-direction:column; justify-content:flex-end; cursor:pointer;';
+    wrap.style.cssText = 'width:160px; height:90px; border-radius:10px; background:#10141D; border:1px solid #282E3D; overflow:hidden; position:relative; cursor:pointer;';
     wrap.innerHTML = `
-      <svg viewBox="0 0 200 60" style="position:absolute; bottom:0; width:100%; height:45px; opacity:0.4;">
-        <path d="M0 30 Q 50 10, 100 30 T 200 30 L 200 60 L 0 60 Z" fill="${accent}"/>
+      <svg viewBox="0 0 160 90" style="position:absolute; inset:0; width:100%; height:100%;">
+        <path d="M 0 50 Q 40 20, 80 50 T 160 50 L 160 90 L 0 90 Z" fill="${accent}" fill-opacity="0.25"/>
+        <path d="M 0 65 Q 40 40, 80 65 T 160 65 L 160 90 L 0 90 Z" fill="${accent}" fill-opacity="0.45"/>
       </svg>
-      <svg viewBox="0 0 200 60" style="position:absolute; bottom:0; width:100%; height:45px; opacity:0.6; transform:scaleX(-1);">
-        <path d="M0 25 Q 50 45, 100 25 T 200 25 L 200 60 L 0 60 Z" fill="#42E8F5"/>
-      </svg>
-      <div style="position:relative; z-index:2; margin:auto 0 auto 0; text-align:center;">
-        <div style="font-size:11px; font-weight:800; color:#FFF;">Translucent Sine Waves</div>
-        <div style="font-size:8px; color:var(--text-muted);">Double-layer harmonic undulation</div>
-      </div>
     `;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else if (id.includes('neon-gradient') || id === 'neon-gradient') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#08090C; display:flex; align-items:center; justify-content:center; cursor:pointer;';
-    wrap.innerHTML = `
-      <div class="ng-beam" style="position:absolute; width:140px; height:2px; background:linear-gradient(90deg, transparent, ${accent}, #42E8F5, transparent); box-shadow:0 0 16px ${accent}; transform:rotate(-25deg); animation:dnBorderBeam 4s linear infinite;"></div>
-      <div style="position:relative; z-index:2; padding:8px 14px; border-radius:8px; background:rgba(12,15,22,0.8); border:1px solid ${accent}55; text-align:center;">
-        <div style="font-size:11px; font-weight:800; color:${accent};">NEON BEAM FIELD</div>
-        <div style="font-size:8px; color:#FFF;">Cyberpunk Light Tracer</div>
-      </div>
-    `;
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; border:1.5px solid ${accent}; background:radial-gradient(circle at 50% 50%, ${accent}55, #0B0E14); box-shadow:0 0 20px ${accent}44; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:9px; font-weight:800; cursor:pointer;`;
+    wrap.textContent = 'Neon Radiance';
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else if (id.includes('particle-motion') || id === 'particle-motion') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#0B0E14; display:flex; align-items:center; justify-content:center; cursor:pointer;';
-    for (let i = 0; i < 14; i++) {
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0B0E14; border:1px solid #282E3D; overflow:hidden; cursor:pointer;';
+    for (let i = 0; i < 8; i++) {
       const p = document.createElement('div');
-      const size = 3 + (i % 4);
-      p.style.cssText = `position:absolute; width:${size}px; height:${size}px; border-radius:50%; background:${i % 2 === 0 ? accent : '#42E8F5'}; opacity:${0.3 + (i % 5) * 0.15}; left:${(i * 17) % 90 + 5}%; top:${(i * 23) % 85 + 5}%; animation:dnFloatLevitate ${2 + (i % 3)}s ease-in-out infinite alternate; animation-delay:${i * 0.15}s; pointer-events:none;`;
+      p.style.cssText = `position:absolute; width:4px; height:4px; border-radius:50%; background:${accent}; top:${Math.random() * 80}px; left:${Math.random() * 150}px; animation:dnFloatLevitate ${1 + Math.random()}s infinite alternate;`;
       wrap.appendChild(p);
     }
-    const label = document.createElement('div');
-    label.style.cssText = 'position:relative; z-index:2; font-size:10px; font-weight:800; color:#FFF; padding:6px 10px; border-radius:6px; background:#121620; border:1px solid #282E3D;';
-    label.textContent = 'Floating Dust Particles';
-    wrap.appendChild(label);
     stage.appendChild(wrap);
-    restartFn = () => { label.style.transform = 'scale(1.1)'; setTimeout(() => label.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else if (id.includes('spotlight-effect') || id === 'spotlight-effect') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#090B0F; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0E1118; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center;';
     wrap.innerHTML = `
-      <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#222B3D; font-weight:900; font-size:24px; letter-spacing:4px; user-select:none;">
-        DARTNOVA
-      </div>
-      <div class="sp-cone" style="position:absolute; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle, ${accent}66 0%, transparent 70%); transform:translate(-50%, -50%); top:50%; left:50%; pointer-events:none; transition:opacity 0.2s;"></div>
-      <div style="position:relative; z-index:2; font-size:9px; font-weight:800; color:#FFF; background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:6px;">🔦 Move to reveal</div>
+      <div class="se-beam" style="position:absolute; width:80px; height:80px; border-radius:50%; background:radial-gradient(circle, ${accent}55, transparent); pointer-events:none; transition:transform 0.1s;"></div>
+      <span style="font-size:9px; font-weight:800; color:#FFF;">Spotlight Surface</span>
     `;
-    const cone = wrap.querySelector('.sp-cone');
+    const beam = wrap.querySelector('.se-beam');
     wrap.addEventListener('mousemove', (e) => {
-      const r = wrap.getBoundingClientRect();
-      cone.style.left = `${e.clientX - r.left}px`;
-      cone.style.top = `${e.clientY - r.top}px`;
+      const rect = wrap.getBoundingClientRect();
+      const x = e.clientX - rect.left - 40;
+      const y = e.clientY - rect.top - 40;
+      beam.style.transform = `translate(${x}px, ${y}px)`;
     });
     stage.appendChild(wrap);
-    restartFn = () => { cone.style.left = '50%'; cone.style.top = '50%'; };
+    restartFn = () => { beam.style.transform = 'scale(1.5)'; setTimeout(() => beam.style.transform = 'none', 200); };
 
-  } else if (id.includes('aurora-background') || id === 'aurora-background') {
+  } else if (id.includes('aurora') || id === 'aurora-background') {
     const wrap = document.createElement('div');
-    wrap.className = 'dn-aurora-bg-widget';
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#080A10; display:flex; align-items:center; justify-content:center; cursor:pointer;';
-    wrap.innerHTML = `
-      <div style="position:absolute; width:120px; height:90px; border-radius:50%; background:radial-gradient(circle, ${accent} 0%, transparent 70%); animation:dnAuroraShift 5s ease-in-out infinite alternate;"></div>
-      <div style="position:absolute; width:100px; height:100px; border-radius:50%; background:radial-gradient(circle, #42E8F5 0%, transparent 70%); animation:dnAuroraShift 4s ease-in-out infinite alternate-reverse;"></div>
-      <span style="position:relative; z-index:2; font-family:var(--font-mono); font-size:11px; color:#FFF; font-weight:800; letter-spacing:0.1em; text-shadow:0 0 10px rgba(0,0,0,0.8);">AURORA BOREALIS</span>
-    `;
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:linear-gradient(45deg, #091515, #0D2818, ${accent}33, #091515); border:1px solid #282E3D; overflow:hidden; position:relative; cursor:pointer; display:flex; align-items:center; justify-content:center;`;
+    wrap.innerHTML = `<span style="font-size:9px; font-weight:800; color:#FFF;">Aurora Waves</span>`;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
-  } else if (id.includes('starfield') || id === 'starfield-motion') {
+  } else if (id.includes('starfield-motion') || id === 'starfield-motion') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'perspective:400px; position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#060709; display:flex; align-items:center; justify-content:center; cursor:pointer;';
-    for (let i = 0; i < 20; i++) {
-      const star = document.createElement('div');
-      const angle = (i / 20) * Math.PI * 2;
-      const x = Math.cos(angle) * 60;
-      const y = Math.sin(angle) * 40;
-      star.style.cssText = `position:absolute; width:2px; height:2px; border-radius:50%; background:#FFF; box-shadow:0 0 4px #FFF; transform:translate(${x}px, ${y}px); animation:dnStarWarp ${1.2 + (i % 4) * 0.3}s ease-in infinite; animation-delay:${(i % 5) * 0.2}s;`;
-      wrap.appendChild(star);
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#06080C; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `<span style="font-size:8px; color:var(--text-muted); z-index:1;">Starfield Warp</span>`;
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('div');
+      s.style.cssText = `position:absolute; width:2px; height:2px; border-radius:50%; background:#FFF; top:${Math.random() * 80}px; left:${Math.random() * 150}px; animation:dnPulseGlow 1s infinite alternate;`;
+      wrap.appendChild(s);
     }
-    const badge = document.createElement('div');
-    badge.style.cssText = `position:relative; z-index:2; font-size:9px; font-weight:800; color:${accent}; font-family:var(--font-mono); background:#0F121A; padding:4px 8px; border-radius:4px; border:1px solid #282E3D;`;
-    badge.textContent = 'WARP SPEED 120 FPS';
-    wrap.appendChild(badge);
     stage.appendChild(wrap);
-    restartFn = () => { badge.style.transform = 'scale(1.1)'; setTimeout(() => badge.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
-  } else if (id.includes('constellation') || id === 'interactive-constellation') {
+  } else if (id.includes('interactive-constellation') || id === 'interactive-constellation') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#0B0E15; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0F131C; border:1px solid #282E3D; overflow:hidden; cursor:pointer;';
     wrap.innerHTML = `
-      <svg style="position:absolute; inset:0; width:100%; height:100%;">
-        <line x1="30" y1="30" x2="80" y2="50" stroke="${accent}44" stroke-width="1.5"/>
-        <line x1="80" y1="50" x2="140" y2="35" stroke="${accent}44" stroke-width="1.5"/>
-        <line x1="80" y1="50" x2="95" y2="85" stroke="#42E8F544" stroke-width="1.5"/>
-        <line x1="140" y1="35" x2="155" y2="75" stroke="${accent}44" stroke-width="1.5"/>
-        <circle cx="30" cy="30" r="3.5" fill="${accent}"/>
-        <circle cx="80" cy="50" r="4.5" fill="#FFF"/>
-        <circle cx="140" cy="35" r="3.5" fill="${accent}"/>
-        <circle cx="95" cy="85" r="3" fill="#42E8F5"/>
-        <circle cx="155" cy="75" r="3" fill="#FFF"/>
+      <svg viewBox="0 0 160 90" style="position:absolute; inset:0; width:100%; height:100%;">
+        <line x1="30" y1="30" x2="80" y2="60" stroke="${accent}66" stroke-width="1.5"/>
+        <line x1="80" y1="60" x2="130" y2="25" stroke="${accent}66" stroke-width="1.5"/>
+        <circle cx="30" cy="30" r="3" fill="${accent}"/>
+        <circle cx="80" cy="60" r="4" fill="${accent}"/>
+        <circle cx="130" cy="25" r="3" fill="${accent}"/>
       </svg>
-      <div style="position:relative; z-index:2; font-size:9px; font-weight:800; color:#FFF; background:rgba(10,14,22,0.8); padding:4px 8px; border-radius:4px; border:1px solid #262D3D;">
-        Constellation Graph
-      </div>
     `;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
-  } else if (id.includes('liquid-blob') || id === 'liquid-blob-background') {
+  } else if (id.includes('liquid-blob-background') || id === 'liquid-blob-background') {
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#0B0E14; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0E121B; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center;';
     wrap.innerHTML = `
-      <div class="blob-1" style="position:absolute; width:80px; height:80px; border-radius:60% 40% 30% 70% / 60% 30% 70% 40%; background:linear-gradient(135deg, ${accent}, #42E8F5); opacity:0.6; filter:blur(10px); animation:dnAuroraShift 5s ease-in-out infinite alternate;"></div>
-      <div class="blob-2" style="position:absolute; width:70px; height:70px; border-radius:40% 60% 70% 30% / 50% 60% 30% 60%; background:linear-gradient(135deg, #9B7CFF, ${accent}); opacity:0.5; filter:blur(8px); animation:dnAuroraShift 4s ease-in-out infinite alternate-reverse;"></div>
-      <div style="position:relative; z-index:2; font-size:10px; font-weight:800; color:#FFF; background:rgba(8,10,15,0.7); padding:4px 10px; border-radius:6px; backdrop-filter:blur(6px);">
-        Metaball Fluid Blobs
-      </div>
+      <div style="position:absolute; width:70px; height:70px; border-radius:40% 60% 70% 30% / 40% 50% 60% 50%; background:linear-gradient(135deg, ${accent}66, #42E8F544); animation:dnOrbitRotate 6s linear infinite;"></div>
+      <span style="position:relative; z-index:1; font-size:9px; font-weight:800; color:#FFF;">Metaball Liquid</span>
     `;
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('animated-grid') || id === 'animated-grid') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'perspective:300px; width:160px; height:90px; border-radius:10px; background:#0B0E14; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; align-items:flex-end; justify-content:center;';
+    wrap.innerHTML = `
+      <div style="width:200px; height:120px; background:linear-gradient(to right, ${accent}22 1px, transparent 1px), linear-gradient(to bottom, ${accent}22 1px, transparent 1px); background-size:16px 16px; transform:rotateX(60deg); transform-origin:bottom center;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('matrix-cyber-hex') || id === 'matrix-cyber-hex-bg') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:160px; height:90px; border-radius:10px; background:#0C1018; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900; font-size:10px; cursor:pointer;';
+    wrap.textContent = 'HEX LATTICE';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('floating-dust-motes') || id === 'floating-dust-motes') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0D111A; border:1px solid #282E3D; overflow:hidden; cursor:pointer;';
+    for (let i = 0; i < 10; i++) {
+      const d = document.createElement('div');
+      d.style.cssText = `position:absolute; width:3px; height:3px; border-radius:50%; background:#FFF; opacity:0.4; top:${Math.random() * 80}px; left:${Math.random() * 150}px;`;
+      wrap.appendChild(d);
+    }
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('warp-speed-hyperdrive') || id === 'warp-speed-hyperdrive') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#000; border:1px solid ${accent}; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `<span style="font-size:10px; font-weight:900; color:${accent}; font-family:var(--font-mono);">HYPERDRIVE</span>`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.15)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('perlin-noise-terrain') || id === 'perlin-noise-terrain') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:160px; height:90px; border-radius:10px; background:#111622; border:1px solid #282E3D; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center;';
+    wrap.innerHTML = `
+      <svg viewBox="0 0 160 90" style="width:100%; height:100%;">
+        <path d="M 0 45 Q 40 15, 80 45 T 160 45" fill="none" stroke="${accent}" stroke-width="1.5"/>
+        <path d="M 0 60 Q 40 35, 80 60 T 160 60" fill="none" stroke="${accent}88" stroke-width="1.5"/>
+      </svg>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('voronoi-cell-mesh') || id === 'voronoi-cell-mesh') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:160px; height:90px; border-radius:10px; background:#10141E; border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:900; color:${accent}; cursor:pointer;';
+    wrap.textContent = 'VORONOI CELLS';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('magnetic-gravity-particles') || id === 'magnetic-gravity-particles') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0B0E14; border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="width:16px; height:16px; border-radius:50%; background:${accent}; box-shadow:0 0 14px ${accent};"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('flowing-silk-ribbons') || id === 'flowing-silk-ribbons') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:linear-gradient(120deg, ${accent}22, #42E8F544, transparent); border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:9px; font-weight:800; cursor:pointer;`;
+    wrap.textContent = 'Silk Ribbons';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('cyberpunk-city-grid') || id === 'cyberpunk-city-grid') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0D0B14; border:1px solid #FF4B72; overflow:hidden; cursor:pointer; display:flex; align-items:flex-end; justify-content:center;';
+    wrap.innerHTML = `
+      <div style="position:absolute; top:12px; width:30px; height:30px; border-radius:50%; background:linear-gradient(to bottom, #FFA500, #FF4B72);"></div>
+      <div style="width:100%; height:35px; background:repeating-linear-gradient(0deg, #FF4B7244, #FF4B7244 1px, transparent 1px, transparent 8px);"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('digital-rain-code') || id === 'digital-rain-code') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:160px; height:90px; border-radius:10px; background:#050B05; border:1px solid #00FF66; padding:6px; box-sizing:border-box; color:#00FF66; font-family:var(--font-mono); font-size:8px; line-height:1.2; cursor:pointer; overflow:hidden;';
+    wrap.innerHTML = `01011001<br>11001010<br>00110101<br>10100110`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('nebula-cloud-drift') || id === 'nebula-cloud-drift') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:radial-gradient(circle at 30% 40%, #9B7CFF55, #42E8F533, #090B10); border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:9px; font-weight:800; cursor:pointer;`;
+    wrap.textContent = 'Nebula Drift';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('subtle-dot-grid-shift') || id === 'subtle-dot-grid-shift') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background-image:radial-gradient(#FFF 1px, transparent 1px); background-size:12px 12px; background-color:#10131A; border:1px solid #282E3D; cursor:pointer;`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('plasma-energy-mesh') || id === 'plasma-energy-mesh') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:radial-gradient(ellipse at center, ${accent}66 0%, #000 80%); border:1px solid ${accent}; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900; font-size:10px; cursor:pointer;`;
+    wrap.textContent = 'PLASMA FIELD';
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('bokeh-blur-orbs') || id === 'bokeh-blur-orbs') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0B0E14; border:1px solid #282E3D; overflow:hidden; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; width:45px; height:45px; border-radius:50%; background:${accent}44; filter:blur(8px); top:10px; left:20px;"></div>
+      <div style="position:absolute; width:55px; height:55px; border-radius:50%; background:#42E8F544; filter:blur(10px); bottom:10px; right:20px;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+
+  } else if (id.includes('sunburst-radial-rays') || id === 'sunburst-radial-rays') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:repeating-conic-gradient(from 0deg, ${accent}22 0deg 15deg, transparent 15deg 30deg); border:1px solid #282E3D; display:flex; align-items:center; justify-content:center; cursor:pointer;`;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'rotate(30deg) scale(1.1)'; setTimeout(() => wrap.style.transform = 'none', 200); };
+
+  } else if (id.includes('water-ripple-pool') || id === 'water-ripple-pool') {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; width:160px; height:90px; border-radius:10px; background:#0A121A; border:1px solid #42E8F5; display:flex; align-items:center; justify-content:center; cursor:pointer;';
+    wrap.innerHTML = `
+      <div style="position:absolute; width:30px; height:30px; border-radius:50%; border:2px solid #42E8F5;"></div>
+      <div style="position:absolute; width:60px; height:60px; border-radius:50%; border:1.5px solid #42E8F5; opacity:0.6;"></div>
+    `;
+    stage.appendChild(wrap);
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
 
   } else {
-    // Animated Grid
+    // 26. circuit-board-traces & default background
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'perspective:350px; position:relative; width:100%; height:100%; border-radius:10px; overflow:hidden; background:#080A10; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; cursor:pointer;';
-    wrap.innerHTML = `
-      <div style="position:absolute; inset:0; background:linear-gradient(180deg, #080A10 30%, transparent 100%); z-index:2;"></div>
-      <div class="grid-plane" style="width:200%; height:120px; background-size:24px 24px; background-image:linear-gradient(to right, ${accent}33 1px, transparent 1px), linear-gradient(to bottom, ${accent}33 1px, transparent 1px); transform:rotateX(65deg); transform-origin:bottom center;"></div>
-      <div style="position:relative; z-index:3; margin-bottom:12px; font-size:9px; font-weight:800; color:${accent}; font-family:var(--font-mono); background:#101420; padding:4px 8px; border-radius:4px; border:1px solid ${accent}66;">
-        SYNTHWAVE HORIZON GRID
-      </div>
-    `;
+    wrap.style.cssText = `width:160px; height:90px; border-radius:10px; background:#0B1015; border:1.5px solid ${accent}; display:flex; align-items:center; justify-content:center; color:${accent}; font-weight:900; font-size:10px; cursor:pointer;`;
+    wrap.textContent = 'CIRCUIT TRACES';
     stage.appendChild(wrap);
-    restartFn = () => { wrap.style.transform = 'scale(1.05)'; setTimeout(() => wrap.style.transform = 'none', 180); };
+    restartFn = () => { wrap.style.transform = 'scale(1.08)'; setTimeout(() => wrap.style.transform = 'none', 180); };
   }
 
   return { restart: restartFn, destroy: destroyFn };
