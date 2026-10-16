@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { COMPONENTS, CATEGORIES, getComponentById, getComponentsByCategory } from '../src/registry/components.js';
 
 describe('DartNova Component Registry', () => {
-  it('should register all 180 components (18 formal categories x 10 components)', () => {
-    expect(COMPONENTS).toHaveLength(180);
+  it('should register all 468 components (18 formal categories x 26 components)', () => {
+    expect(COMPONENTS).toHaveLength(468);
   });
 
   it('should have 19 categories defined including all (18 formal categories)', () => {
@@ -33,28 +33,28 @@ describe('DartNova Component Registry', () => {
 
   it('getComponentsByCategory should filter correctly', () => {
     const buttons = getComponentsByCategory('buttons');
-    expect(buttons.length).toBeGreaterThanOrEqual(10);
+    expect(buttons.length).toBeGreaterThanOrEqual(26);
     for (const b of buttons) {
       expect(b.category).toBe('buttons');
     }
 
     const shaders = getComponentsByCategory('shaders');
-    expect(shaders).toHaveLength(10);
+    expect(shaders).toHaveLength(26);
 
     const ai = getComponentsByCategory('ai-interactions');
-    expect(ai).toHaveLength(10);
+    expect(ai).toHaveLength(26);
 
     const all = getComponentsByCategory('all');
-    expect(all).toHaveLength(180);
+    expect(all).toHaveLength(468);
   });
 
-  it('every one of the 18 formal categories should have exactly 10 components', () => {
+  it('every one of the 18 formal categories should have exactly 26 components', () => {
     const formalCategories = CATEGORIES.filter(c => c.id !== 'all');
     expect(formalCategories).toHaveLength(18);
 
     for (const cat of formalCategories) {
       const items = COMPONENTS.filter(c => c.category === cat.id);
-      expect(items, `Category ${cat.id} should have exactly 10 components`).toHaveLength(10);
+      expect(items, `Category ${cat.id} should have exactly 26 components`).toHaveLength(26);
     }
   });
 
@@ -97,7 +97,7 @@ describe('DartNova Component Registry', () => {
     }
   });
 
-  it('verifies that all 180 components across all 18 categories render and execute lifecycles cleanly', () => {
+  it('verifies that all 468 components across all 18 categories render and execute lifecycles cleanly', () => {
     for (const comp of COMPONENTS) {
       const container = document.createElement('div');
       const props = Object.assign({}, comp.defaultProps, { accentColor: '#C5FF35', duration: 350 });

@@ -8,7 +8,7 @@ export const CATEGORIES = [
     id: 'all', 
     name: 'All Categories', 
     icon: '⚡', 
-    description: 'Complete 160-component motion catalog for Flutter developers' 
+    description: 'Complete 468-component motion catalog for Flutter developers' 
   },
   { 
     id: 'buttons', 
