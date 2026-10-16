@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const siteHeader = document.querySelector('.site-header');
 
   // 7. View Switcher logic
-  const updateView = (currentView) => {
+  const updateView = (currentView, prevView) => {
     if (siteHeader) {
       siteHeader.classList.toggle('landing-mode', currentView === 'landing');
     }
