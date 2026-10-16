@@ -15,11 +15,12 @@
   top: 0;
   z-index: 100;
   height: var(--header-height);
-  background: rgba(8, 8, 8, 0.78);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-default);
   transition: border-color var(--duration-fast) ease;
+  transform: translateZ(0);
 }
 
 .site-header::after {

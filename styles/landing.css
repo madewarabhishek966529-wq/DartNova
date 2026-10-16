@@ -19,6 +19,8 @@
   z-index: 0;
   opacity: 0.45;
   animation: floatOrb 8s ease-in-out infinite alternate;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .hero-ambient-orb.orb-1 {
@@ -378,15 +380,14 @@
 .kinetic-ticker-wrapper {
   width: 100%;
   overflow: hidden;
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.94);
   border-top: 1px solid var(--border-default);
   border-bottom: 1px solid var(--border-default);
   padding: 14px 0;
   margin: var(--space-8) 0 var(--space-12);
   position: relative;
   z-index: 3;
+  contain: layout paint;
 }
 
 .kinetic-ticker-wrapper::before,
@@ -417,6 +418,7 @@
   width: max-content;
   animation: kineticTickerScroll 35s linear infinite;
   will-change: transform;
+  transform: translateZ(0);
 }
 
 .kinetic-ticker-track:hover {
@@ -887,6 +889,10 @@
   flex-direction: column;
   cursor: pointer;
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 340px 380px;
+  contain: layout style;
+  will-change: transform;
 }
 
 .component-card::before {
@@ -921,6 +927,7 @@
   border-bottom: 1px solid var(--border-subtle);
   user-select: none;
   z-index: 2;
+  contain: layout paint;
 }
 
 .component-preview-box::before {
@@ -1103,7 +1110,11 @@
   flex-direction: column;
   gap: var(--space-3);
   position: relative;
-  transition: all var(--duration-fast) ease;
+  transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  content-visibility: auto;
+  contain-intrinsic-size: 260px 180px;
+  contain: layout style;
+  will-change: transform;
 }
 
 .workflow-step:hover {
@@ -1161,7 +1172,11 @@
   flex-direction: column;
   gap: var(--space-3);
   cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-smooth);
+  transition: transform var(--duration-normal) var(--ease-smooth), border-color var(--duration-fast) ease, box-shadow var(--duration-normal) ease, background var(--duration-fast) ease;
+  content-visibility: auto;
+  contain-intrinsic-size: 280px 180px;
+  contain: layout style;
+  will-change: transform;
 }
 
 .category-tile:hover {

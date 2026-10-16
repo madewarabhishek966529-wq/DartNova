@@ -584,68 +584,78 @@ export function renderLandingView(containerEl, store) {
       `;
     }).join('');
 
-    // Mount preview animations immediately for visible cards, lazy observe remaining
+    // Bidirectional IntersectionObserver: mounts preview when entering viewport,
+    // unmounts & destroys animation loops when leaving viewport to maintain rock-solid 120 FPS
     const previewBoxes = Array.from(gridEl.querySelectorAll('.component-preview-box'));
     cardObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
+        const box = entry.target;
+        const compId = box.getAttribute('data-comp-id');
+        if (!compId) return;
+
         if (entry.isIntersecting) {
-          const box = entry.target;
-          const compId = box.getAttribute('data-comp-id');
-          if (compId && !activeCardInstances.has(compId)) {
+          if (!activeCardInstances.has(compId)) {
             const comp = COMPONENTS.find(c => c.id === compId);
             if (comp && comp.render) {
-              const inst = comp.render(box, comp.defaultProps);
-              activeCardInstances.set(compId, inst);
+              try {
+                const inst = comp.render(box, comp.defaultProps);
+                activeCardInstances.set(compId, inst);
+              } catch (e) {
+                console.warn('Render card error:', compId, e);
+              }
             }
           }
-        }
-      });
-    }, { rootMargin: '400px 0px' });
-
-    previewBoxes.forEach((box, idx) => {
-      if (idx < 24) {
-        const compId = box.getAttribute('data-comp-id');
-        if (compId && !activeCardInstances.has(compId)) {
-          const comp = COMPONENTS.find(c => c.id === compId);
-          if (comp && comp.render) {
-            const inst = comp.render(box, comp.defaultProps);
-            activeCardInstances.set(compId, inst);
+        } else {
+          // Offscreen: clean up animation frame loops and timers to reclaim GPU/CPU cycles
+          const instance = activeCardInstances.get(compId);
+          if (instance) {
+            try {
+              if (typeof instance.destroy === 'function') {
+                instance.destroy();
+              }
+            } catch (e) {
+              // ignore
+            }
+            activeCardInstances.delete(compId);
+            box.innerHTML = '';
           }
         }
-      } else {
-        cardObserver.observe(box);
-      }
-    });
-
-    // Bind card clicks to navigate to playground
-    gridEl.querySelectorAll('.component-card').forEach(card => {
-      card.addEventListener('click', () => {
-        sound.playClick();
-        const id = card.getAttribute('data-id');
-        window.location.hash = `playground/${id}`;
       });
+    }, { rootMargin: '250px 0px' });
+
+    previewBoxes.forEach(box => {
+      cardObserver.observe(box);
     });
 
-    // Bind card favorite heart clicks
-    gridEl.querySelectorAll('.card-fav-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    // High-performance event delegation on gridEl (zero per-card event listener overhead)
+    gridEl.onclick = (e) => {
+      const favBtn = e.target.closest('.card-fav-btn');
+      if (favBtn) {
         e.stopPropagation();
         sound.playPop();
-        const compId = btn.getAttribute('data-fav-id');
+        const compId = favBtn.getAttribute('data-fav-id');
         const isFav = toggleFavorite(compId);
-        btn.classList.toggle('active', isFav);
-        const svg = btn.querySelector('svg');
+        favBtn.classList.toggle('active', isFav);
+        const svg = favBtn.querySelector('svg');
         if (svg) {
           svg.setAttribute('fill', isFav ? 'var(--accent-primary)' : 'none');
           svg.setAttribute('stroke', isFav ? 'var(--accent-primary)' : 'currentColor');
         }
-        btn.title = isFav ? 'Remove from favorites' : 'Add to favorites';
+        favBtn.title = isFav ? 'Remove from favorites' : 'Add to favorites';
         store.setState({ favorites: getFavorites() });
         if (activeStatusFilter === 'favorites') {
           updateCatalogGrid();
         }
-      });
-    });
+        return;
+      }
+
+      const card = e.target.closest('.component-card');
+      if (card) {
+        sound.playClick();
+        const id = card.getAttribute('data-id');
+        window.location.hash = `playground/${id}`;
+      }
+    };
   };
 
   // Mount Hero Demo Stage
@@ -670,12 +680,16 @@ export function renderLandingView(containerEl, store) {
   mountHeroDemo(activeHeroComponentId);
 
   // 3. Bind Static Filter & Navigation Controls ONCE
-  // Search Input
+  // Search Input with micro-debounce
   const searchInput = containerEl.querySelector('#landing-search-input');
+  let searchDebounceTimer = null;
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       landingSearchQuery = e.target.value;
-      updateCatalogGrid();
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        updateCatalogGrid();
+      }, 120);
     });
   }
 
