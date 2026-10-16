@@ -603,159 +603,529 @@
   background: transparent;
 }
 
-/* 3. RIGHT PANEL - FLUTTER CODE VIEWER */
+/* ============================================================
+   3. EXPANSIVE VS CODE / IDE CODE WORKSPACE
+   ============================================================ */
 .playground-code-panel {
-  width: var(--code-panel-width);
-  min-width: var(--code-panel-width);
-  background: #0c0c0c;
-  border-left: 1px solid var(--border-default);
-  display: flex;
+  display: none; /* Hidden by default until "View Code" is clicked */
+  background: #181a1f;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
   z-index: 20;
 }
 
-.code-panel-header {
-  padding: 0 var(--space-4);
-  height: 48px;
-  background: var(--surface-main);
-  border-bottom: 1px solid var(--border-default);
+/* When codeViewerOpen is true */
+.playground-view.code-open .playground-code-panel {
+  display: flex;
+}
+
+/* Full editor layout: code panel takes the entire workspace area */
+.playground-view.code-open.code-layout-full .playground-workspace {
+  display: none;
+}
+.playground-view.code-open.code-layout-full .playground-code-panel {
+  flex: 1;
+  width: 100%;
+  border-left: none;
+}
+
+/* Split view layout: preview on left, large IDE on right */
+.playground-view.code-open.code-layout-split .playground-workspace {
+  display: flex;
+  flex: 1;
+  min-width: 380px;
+}
+.playground-view.code-open.code-layout-split .playground-code-panel {
+  display: flex;
+  flex: 1.25;
+  min-width: 480px;
+  border-left: 1px solid var(--border-default);
+}
+
+/* 1. IDE Navigation & Top Action Bar */
+.ide-top-bar {
+  min-height: 44px;
+  background: #14161a;
+  border-bottom: 1px solid #23272e;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 14px;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.ide-top-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ide-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: #d7dae0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) ease;
+}
+
+.ide-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateX(-1px);
+}
+
+.ide-v-sep {
+  width: 1px;
+  height: 18px;
+  background: #282c34;
   flex-shrink: 0;
 }
 
-.code-tabs {
-  display: flex;
-  height: 100%;
-  gap: var(--space-2);
-}
-
-.code-tab-btn {
-  height: 100%;
-  padding: 0 var(--space-3);
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  color: var(--text-secondary);
-  border-bottom: 2px solid transparent;
+.ide-path-breadcrumbs {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  cursor: pointer;
-  transition: all var(--duration-fast) ease;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #636d83;
+  user-select: none;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.code-tab-btn:hover {
-  color: var(--text-primary);
+.ide-path-breadcrumbs .path-root,
+.ide-path-breadcrumbs .path-folder {
+  color: #7f848e;
 }
 
-.code-tab-btn.active {
-  color: var(--accent-lime);
-  border-bottom-color: var(--accent-lime);
+.ide-path-breadcrumbs .path-sep {
+  color: #3e4451;
+  font-weight: 400;
 }
 
-.code-actions {
+.ide-path-breadcrumbs .path-file {
+  color: #abb2bf;
+  font-weight: 600;
+}
+
+.ide-top-right {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-.btn-copy {
+.ide-lang-pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: 4px 10px;
-  font-size: var(--text-xs);
-  font-weight: var(--font-semibold);
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: #8a919e;
+  padding: 4px 9px;
+  background: rgba(0, 188, 212, 0.06);
+  border: 1px solid rgba(0, 188, 212, 0.2);
   border-radius: var(--radius-xs);
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
-  color: var(--text-primary);
+  user-select: none;
+}
+
+.ide-lang-pill .lang-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00bcd4;
+  box-shadow: 0 0 6px rgba(0, 188, 212, 0.6);
+}
+
+.ide-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: #abb2bf;
+  background: #1e2227;
+  border: 1px solid #282c34;
+  border-radius: var(--radius-xs);
   cursor: pointer;
+  white-space: nowrap;
   transition: all var(--duration-fast) ease;
 }
 
-.btn-copy:hover {
-  background: var(--surface-hover);
-  border-color: var(--accent-lime);
+.ide-tool-btn:hover {
+  background: #282c34;
+  border-color: #3e4451;
+  color: #fff;
 }
 
-.btn-copy.copied {
-  background: var(--accent-lime-dim);
-  border-color: var(--accent-lime);
-  color: var(--accent-lime);
+.ide-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast) ease;
 }
 
-.code-body-scroll {
+.ide-copy-btn.copied {
+  background: #10b981 !important;
+  color: #fff !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* 2. Dedicated File Tab & Mode Segmented Control Bar */
+.ide-sub-bar {
+  min-height: 40px;
+  background: #181a1f;
+  border-bottom: 1px solid #21252b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ide-file-tab-item {
+  height: 32px;
+  padding: 0 14px;
+  background: #1e2227;
+  border: 1px solid #282c34;
+  border-bottom: none;
+  border-top: 2px solid var(--accent-primary);
+  border-radius: 5px 5px 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: #d7dae0;
+  user-select: none;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.ide-file-tab-item .ide-tab-icon {
+  font-size: 12px;
+  color: #e5c07b;
+}
+
+.ide-file-tab-item .ide-tab-filename {
+  white-space: nowrap;
+}
+
+/* Mode Switcher Segmented Control */
+.ide-mode-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  background: #121418;
+  padding: 3px;
+  border-radius: 7px;
+  border: 1px solid #23272e;
+  gap: 2px;
+}
+
+.ide-segment-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: #7f848e;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast) ease;
+}
+
+.ide-segment-btn:hover {
+  color: #d7dae0;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ide-segment-btn.active {
+  color: #ffffff;
+  background: #23272e;
+  border-color: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.ide-file-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #5c6370;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  user-select: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.ide-file-meta-pill .meta-dot {
+  color: #3e4451;
+}
+
+/* Responsive adjustments for narrow code panel */
+@media (max-width: 900px) {
+  .ide-top-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px 12px;
+  }
+  .ide-path-breadcrumbs {
+    display: none;
+  }
+  .ide-v-sep {
+    display: none;
+  }
+  .ide-sub-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 6px 12px;
+  }
+  .ide-file-meta-pill {
+    display: none;
+  }
+}
+
+/* 3. Editor Body & Scrolling */
+.ide-editor-body {
   flex: 1;
   overflow: auto;
-  padding: var(--space-4);
   position: relative;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.code-editor-layout {
+  background: #181a1f;
   display: flex;
-  gap: 16px;
-  min-width: 100%;
 }
 
-.code-line-numbers {
+.ide-code-scrollable {
+  flex: 1;
+  display: flex;
+  min-width: 100%;
+  padding: 12px 0;
+  overflow: auto;
+}
+
+.ide-line-numbers-gutter {
   display: flex;
   flex-direction: column;
   user-select: none;
-  color: #4b5563;
+  color: #4b5263;
   text-align: right;
-  min-width: 26px;
+  min-width: 44px;
+  padding: 0 16px 0 12px;
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 1.6;
-  opacity: 0.6;
+  line-height: 1.65;
+  border-right: 1px solid #21252b;
+  flex-shrink: 0;
 }
 
-.code-pre {
+.ide-line-num {
+  font-size: 12px;
+}
+
+.ide-code-pre {
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
   background: transparent !important;
-  color: #f1f1f1;
+  color: #abb2bf;
   white-space: pre;
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
   flex: 1;
 }
 
-/* Syntax Highlighting Tokens */
-.token-keyword { color: #f472b6; font-weight: 600; }
-.token-type { color: #38ddf8; font-weight: 500; }
-.token-string { color: var(--accent-primary); }
-.token-number { color: #fb923c; }
-.token-comment { color: #6b7280; font-style: italic; }
-.token-annotation { color: #e879f9; }
+/* Syntax Highlighting Tokens (VS Code Dark / One Dark Pro) */
+.token-keyword { color: #c678dd; font-weight: 600; }
+.token-type { color: #61afef; font-weight: 500; }
+.token-string { color: #98c379; }
+.token-number { color: #d19a66; }
+.token-comment { color: #5c6370; font-style: italic; }
+.token-annotation { color: #e5c07b; }
 
-
-
-/* Documentation / Integration subpanel inside code viewer */
-.code-docs-section {
-  padding: var(--space-4);
-  background: var(--surface-elevated);
-  border-top: 1px solid var(--border-default);
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
+/* 4. Parameters Table & Guide */
+.ide-params-container {
+  padding: 24px;
+  max-width: 1100px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 20px;
 }
 
-.code-docs-section h5 {
-  font-size: var(--text-xs);
+.ide-params-header {
+  border-bottom: 1px solid #282c34;
+  padding-bottom: 14px;
+}
+
+.ide-params-title {
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.ide-params-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.ide-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #282c34;
+  border-radius: var(--radius-sm);
+  background: #1e2227;
+}
+
+.ide-params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.ide-params-table th {
+  padding: 10px 14px;
+  background: #14161a;
+  color: #abb2bf;
   font-family: var(--font-mono);
-  color: var(--accent-lime);
+  font-size: 11px;
   text-transform: uppercase;
+  border-bottom: 1px solid #282c34;
+  letter-spacing: 0.05em;
+}
+
+.ide-params-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #21252b;
+  color: #abb2bf;
+}
+
+.ide-params-table tr:last-child td {
+  border-bottom: none;
+}
+
+.col-param-name code {
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.col-param-type code {
+  color: #61afef;
+  font-family: var(--font-mono);
+}
+
+.col-param-default code {
+  color: #d19a66;
+  font-family: var(--font-mono);
+}
+
+.col-param-desc {
+  color: #abb2bf;
+  line-height: 1.4;
+}
+
+.ide-notes-card {
+  padding: 16px 20px;
+  background: #1b1e24;
+  border: 1px solid #282c34;
+  border-left: 3px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ide-notes-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  letter-spacing: 0.05em;
+}
+
+.ide-notes-text {
+  font-size: 12px;
+  color: #abb2bf;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 5. VS Code Status Bar */
+.ide-status-bar {
+  height: 24px;
+  background: #14161a;
+  border-top: 1px solid #21252b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #636d83;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.ide-status-left,
+.ide-status-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ide-status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ide-status-lang {
+  color: #00bcd4;
+  font-weight: 600;
 }
 
 /* Responsive workspace breakdown */
@@ -780,15 +1150,8 @@
 }
 
 .mobile-view-tab-btn.active {
-  color: var(--accent-lime);
-  border-bottom-color: var(--accent-lime);
-}
-
-@media (max-width: 1100px) {
-  .playground-code-panel {
-    width: 360px;
-    min-width: 360px;
-  }
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
 }
 
 @media (max-width: 900px) {
@@ -830,7 +1193,7 @@
   .playground-code-panel {
     width: 100%;
     min-width: 100%;
-    height: 500px;
+    height: calc(100vh - var(--header-height) - 44px);
     border-left: none;
     border-bottom: 1px solid var(--border-default);
     display: none;
@@ -840,3 +1203,4 @@
     display: flex;
   }
 }
+

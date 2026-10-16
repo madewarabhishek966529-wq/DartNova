@@ -168,25 +168,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sync initial view state
   updateView(store.getState().currentView || 'landing');
 
+  // 8. Playground IDE & Viewport Layout Manager
+  const playgroundViewEl = document.querySelector('.playground-view');
+  const updatePlaygroundLayout = (state) => {
+    if (!playgroundViewEl) return;
+    playgroundViewEl.classList.toggle('code-open', !!state.codeViewerOpen);
+    playgroundViewEl.classList.toggle('code-layout-full', state.codeViewerLayout === 'full');
+    playgroundViewEl.classList.toggle('code-layout-split', state.codeViewerLayout === 'split');
+
+    const activeMobileTab = state.mobileTab || (state.codeViewerOpen ? 'code' : 'preview');
+    const sidebar = document.querySelector('.playground-sidebar');
+    const workspace = document.querySelector('.playground-workspace');
+    const codePanel = document.querySelector('.playground-code-panel');
+
+    if (sidebar && workspace && codePanel) {
+      sidebar.classList.toggle('mobile-active', activeMobileTab === 'components');
+      workspace.classList.toggle('mobile-active', activeMobileTab === 'preview');
+      codePanel.classList.toggle('mobile-active', activeMobileTab === 'code');
+    }
+
+    document.querySelectorAll('.mobile-view-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === activeMobileTab);
+    });
+  };
+
+  updatePlaygroundLayout(store.getState());
+
+  store.subscribe((state, prev) => {
+    if (
+      state.codeViewerOpen !== prev?.codeViewerOpen ||
+      state.codeViewerLayout !== prev?.codeViewerLayout ||
+      state.mobileTab !== prev?.mobileTab
+    ) {
+      updatePlaygroundLayout(state);
+    }
+  });
+
   // Mobile Tabs for Playground
   const mobileTabButtons = document.querySelectorAll('.mobile-view-tab-btn');
   mobileTabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       sound.playClick();
       const tab = btn.getAttribute('data-tab');
-      store.setState({ mobileTab: tab });
-
-      mobileTabButtons.forEach(b => b.classList.toggle('active', b.getAttribute('data-tab') === tab));
-
-      const sidebar = document.querySelector('.playground-sidebar');
-      const workspace = document.querySelector('.playground-workspace');
-      const codePanel = document.querySelector('.playground-code-panel');
-
-      if (sidebar && workspace && codePanel) {
-        sidebar.classList.toggle('mobile-active', tab === 'components');
-        workspace.classList.toggle('mobile-active', tab === 'preview');
-        codePanel.classList.toggle('mobile-active', tab === 'code');
-      }
+      store.setState({ 
+        mobileTab: tab,
+        codeViewerOpen: tab === 'code'
+      });
     });
   });
 

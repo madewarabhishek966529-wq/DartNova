@@ -1,18 +1,28 @@
 /**
- * Playground Code Panel
- * VS Code / IDE styled code viewer with line numbers, file tabs, parameters, and copy actions
+ * Playground Code Panel — Professional VS Code / IDE Workspace
+ * Cleanly structured into distinct, dedicated sections:
+ * - Top Control Bar: Navigation, breadcrumb path, language indicator, layout toggle, and Copy Code.
+ * - Sub-Bar: Active file tab (untruncated), centered segmented mode switcher (Usage / Full / Params), and metadata.
+ * - Editor Body: Monospace code with line numbers or parameters table.
+ * - Status Bar: VS Code diagnostics, line count, and language info.
  */
 
 import { getComponentById } from '../registry/components.js';
 import { highlightDart } from '../utils/highlighter.js';
 import { copyToClipboard } from '../utils/clipboard.js';
 import { sound } from '../utils/audio.js';
+import { escapeHtml } from '../utils/security.js';
 
 export function setupCodePanel(codePanelEl, store) {
   if (!codePanelEl) return;
 
   const render = () => {
-    const { selectedComponentId, codeTab } = store.getState();
+    const { 
+      selectedComponentId, 
+      codeTab = 'usage', 
+      codeViewerLayout = 'full'
+    } = store.getState();
+
     const comp = getComponentById(selectedComponentId);
 
     let activeCode = '';
@@ -22,107 +32,206 @@ export function setupCodePanel(codePanelEl, store) {
       activeCode = comp.flutterFullCode || '';
     }
 
-    const lines = activeCode.split('\n');
-    const lineNumbersHtml = lines.map((_, i) => `<span>${i + 1}</span>`).join('');
+    const lines = activeCode ? activeCode.split('\n') : [];
+    const lineNumbersHtml = lines.map((_, i) => `<span class="ide-line-num">${i + 1}</span>`).join('');
 
     codePanelEl.innerHTML = `
-      <div class="code-panel-header">
-        <div class="code-tabs">
-          <button class="code-tab-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage">
-            Usage
+      <!-- 1. TOP CONTROL & NAVIGATION BAR -->
+      <div class="ide-top-bar">
+        <div class="ide-top-left">
+          <button id="code-close-btn" class="ide-back-btn" title="Return to Animation Live Preview (Esc)" aria-label="Back to Preview">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Preview</span>
           </button>
-          <button class="code-tab-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full">
-            Full Widget
-          </button>
-          <button class="code-tab-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params">
-            Parameters
-          </button>
+
+          <span class="ide-v-sep"></span>
+
+          <div class="ide-path-breadcrumbs" title="dartnova > lib > widgets > ${escapeHtml(comp.category)} > ${escapeHtml(comp.id)}.dart">
+            <span class="path-root">dartnova</span>
+            <span class="path-sep">/</span>
+            <span class="path-folder">lib</span>
+            <span class="path-sep">/</span>
+            <span class="path-folder">widgets</span>
+            <span class="path-sep">/</span>
+            <span class="path-folder">${escapeHtml(comp.category)}</span>
+            <span class="path-sep">/</span>
+            <span class="path-file">${escapeHtml(comp.id)}.dart</span>
+          </div>
         </div>
 
-        <div class="code-actions">
-          <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-right: 4px;">
-            ${codeTab === 'params' ? 'Schema' : `${lines.length} lines`}
-          </span>
-          <button id="code-copy-btn" class="btn-copy" title="Copy Flutter code">
+        <div class="ide-top-right">
+          <div class="ide-lang-pill" title="Target framework and language">
+            <span class="lang-dot"></span>
+            <span>Flutter / Dart</span>
+          </div>
+
+          <button id="code-layout-toggle-btn" class="ide-tool-btn" title="Toggle Split View or Full Editor View" aria-label="Toggle layout">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="12" y1="3" x2="12" y2="21"></line>
+            </svg>
+            <span>${codeViewerLayout === 'split' ? 'Full Editor' : 'Split View'}</span>
+          </button>
+
+          <button id="code-copy-btn" class="btn btn-primary ide-copy-btn" title="Copy Flutter Code to Clipboard">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
-            <span class="btn-copy-label">Copy</span>
+            <span class="btn-copy-label">Copy Code</span>
           </button>
         </div>
       </div>
 
-      <div class="code-body-scroll">
+      <!-- 2. DEDICATED FILE TAB & MODE SWITCHER BAR -->
+      <div class="ide-sub-bar">
+        <div class="ide-file-tab-item active" title="lib/widgets/${escapeHtml(comp.id)}.dart">
+          <span class="ide-tab-icon">⚡</span>
+          <span class="ide-tab-filename">${escapeHtml(comp.id)}.dart</span>
+        </div>
+
+        <div class="ide-mode-segmented-control" role="tablist" aria-label="Code mode selector">
+          <button class="ide-segment-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage" role="tab" aria-selected="${codeTab === 'usage'}">
+            <span>Widget Usage</span>
+          </button>
+          <button class="ide-segment-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full" role="tab" aria-selected="${codeTab === 'full'}">
+            <span>Complete Implementation</span>
+          </button>
+          <button class="ide-segment-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params" role="tab" aria-selected="${codeTab === 'params'}">
+            <span>Parameters & API</span>
+          </button>
+        </div>
+
+        <div class="ide-file-meta-pill">
+          <span>${codeTab === 'params' ? 'API Documentation' : `${lines.length} lines`}</span>
+          <span class="meta-dot">·</span>
+          <span>Zero Pub Deps</span>
+        </div>
+      </div>
+
+      <!-- 3. EDITOR WORKSPACE BODY -->
+      <div class="ide-editor-body">
         ${codeTab === 'params' ? `
-          <div style="display:flex; flex-direction:column; gap:16px;">
-            <div>
-              <h4 style="font-size:14px; color:var(--text-primary); margin-bottom:4px;">${comp.name} Parameters</h4>
-              <p style="font-size:12px; color:var(--text-muted);">${comp.description}</p>
+          <div class="ide-params-container">
+            <div class="ide-params-header">
+              <h3 class="ide-params-title">${escapeHtml(comp.name)} — Flutter API Reference</h3>
+              <p class="ide-params-desc">${escapeHtml(comp.description)}</p>
             </div>
 
-            <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
-              <thead>
-                <tr style="border-bottom:1px solid var(--border-default); color:var(--text-secondary); font-family:var(--font-mono);">
-                  <th style="padding:6px 4px;">Property</th>
-                  <th style="padding:6px 4px;">Type</th>
-                  <th style="padding:6px 4px;">Default</th>
-                  <th style="padding:6px 4px;">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${(comp.params || []).map(p => `
-                  <tr style="border-bottom:1px solid var(--border-subtle);">
-                    <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--accent-primary);">${p.name}</td>
-                    <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--accent-cyan);">${p.type}</td>
-                    <td style="padding:8px 4px; font-family:var(--font-mono); color:var(--text-muted);">${p.defaultVal}</td>
-                    <td style="padding:8px 4px; color:var(--text-secondary);">${p.description}</td>
+            <div class="ide-table-wrapper">
+              <table class="ide-params-table">
+                <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
                   </tr>
-                `).join('')}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  ${(comp.params && comp.params.length > 0) ? comp.params.map(p => `
+                    <tr>
+                      <td class="col-param-name"><code>${escapeHtml(p.name)}</code></td>
+                      <td class="col-param-type"><code>${escapeHtml(p.type)}</code></td>
+                      <td class="col-param-default"><code>${escapeHtml(p.defaultVal)}</code></td>
+                      <td class="col-param-desc">${escapeHtml(p.description)}</td>
+                    </tr>
+                  `).join('') : `
+                    <tr>
+                      <td colspan="4" style="text-align:center; padding:1.5rem; color:var(--text-muted);">
+                        No configurable parameters required. Drop the widget directly into your widget tree.
+                      </td>
+                    </tr>
+                  `}
+                </tbody>
+              </table>
+            </div>
 
-            <div style="margin-top:8px;">
-              <h5 style="font-size:11px; font-family:var(--font-mono); text-transform:uppercase; color:var(--accent-primary); margin-bottom:4px;">Integration Notes</h5>
-              <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">${comp.notes || 'Drop the widget into your Flutter app with standard AnimationController lifecycle management.'}</p>
+            <div class="ide-notes-card">
+              <div class="ide-notes-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Flutter Integration Guide</span>
+              </div>
+              <p class="ide-notes-text">${escapeHtml(comp.notes || 'Ensure the widget is mounted within a MaterialApp/Scaffold. AnimationController resources are automatically cleaned up in dispose().')}</p>
             </div>
           </div>
         ` : `
-          <div class="code-editor-layout">
-            <div class="code-line-numbers">${lineNumbersHtml}</div>
-            <pre class="code-pre"><code>${highlightDart(activeCode)}</code></pre>
+          <div class="ide-code-scrollable">
+            <div class="ide-line-numbers-gutter">${lineNumbersHtml}</div>
+            <pre class="ide-code-pre"><code>${highlightDart(activeCode)}</code></pre>
           </div>
         `}
       </div>
 
-      <div class="code-docs-section">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 4px;">
-          <h5>Package Support & Architecture</h5>
-          <span style="font-size:11px; color:var(--accent-primary); font-family:var(--font-mono);">${comp.status === 'complete' ? '● Live Tested' : '○ Roadmap Spec'}</span>
+      <!-- 4. VS CODE STATUS BAR -->
+      <div class="ide-status-bar">
+        <div class="ide-status-left">
+          <span class="ide-status-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="6" y1="3" x2="6" y2="15"></line>
+              <circle cx="18" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M18 9a9 9 0 0 1-9 9"></path>
+            </svg>
+            <span>main</span>
+          </span>
+          <span class="ide-status-item">0 errors · 0 warnings</span>
+          <span class="ide-status-item">Flutter SDK 3.x</span>
         </div>
-        <p style="font-size:11px; margin:0 0 6px; color:var(--text-secondary);">${comp.dependencies && comp.dependencies.length > 0 ? `Dependencies: ${comp.dependencies.join(', ')}` : 'Zero external pub packages required. 100% pure Flutter SDK primitives.'}</p>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <span class="badge" style="font-size:10px; font-family:var(--font-mono); text-transform:uppercase;">${comp.difficulty || 'intermediate'}</span>
-          <span class="badge" style="font-size:10px; font-family:var(--font-mono); text-transform:uppercase;">${comp.category}</span>
+
+        <div class="ide-status-right">
+          <span class="ide-status-item">${codeTab === 'params' ? 'API Documentation' : `Ln ${lines.length}, Col 1`}</span>
+          <span class="ide-status-item">Spaces: 2</span>
+          <span class="ide-status-item">UTF-8</span>
+          <span class="ide-status-item ide-status-lang">Dart</span>
         </div>
       </div>
     `;
 
-    // Bind tab clicks
-    codePanelEl.querySelectorAll('.code-tab-btn').forEach(btn => {
+    // Bind mode segmented buttons
+    codePanelEl.querySelectorAll('.ide-segment-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         sound.playClick();
         store.setState({ codeTab: btn.getAttribute('data-tab') });
       });
     });
 
-    // Bind copy action
+    // Bind layout toggle (Full Editor vs Split View)
+    const layoutToggleBtn = codePanelEl.querySelector('#code-layout-toggle-btn');
+    if (layoutToggleBtn) {
+      layoutToggleBtn.addEventListener('click', () => {
+        sound.playClick();
+        const nextLayout = codeViewerLayout === 'split' ? 'full' : 'split';
+        store.setState({ codeViewerLayout: nextLayout });
+      });
+    }
+
+    // Bind Close / Back to Preview action
+    const closeBtn = codePanelEl.querySelector('#code-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        sound.playClick();
+        store.setState({ 
+          codeViewerOpen: false,
+          mobileTab: 'preview'
+        });
+      });
+    }
+
+    // Bind Copy Code action
     const copyBtn = codePanelEl.querySelector('#code-copy-btn');
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
         sound.playPop();
         const textToCopy = codeTab === 'params' 
-          ? comp.flutterSnippet 
+          ? (comp.flutterSnippet || comp.flutterFullCode || '') 
           : activeCode;
 
         const success = await copyToClipboard(textToCopy);
@@ -133,7 +242,7 @@ export function setupCodePanel(codePanelEl, store) {
 
           setTimeout(() => {
             copyBtn.classList.remove('copied');
-            if (label) label.textContent = 'Copy';
+            if (label) label.textContent = 'Copy Code';
           }, 2000);
         }
       });
@@ -145,7 +254,9 @@ export function setupCodePanel(codePanelEl, store) {
   store.subscribe((state, prev) => {
     if (
       state.selectedComponentId !== prev?.selectedComponentId ||
-      state.codeTab !== prev?.codeTab
+      state.codeTab !== prev?.codeTab ||
+      state.codeViewerLayout !== prev?.codeViewerLayout ||
+      state.codeViewerOpen !== prev?.codeViewerOpen
     ) {
       render();
     }

@@ -37,8 +37,11 @@ export function setupAccessibility(store, callbacks = {}) {
       }
     }
 
-    // 'Escape' closes mobile menu or drawer
+    // 'Escape' closes code viewer, mobile menu, or drawer
     if (e.key === 'Escape') {
+      if (store.getState().codeViewerOpen) {
+        store.setState({ codeViewerOpen: false, mobileTab: 'preview' });
+      }
       store.setState({ sidebarOpen: false });
       const drawer = document.querySelector('.mobile-nav-drawer');
       if (drawer) drawer.classList.remove('open');

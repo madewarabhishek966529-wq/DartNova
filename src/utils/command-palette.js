@@ -4,6 +4,7 @@
  */
 
 import { COMPONENTS } from '../registry/components.js';
+import { escapeHtml } from './security.js';
 
 export function setupCommandPalette(store) {
   // Create modal container if not exists
@@ -70,7 +71,7 @@ export function setupCommandPalette(store) {
     if (currentFiltered.length === 0) {
       resultsContainer.innerHTML = `
         <div style="padding:2rem 1rem; text-align:center; color:var(--text-muted); font-size:13px;">
-          No components found matching "${query}"
+          No components found matching "${escapeHtml(query)}"
         </div>
       `;
       return;
@@ -81,13 +82,13 @@ export function setupCommandPalette(store) {
     }
 
     resultsContainer.innerHTML = currentFiltered.map((c, i) => `
-      <div class="cmd-item ${i === selectedIdx ? 'active' : ''}" data-id="${c.id}" data-index="${i}">
+      <div class="cmd-item ${i === selectedIdx ? 'active' : ''}" data-id="${escapeHtml(c.id)}" data-index="${i}">
         <div class="cmd-item-left">
-          <span class="cmd-item-badge">${c.badge}</span>
-          <span class="cmd-item-title">${c.name}</span>
+          <span class="cmd-item-badge">${escapeHtml(c.badge)}</span>
+          <span class="cmd-item-title">${escapeHtml(c.name)}</span>
         </div>
         <div class="cmd-item-right">
-          <span class="cmd-item-cat">${c.category}</span>
+          <span class="cmd-item-cat">${escapeHtml(c.category)}</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>

@@ -6,6 +6,7 @@
 import { CATEGORIES, COMPONENTS } from '../registry/components.js';
 import { isFavorite, toggleFavorite } from '../utils/favorites.js';
 import { sound } from '../utils/audio.js';
+import { escapeHtml } from '../utils/security.js';
 
 export function setupNavigation(sidebarEl, store) {
   if (!sidebarEl) return;
@@ -64,9 +65,6 @@ export function setupNavigation(sidebarEl, store) {
       });
     }
 
-    const liveCount = COMPONENTS.filter(c => c.status === 'complete').length;
-    const plannedCount = COMPONENTS.filter(c => c.status === 'planned').length;
-
     sidebarEl.innerHTML = `
       <div class="sidebar-search-box">
         <div class="search-input-wrapper">
@@ -78,8 +76,8 @@ export function setupNavigation(sidebarEl, store) {
             type="text" 
             id="component-search" 
             class="search-input" 
-            placeholder="Search 468 components & tags... (/)" 
-            value="${searchQuery}"
+            placeholder="Search 468 animations... (/)" 
+            value="${escapeHtml(searchQuery)}"
             autocomplete="off"
             spellcheck="false"
           />
@@ -92,8 +90,8 @@ export function setupNavigation(sidebarEl, store) {
           <div class="filter-row">
             <select id="sidebar-category-select" class="sidebar-select" title="Filter by Category">
               ${CATEGORIES.map(cat => `
-                <option value="${cat.id}" ${selectedCategory === cat.id ? 'selected' : ''}>
-                  ${cat.icon} ${cat.name}
+                <option value="${escapeHtml(cat.id)}" ${selectedCategory === cat.id ? 'selected' : ''}>
+                  ${cat.icon} ${escapeHtml(cat.name)}
                 </option>
               `).join('')}
             </select>
@@ -106,20 +104,13 @@ export function setupNavigation(sidebarEl, store) {
             </select>
           </div>
 
-          <!-- Status & Favorites Pill Bar -->
+          <!-- Scope & Favorites Filter Bar (No duplicate Live button) -->
           <div class="filter-pills-row">
-            <button class="nav-scope-btn ${filterStatus === 'all' && !favoritesOnly ? 'active' : ''}" data-status="all">
+            <button class="nav-scope-btn ${!favoritesOnly ? 'active' : ''}" data-status="all" aria-label="All animations">
               All (${COMPONENTS.length})
             </button>
-            <button class="nav-scope-btn ${filterStatus === 'complete' && !favoritesOnly ? 'active' : ''}" data-status="complete" title="Published live interactive previews">
-              Live (${liveCount})
-            </button>
-            ${plannedCount > 0 ? `
-            <button class="nav-scope-btn ${filterStatus === 'planned' && !favoritesOnly ? 'active' : ''}" data-status="planned" title="Roadmap specifications">
-              Roadmap (${plannedCount})
-            </button>` : ''}
-            <button class="nav-scope-btn fav-btn ${favoritesOnly ? 'active' : ''}" id="sidebar-fav-filter-btn" title="Show Favorites Only">
-              ♥ ${favorites.length}
+            <button class="nav-scope-btn fav-btn ${favoritesOnly ? 'active' : ''}" id="sidebar-fav-filter-btn" title="Show Favorites Only" aria-label="Favorites filter">
+              ♥ Favorites (${favorites.length})
             </button>
           </div>
         </div>
@@ -139,24 +130,20 @@ export function setupNavigation(sidebarEl, store) {
               <ul class="component-nav-list">
                 ${catComps.map(comp => {
                   const isFav = favorites.includes(comp.id);
-                  const isLive = comp.status === 'complete';
                   return `
                     <li>
                       <div class="component-nav-row ${comp.id === selectedComponentId ? 'active' : ''}">
                         <button 
                           class="component-nav-item" 
-                          data-id="${comp.id}"
+                          data-id="${escapeHtml(comp.id)}"
                         >
-                          <span class="comp-nav-name">${comp.name}</span>
-                          <span class="component-nav-badge ${isLive ? 'badge-live' : 'badge-roadmap'}">
-                            ${isLive ? 'LIVE' : 'SPEC'}
-                          </span>
+                          <span class="comp-nav-name">${escapeHtml(comp.name)}</span>
                         </button>
                         <button 
                           class="comp-fav-btn ${isFav ? 'is-fav' : ''}" 
-                          data-fav-id="${comp.id}" 
+                          data-fav-id="${escapeHtml(comp.id)}" 
                           title="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
-                          aria-label="Favorite ${comp.name}"
+                          aria-label="Favorite ${escapeHtml(comp.name)}"
                         >
                           ${isFav ? '♥' : '♡'}
                         </button>
