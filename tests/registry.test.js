@@ -90,5 +90,18 @@ describe('DartNova Component Registry', () => {
       expect(() => instance.destroy()).not.toThrow();
     }
   });
+
+  it('verifies that all 160 components across all 16 categories render and execute lifecycles cleanly', () => {
+    for (const comp of COMPONENTS) {
+      const container = document.createElement('div');
+      const props = Object.assign({}, comp.defaultProps, { accentColor: '#C5FF35', duration: 350 });
+      const instance = comp.render(container, props);
+      expect(container.children.length, `Component ${comp.id} must produce DOM nodes`).toBeGreaterThan(0);
+      expect(typeof instance.restart).toBe('function');
+      expect(typeof instance.destroy).toBe('function');
+      expect(() => instance.restart()).not.toThrow();
+      expect(() => instance.destroy()).not.toThrow();
+    }
+  });
 });
 

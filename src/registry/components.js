@@ -959,7 +959,7 @@ class _TextRevealState extends State<TextReveal> with SingleTickerProviderStateM
 
       const renderWords = () => {
         wrap.innerHTML = '';
-        const words = props.phrase.split(' ');
+        const words = (props.phrase || 'Flutter Motion Design').split(' ');
         words.forEach((w, idx) => {
           const span = document.createElement('span');
           span.className = 'dn-stagger-word';
