@@ -50,25 +50,13 @@ export function setupCodePanel(codePanelEl, store) {
     const lineNumbersHtml = lines.map((_, i) => `<span class="ide-line-num">${i + 1}</span>`).join('');
 
     codePanelEl.innerHTML = `
-      <!-- 1. VS CODE TAB BAR & PRIMARY ACTIONS (TOP ROW) -->
+      <!-- 1. VS CODE TAB BAR & PRIMARY ACTIONS (ROW 1) -->
       <div class="ide-tab-bar">
         <div class="ide-tabs-left">
           <div class="ide-file-tab-item active" title="lib/widgets/${escapeHtml(comp.category)}/${escapeHtml(comp.id)}.dart">
             <span class="ide-tab-icon">⚡</span>
             <span class="ide-tab-filename">${escapeHtml(comp.id)}.dart</span>
             <span class="ide-tab-badge">Flutter</span>
-          </div>
-
-          <div class="ide-mode-segmented-control" role="tablist" aria-label="Code mode selector">
-            <button class="ide-segment-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage" role="tab" aria-selected="${codeTab === 'usage'}">
-              <span>Widget Usage</span>
-            </button>
-            <button class="ide-segment-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full" role="tab" aria-selected="${codeTab === 'full'}">
-              <span>Complete Implementation</span>
-            </button>
-            <button class="ide-segment-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params" role="tab" aria-selected="${codeTab === 'params'}">
-              <span>Parameters & API</span>
-            </button>
           </div>
         </div>
 
@@ -78,7 +66,8 @@ export function setupCodePanel(codePanelEl, store) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="5 3 19 12 5 21 5 3"></polygon>
             </svg>
-            <span>Run in DartPad</span>
+            <span class="btn-label-long">Run in DartPad</span>
+            <span class="btn-label-short">DartPad</span>
           </button>
 
           <!-- 1-Click Download .dart File -->
@@ -88,7 +77,8 @@ export function setupCodePanel(codePanelEl, store) {
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span class="btn-download-label">Download .dart</span>
+            <span class="btn-download-label btn-label-long">Download .dart</span>
+            <span class="btn-download-label btn-label-short">Download</span>
           </button>
 
           <!-- Copy Code Button -->
@@ -106,12 +96,13 @@ export function setupCodePanel(codePanelEl, store) {
               <line x1="12" y1="19" x2="12" y2="5"></line>
               <polyline points="5 12 12 5 19 12"></polyline>
             </svg>
-            <span>Back to Preview</span>
+            <span class="btn-label-long">Back to Preview</span>
+            <span class="btn-label-short">Preview</span>
           </button>
         </div>
       </div>
 
-      <!-- 2. VS CODE DEDICATED BREADCRUMBS & METADATA BAR (SECOND ROW) -->
+      <!-- 2. VS CODE BREADCRUMBS & MODE SELECTOR (ROW 2) -->
       <div class="ide-breadcrumbs-bar">
         <div class="ide-path-breadcrumbs" title="dartnova > lib > widgets > ${escapeHtml(comp.category)} > ${escapeHtml(comp.id)}.dart">
           <span class="path-root">dartnova</span>
@@ -125,15 +116,23 @@ export function setupCodePanel(codePanelEl, store) {
           <span class="path-file">${escapeHtml(comp.id)}.dart</span>
         </div>
 
-        <div class="ide-sub-meta">
-          <div class="ide-lang-pill" title="Target framework and language">
-            <span class="lang-dot"></span>
-            <span>Flutter / Dart</span>
+        <div class="ide-sub-controls">
+          <div class="ide-mode-segmented-control" role="tablist" aria-label="Code mode selector">
+            <button class="ide-segment-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage" role="tab" aria-selected="${codeTab === 'usage'}">
+              <span>Widget Usage</span>
+            </button>
+            <button class="ide-segment-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full" role="tab" aria-selected="${codeTab === 'full'}">
+              <span>Complete Implementation</span>
+            </button>
+            <button class="ide-segment-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params" role="tab" aria-selected="${codeTab === 'params'}">
+              <span>Parameters & API</span>
+            </button>
           </div>
-          <div class="ide-file-meta-pill">
-            <span>${codeTab === 'params' ? 'API Documentation' : `${lines.length} lines`}</span>
+
+          <div class="ide-file-meta-pill" title="Target SDK and Pub Dependencies">
+            <span>${codeTab === 'params' ? 'API Reference' : `${lines.length} lines`}</span>
             <span class="meta-dot">·</span>
-            <span>Zero Pub Deps</span>
+            <span>0 Pub Deps</span>
           </div>
         </div>
       </div>

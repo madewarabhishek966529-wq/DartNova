@@ -895,17 +895,18 @@
   border-radius: 7px;
   border: 1px solid #262a33;
   gap: 3px;
-  height: 34px;
+  height: 32px;
+  flex-shrink: 0;
 }
 
 .ide-segment-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 28px;
-  padding: 0 13px;
+  height: 26px;
+  padding: 0 11px;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
   color: #8a919e;
   background: transparent;
@@ -913,6 +914,7 @@
   border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: all var(--duration-fast) ease;
 }
 
@@ -1004,20 +1006,38 @@
   transform: translateX(-1px);
 }
 
-/* 2. VS Code Dedicated Breadcrumbs & Meta Bar (Row 2) - Sticky on scroll */
+/* Responsive button labels for action bar */
+.btn-label-short {
+  display: none;
+}
+
+.btn-label-long {
+  display: inline;
+}
+
+@media (max-width: 1250px) {
+  .btn-label-long {
+    display: none;
+  }
+  .btn-label-short {
+    display: inline;
+  }
+}
+
+/* 2. VS Code Dedicated Breadcrumbs & Mode Segmented Bar (Row 2) - Sticky on scroll */
 .ide-breadcrumbs-bar {
   position: sticky;
   top: 46px;
   z-index: 14;
-  min-height: 32px;
-  height: 32px;
+  min-height: 40px;
+  height: 40px;
   background: #16181d;
   border-bottom: 1px solid #21252b;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  gap: 12px;
+  gap: 16px;
   flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -1050,34 +1070,11 @@
   font-weight: 600;
 }
 
-.ide-sub-meta {
+.ide-sub-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex-shrink: 0;
-}
-
-.ide-lang-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: #8a919e;
-  padding: 3px 8px;
-  background: rgba(0, 188, 212, 0.06);
-  border: 1px solid rgba(0, 188, 212, 0.2);
-  border-radius: var(--radius-xs);
-  user-select: none;
-}
-
-.ide-lang-pill .lang-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #00bcd4;
-  box-shadow: 0 0 6px rgba(0, 188, 212, 0.6);
 }
 
 .ide-file-meta-pill {
@@ -1100,15 +1097,24 @@
   color: #3e4451;
 }
 
-/* Responsive adjustments for narrow code panel */
+/* Responsive adjustments for narrow viewports */
 @media (max-width: 900px) {
   .ide-tab-bar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 8px 12px;
+    padding: 0 10px;
+    gap: 8px;
   }
   .ide-breadcrumbs-bar {
-    display: none;
+    height: auto;
+    min-height: 42px;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .ide-path-breadcrumbs {
+    display: none; /* hide long breadcrumb path to ensure mode switcher has full room */
+  }
+  .ide-sub-controls {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
