@@ -29,7 +29,7 @@ export function highlightDart(code) {
   html = html.replace(/'''[\s\S]*?'''/g, (m) => protect(m, 'token-string'));
 
   // 3. Annotations (@override, @required, etc.)
-  html = html.replace(/@\w+/g, '<span class="token-annotation">$&</span>');
+  html = html.replace(/@\w+/g, (m) => protect(m, 'token-annotation'));
 
   // 4. Keywords
   const keywords = [

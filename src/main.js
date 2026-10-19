@@ -13,6 +13,7 @@ import { setupNavigation } from './playground/navigation.js';
 import { setupPreview } from './playground/preview.js';
 import { setupControls } from './playground/controls.js';
 import { setupCodePanel } from './playground/code-panel.js';
+import { setupResizer } from './playground/resizer.js';
 import { renderLandingView } from './views/landing.js';
 import { renderDocsView } from './views/docs.js';
 
@@ -37,10 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (playgroundContainer) {
     const sidebarEl = playgroundContainer.querySelector('.playground-sidebar');
     const workspaceEl = playgroundContainer.querySelector('.playground-workspace');
+    const resizerEl = playgroundContainer.querySelector('.playground-resizer');
     const codePanelEl = playgroundContainer.querySelector('.playground-code-panel');
+    const playgroundViewEl = playgroundContainer.querySelector('.playground-view');
 
     setupNavigation(sidebarEl, store);
     previewControls = setupPreview(workspaceEl, store);
+    setupResizer(resizerEl, playgroundViewEl, store);
     setupCodePanel(codePanelEl, store);
 
     // Controls dock mount observer

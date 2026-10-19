@@ -630,21 +630,89 @@
   border-left: none;
 }
 
-/* Split view layout: preview on left, large IDE on right */
-.playground-view.code-open.code-layout-split .playground-workspace {
-  display: flex;
-  flex: 1;
-  min-width: 380px;
-}
-.playground-view.code-open.code-layout-split .playground-code-panel {
-  display: flex;
-  flex: 1.25;
-  min-width: 480px;
-  border-left: 1px solid var(--border-default);
+/* Split view layout: preview on left, large IDE on right with draggable resizer */
+.playground-view.code-open.code-layout-split {
+  --split-workspace: 42%;
 }
 
-/* 1. IDE Navigation & Top Action Bar */
-.ide-top-bar {
+.playground-view.code-open.code-layout-split .playground-workspace {
+  display: flex;
+  flex: 0 0 var(--split-workspace, 42%);
+  min-width: 300px;
+  max-width: calc(100% - 360px);
+}
+
+.playground-view.code-open.code-layout-split .playground-resizer {
+  display: flex;
+}
+
+.playground-view.code-open.code-layout-split .playground-code-panel {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 360px;
+  border-left: none;
+}
+
+/* Draggable Split Resizer Gutter between Blocks */
+.playground-resizer {
+  display: none;
+  width: 10px;
+  flex: 0 0 10px;
+  background: #121417;
+  border-left: 1px solid #23272e;
+  border-right: 1px solid #23272e;
+  cursor: col-resize;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  z-index: 15;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.playground-resizer:hover,
+.playground-resizer.is-active,
+body.is-resizing-blocks .playground-resizer {
+  background: rgba(197, 255, 53, 0.08);
+  border-color: rgba(197, 255, 53, 0.3);
+}
+
+.resizer-handle {
+  width: 4px;
+  height: 38px;
+  border-radius: 4px;
+  background: #3e4451;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.playground-resizer:hover .resizer-handle,
+.playground-resizer.is-active .resizer-handle,
+body.is-resizing-blocks .resizer-handle {
+  background: var(--accent-primary);
+  height: 54px;
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+/* Dragging active state across document */
+body.is-resizing-blocks {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+body.is-resizing-blocks iframe,
+body.is-resizing-blocks canvas,
+body.is-resizing-blocks pre,
+body.is-resizing-blocks .playground-workspace,
+body.is-resizing-blocks .playground-code-panel {
+  pointer-events: none !important;
+}
+
+/* 1. VS Code Tab Bar & Primary Actions (Row 1) */
+.ide-tab-bar {
   min-height: 44px;
   background: #14161a;
   border-bottom: 1px solid #23272e;
@@ -653,114 +721,115 @@
   justify-content: space-between;
   padding: 0 14px;
   flex-shrink: 0;
-  gap: 12px;
+  gap: 14px;
 }
 
-.ide-top-left {
+.ide-tabs-left {
   display: flex;
   align-items: center;
   gap: 12px;
   min-width: 0;
-  flex: 1;
+  height: 100%;
 }
 
-.ide-back-btn {
+.ide-file-tab-item {
+  height: 38px;
+  padding: 0 16px;
+  background: #1e2227;
+  border: 1px solid #282c34;
+  border-bottom: none;
+  border-top: 2px solid var(--accent-primary);
+  border-radius: 6px 6px 0 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  font-size: 11px;
-  font-family: var(--font-sans);
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
   font-weight: 600;
-  color: #d7dae0;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-xs);
+  color: #fff;
+  user-select: none;
+  flex-shrink: 0;
+  margin-top: 6px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ide-file-tab-item .ide-tab-icon {
+  font-size: 14px;
+  color: #e5c07b;
+}
+
+.ide-file-tab-item .ide-tab-filename {
+  white-space: nowrap;
+  color: #e6edf3;
+}
+
+.ide-file-tab-item .ide-tab-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #00bcd4;
+  background: rgba(0, 188, 212, 0.12);
+  border: 1px solid rgba(0, 188, 212, 0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 4px;
+}
+
+/* Mode Switcher Segmented Control */
+.ide-mode-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  background: #0f1115;
+  padding: 3px;
+  border-radius: 7px;
+  border: 1px solid #262a33;
+  gap: 3px;
+  height: 34px;
+}
+
+.ide-segment-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 13px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: #8a919e;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
   transition: all var(--duration-fast) ease;
 }
 
-.ide-back-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  transform: translateX(-1px);
+.ide-segment-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.ide-v-sep {
-  width: 1px;
-  height: 18px;
-  background: #282c34;
-  flex-shrink: 0;
-}
-
-.ide-path-breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: #636d83;
-  user-select: none;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.ide-path-breadcrumbs .path-root,
-.ide-path-breadcrumbs .path-folder {
-  color: #7f848e;
-}
-
-.ide-path-breadcrumbs .path-sep {
-  color: #3e4451;
-  font-weight: 400;
-}
-
-.ide-path-breadcrumbs .path-file {
-  color: #abb2bf;
+.ide-segment-btn.active {
+  color: #ffffff;
+  background: #23272e;
+  border-color: rgba(255, 255, 255, 0.1);
   font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.ide-top-right {
+.ide-tabs-right {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
 }
 
-.ide-lang-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: #8a919e;
-  padding: 4px 9px;
-  background: rgba(0, 188, 212, 0.06);
-  border: 1px solid rgba(0, 188, 212, 0.2);
-  border-radius: var(--radius-xs);
-  user-select: none;
-}
-
-.ide-lang-pill .lang-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #00bcd4;
-  box-shadow: 0 0 6px rgba(0, 188, 212, 0.6);
-}
-
 .ide-tool-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px;
-  font-size: 11px;
+  padding: 6px 12px;
+  font-size: 12px;
   font-family: var(--font-sans);
   font-weight: 500;
   color: #abb2bf;
@@ -782,8 +851,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 13px;
-  font-size: 11px;
+  padding: 6px 14px;
+  font-size: 12px;
   font-weight: 600;
   border-radius: var(--radius-xs);
   cursor: pointer;
@@ -798,88 +867,102 @@
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
 }
 
-/* 2. Dedicated File Tab & Mode Segmented Control Bar */
-.ide-sub-bar {
-  min-height: 40px;
-  background: #181a1f;
+.ide-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: #d7dae0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) ease;
+}
+
+.ide-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateX(-1px);
+}
+
+/* 2. VS Code Dedicated Breadcrumbs & Meta Bar (Row 2) */
+.ide-breadcrumbs-bar {
+  min-height: 32px;
+  height: 32px;
+  background: #16181d;
   border-bottom: 1px solid #21252b;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
+  padding: 0 14px;
   gap: 12px;
   flex-shrink: 0;
-}
-
-.ide-file-tab-item {
-  height: 32px;
-  padding: 0 14px;
-  background: #1e2227;
-  border: 1px solid #282c34;
-  border-bottom: none;
-  border-top: 2px solid var(--accent-primary);
-  border-radius: 5px 5px 0 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
   font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
-  color: #d7dae0;
+  color: #636d83;
   user-select: none;
-  flex-shrink: 0;
-  margin-top: 8px;
 }
 
-.ide-file-tab-item .ide-tab-icon {
-  font-size: 12px;
-  color: #e5c07b;
-}
-
-.ide-file-tab-item .ide-tab-filename {
+.ide-path-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* Mode Switcher Segmented Control */
-.ide-mode-segmented-control {
-  display: inline-flex;
-  align-items: center;
-  background: #121418;
-  padding: 3px;
-  border-radius: 7px;
-  border: 1px solid #23272e;
-  gap: 2px;
+.ide-path-breadcrumbs .path-root,
+.ide-path-breadcrumbs .path-folder {
+  color: #7f848e;
 }
 
-.ide-segment-btn {
+.ide-path-breadcrumbs .path-sep {
+  color: #4b5263;
+  font-weight: 600;
+}
+
+.ide-path-breadcrumbs .path-file {
+  color: #abb2bf;
+  font-weight: 600;
+}
+
+.ide-sub-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ide-lang-pill {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  height: 26px;
-  padding: 0 12px;
-  font-family: var(--font-sans);
+  gap: 6px;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  color: #7f848e;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all var(--duration-fast) ease;
+  color: #8a919e;
+  padding: 3px 8px;
+  background: rgba(0, 188, 212, 0.06);
+  border: 1px solid rgba(0, 188, 212, 0.2);
+  border-radius: var(--radius-xs);
+  user-select: none;
 }
 
-.ide-segment-btn:hover {
-  color: #d7dae0;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.ide-segment-btn.active {
-  color: #ffffff;
-  background: #23272e;
-  border-color: rgba(255, 255, 255, 0.08);
-  font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+.ide-lang-pill .lang-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00bcd4;
+  box-shadow: 0 0 6px rgba(0, 188, 212, 0.6);
 }
 
 .ide-file-meta-pill {
@@ -890,7 +973,7 @@
   font-size: 11px;
   color: #5c6370;
   background: rgba(255, 255, 255, 0.02);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-xs);
   border: 1px solid rgba(255, 255, 255, 0.04);
   user-select: none;
@@ -904,23 +987,12 @@
 
 /* Responsive adjustments for narrow code panel */
 @media (max-width: 900px) {
-  .ide-top-bar {
+  .ide-tab-bar {
     flex-wrap: wrap;
     height: auto;
     padding: 8px 12px;
   }
-  .ide-path-breadcrumbs {
-    display: none;
-  }
-  .ide-v-sep {
-    display: none;
-  }
-  .ide-sub-bar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 6px 12px;
-  }
-  .ide-file-meta-pill {
+  .ide-breadcrumbs-bar {
     display: none;
   }
 }
@@ -938,7 +1010,7 @@
   flex: 1;
   display: flex;
   min-width: 100%;
-  padding: 12px 0;
+  padding: 14px 0;
   overflow: auto;
 }
 
@@ -948,11 +1020,11 @@
   user-select: none;
   color: #4b5263;
   text-align: right;
-  min-width: 44px;
-  padding: 0 16px 0 12px;
+  min-width: 48px;
+  padding: 0 16px 0 14px;
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.7;
   border-right: 1px solid #21252b;
   flex-shrink: 0;
 }
@@ -968,8 +1040,8 @@
   color: #abb2bf;
   white-space: pre;
   font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.7;
   flex: 1;
 }
 

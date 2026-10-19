@@ -36,38 +36,29 @@ export function setupCodePanel(codePanelEl, store) {
     const lineNumbersHtml = lines.map((_, i) => `<span class="ide-line-num">${i + 1}</span>`).join('');
 
     codePanelEl.innerHTML = `
-      <!-- 1. TOP CONTROL & NAVIGATION BAR -->
-      <div class="ide-top-bar">
-        <div class="ide-top-left">
-          <button id="code-close-btn" class="ide-back-btn" title="Return to Animation Live Preview (Esc)" aria-label="Back to Preview">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            <span>Back to Preview</span>
-          </button>
+      <!-- 1. VS CODE TAB BAR & PRIMARY ACTIONS (TOP ROW) -->
+      <div class="ide-tab-bar">
+        <div class="ide-tabs-left">
+          <div class="ide-file-tab-item active" title="lib/widgets/${escapeHtml(comp.category)}/${escapeHtml(comp.id)}.dart">
+            <span class="ide-tab-icon">⚡</span>
+            <span class="ide-tab-filename">${escapeHtml(comp.id)}.dart</span>
+            <span class="ide-tab-badge">Flutter</span>
+          </div>
 
-          <span class="ide-v-sep"></span>
-
-          <div class="ide-path-breadcrumbs" title="dartnova > lib > widgets > ${escapeHtml(comp.category)} > ${escapeHtml(comp.id)}.dart">
-            <span class="path-root">dartnova</span>
-            <span class="path-sep">/</span>
-            <span class="path-folder">lib</span>
-            <span class="path-sep">/</span>
-            <span class="path-folder">widgets</span>
-            <span class="path-sep">/</span>
-            <span class="path-folder">${escapeHtml(comp.category)}</span>
-            <span class="path-sep">/</span>
-            <span class="path-file">${escapeHtml(comp.id)}.dart</span>
+          <div class="ide-mode-segmented-control" role="tablist" aria-label="Code mode selector">
+            <button class="ide-segment-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage" role="tab" aria-selected="${codeTab === 'usage'}">
+              <span>Widget Usage</span>
+            </button>
+            <button class="ide-segment-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full" role="tab" aria-selected="${codeTab === 'full'}">
+              <span>Complete Implementation</span>
+            </button>
+            <button class="ide-segment-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params" role="tab" aria-selected="${codeTab === 'params'}">
+              <span>Parameters & API</span>
+            </button>
           </div>
         </div>
 
-        <div class="ide-top-right">
-          <div class="ide-lang-pill" title="Target framework and language">
-            <span class="lang-dot"></span>
-            <span>Flutter / Dart</span>
-          </div>
-
+        <div class="ide-tabs-right">
           <button id="code-layout-toggle-btn" class="ide-tool-btn" title="Toggle Split View or Full Editor View" aria-label="Toggle layout">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -83,32 +74,41 @@ export function setupCodePanel(codePanelEl, store) {
             </svg>
             <span class="btn-copy-label">Copy Code</span>
           </button>
+
+          <button id="code-close-btn" class="ide-back-btn" title="Return to Animation Live Preview (Esc)" aria-label="Back to Preview">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back to Preview</span>
+          </button>
         </div>
       </div>
 
-      <!-- 2. DEDICATED FILE TAB & MODE SWITCHER BAR -->
-      <div class="ide-sub-bar">
-        <div class="ide-file-tab-item active" title="lib/widgets/${escapeHtml(comp.id)}.dart">
-          <span class="ide-tab-icon">⚡</span>
-          <span class="ide-tab-filename">${escapeHtml(comp.id)}.dart</span>
+      <!-- 2. VS CODE DEDICATED BREADCRUMBS & METADATA BAR (SECOND ROW) -->
+      <div class="ide-breadcrumbs-bar">
+        <div class="ide-path-breadcrumbs" title="dartnova > lib > widgets > ${escapeHtml(comp.category)} > ${escapeHtml(comp.id)}.dart">
+          <span class="path-root">dartnova</span>
+          <span class="path-sep">›</span>
+          <span class="path-folder">lib</span>
+          <span class="path-sep">›</span>
+          <span class="path-folder">widgets</span>
+          <span class="path-sep">›</span>
+          <span class="path-folder">${escapeHtml(comp.category)}</span>
+          <span class="path-sep">›</span>
+          <span class="path-file">${escapeHtml(comp.id)}.dart</span>
         </div>
 
-        <div class="ide-mode-segmented-control" role="tablist" aria-label="Code mode selector">
-          <button class="ide-segment-btn ${codeTab === 'usage' ? 'active' : ''}" data-tab="usage" role="tab" aria-selected="${codeTab === 'usage'}">
-            <span>Widget Usage</span>
-          </button>
-          <button class="ide-segment-btn ${codeTab === 'full' ? 'active' : ''}" data-tab="full" role="tab" aria-selected="${codeTab === 'full'}">
-            <span>Complete Implementation</span>
-          </button>
-          <button class="ide-segment-btn ${codeTab === 'params' ? 'active' : ''}" data-tab="params" role="tab" aria-selected="${codeTab === 'params'}">
-            <span>Parameters & API</span>
-          </button>
-        </div>
-
-        <div class="ide-file-meta-pill">
-          <span>${codeTab === 'params' ? 'API Documentation' : `${lines.length} lines`}</span>
-          <span class="meta-dot">·</span>
-          <span>Zero Pub Deps</span>
+        <div class="ide-sub-meta">
+          <div class="ide-lang-pill" title="Target framework and language">
+            <span class="lang-dot"></span>
+            <span>Flutter / Dart</span>
+          </div>
+          <div class="ide-file-meta-pill">
+            <span>${codeTab === 'params' ? 'API Documentation' : `${lines.length} lines`}</span>
+            <span class="meta-dot">·</span>
+            <span>Zero Pub Deps</span>
+          </div>
         </div>
       </div>
 
