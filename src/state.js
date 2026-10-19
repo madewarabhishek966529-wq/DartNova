@@ -60,7 +60,8 @@ export const store = new Store({
   codeViewerOpen: false, // false by default so code does not crowd preview
   codeViewerLayout: 'split', // 'split' (shows code on down side) | 'full'
   previewMode: 'desktop', // 'desktop' | 'tablet' | 'mobile'
-  canvasBg: 'default', // 'default' | 'black' | 'grid' | 'contrast'
+  canvasBg: 'default', // 'default' | 'light' | 'black' | 'grid'
+  playgroundMode: 'inspector', // 'inspector' | 'gallery'
   isPlaying: true,
   animationSpeed: 1,
   sidebarOpen: false,
