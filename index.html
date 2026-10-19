@@ -148,13 +148,12 @@
         </div>
 
         <div class="playground-view">
-          <!-- 3-Region Desktop Workspace -->
+          <!-- Workspace: Sidebar on left, Main area with preview on top and Flutter code on down side (scrollable) -->
           <aside class="playground-sidebar" aria-label="Component Navigation"></aside>
-          <section class="playground-workspace" aria-label="Live Preview Workspace"></section>
-          <div class="playground-resizer" id="playground-resizer" title="Drag to adjust width between preview and code blocks (Double-click to reset)" role="separator" aria-orientation="vertical" tabindex="0">
-            <div class="resizer-handle"></div>
+          <div class="playground-main-area">
+            <section class="playground-workspace" aria-label="Live Preview Workspace"></section>
+            <aside class="playground-code-panel" aria-label="Flutter Code Viewer"></aside>
           </div>
-          <aside class="playground-code-panel" aria-label="Flutter Code Viewer"></aside>
         </div>
       </div>
 

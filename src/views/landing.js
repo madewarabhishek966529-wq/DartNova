@@ -352,6 +352,7 @@ export function renderLandingView(containerEl, store) {
         store.setState({
           selectedComponentId: id,
           codeViewerOpen: true,
+          codeViewerLayout: 'split',
           currentView: 'playground',
           mobileTab: 'code'
         });

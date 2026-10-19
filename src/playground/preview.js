@@ -71,13 +71,16 @@ export function setupPreview(workspaceEl, store) {
             <span>Replay Animation</span>
           </button>
 
-          <!-- View Code Button (VS Code IDE Workspace) -->
-          <button id="toolbar-view-code-btn" class="btn btn-primary" style="padding: 5px 14px; font-size: 12px;" title="View Flutter Code in IDE Workspace" aria-label="View Code">
+          <!-- View Code Button (Smooth Scroll to Flutter Code on Down Side) -->
+          <button id="toolbar-view-code-btn" class="btn btn-primary" style="padding: 5px 14px; font-size: 12px;" title="Scroll down to Flutter Code" aria-label="View Code">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
             <span>View Code</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 2px;">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </button>
 
           <!-- Reset Properties -->
@@ -105,6 +108,14 @@ export function setupPreview(workspaceEl, store) {
       </div>
 
       <div id="controls-dock-mount"></div>
+
+      <div class="workspace-scroll-hint" id="workspace-scroll-hint" role="button" tabindex="0" title="Scroll down to view Flutter source code & API">
+        <span>Scroll down to see Flutter Code</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </div>
     `;
 
     // Bind toolbar viewport actions
@@ -126,15 +137,37 @@ export function setupPreview(workspaceEl, store) {
       });
     }
 
-    // Bind View Code button -> Opens dedicated IDE code viewer workspace
+    const scrollToCode = () => {
+      const codePanel = document.querySelector('.playground-code-panel');
+      if (codePanel) {
+        codePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // Bind View Code button -> Smoothly scrolls down to the code panel
     const viewCodeBtn = workspaceEl.querySelector('#toolbar-view-code-btn');
     if (viewCodeBtn) {
       viewCodeBtn.addEventListener('click', () => {
         sound.playClick();
-        store.setState({ 
-          codeViewerOpen: true,
-          mobileTab: 'code'
-        });
+        store.setState({ codeViewerOpen: true, mobileTab: 'code' });
+        scrollToCode();
+      });
+    }
+
+    // Bind Scroll Hint
+    const scrollHint = workspaceEl.querySelector('#workspace-scroll-hint');
+    if (scrollHint) {
+      scrollHint.addEventListener('click', () => {
+        sound.playClick();
+        store.setState({ codeViewerOpen: true, mobileTab: 'code' });
+        scrollToCode();
+      });
+      scrollHint.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          sound.playClick();
+          scrollToCode();
+        }
       });
     }
 

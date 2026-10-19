@@ -60,5 +60,12 @@ describe('DartNova Block Resizer', () => {
 
     resizerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     expect(playgroundViewEl.style.getPropertyValue('--split-workspace')).toBe('42%');
+
+    // Test vertical keys for bottom split
+    resizerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    expect(playgroundViewEl.style.getPropertyValue('--split-workspace')).toBe('44%');
+
+    resizerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
+    expect(playgroundViewEl.style.getPropertyValue('--split-workspace')).toBe('42%');
   });
 });

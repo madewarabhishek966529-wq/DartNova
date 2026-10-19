@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupNavigation(sidebarEl, store);
     previewControls = setupPreview(workspaceEl, store);
-    setupResizer(resizerEl, playgroundViewEl, store);
+    if (resizerEl) {
+      setupResizer(resizerEl, playgroundViewEl, store);
+    }
     setupCodePanel(codePanelEl, store);
 
     // Controls dock mount observer

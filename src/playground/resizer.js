@@ -1,13 +1,13 @@
 /**
  * DartNova — Interactive Screen/Block Split Resizer
- * Enables dragging to adjust width between Live Preview and Code Viewer blocks
+ * Enables dragging to adjust height between Live Preview (top) and Code Viewer (down side)
  */
 import { sound } from '../utils/audio.js';
 
 export function setupResizer(resizerEl, playgroundViewEl, store) {
   if (!resizerEl || !playgroundViewEl) return;
 
-  const DEFAULT_RATIO = 42; // 42% preview, 58% code
+  const DEFAULT_RATIO = 42; // 42% preview (top), 58% code (down side)
   const STORAGE_KEY = 'dartnova_split_ratio';
 
   // Restore saved split ratio if available
@@ -42,29 +42,23 @@ export function setupResizer(resizerEl, playgroundViewEl, store) {
   const onDrag = (e) => {
     if (!isDragging) return;
 
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const viewRect = playgroundViewEl.getBoundingClientRect();
-    const sidebarEl = playgroundViewEl.querySelector('.playground-sidebar');
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const mainAreaEl = playgroundViewEl.querySelector('.playground-main-area') || playgroundViewEl;
+    const mainRect = mainAreaEl.getBoundingClientRect();
     
-    // Calculate sidebar width if visible
-    let sidebarWidth = 0;
-    if (sidebarEl && window.getComputedStyle(sidebarEl).display !== 'none') {
-      sidebarWidth = sidebarEl.getBoundingClientRect().width;
-    }
+    const availableHeight = mainRect.height - resizerEl.offsetHeight;
+    if (availableHeight <= 0) return;
 
-    const availableWidth = viewRect.width - sidebarWidth - resizerEl.offsetWidth;
-    if (availableWidth <= 0) return;
+    const mouseOffset = clientY - mainRect.top;
 
-    const mouseOffset = clientX - viewRect.left - sidebarWidth;
-
-    // Minimum constraints: 300px for workspace, 360px for code panel
-    const minWorkspace = 300;
-    const maxWorkspace = availableWidth - 360;
+    // Minimum constraints: 150px for workspace, 140px for code panel
+    const minWorkspace = 150;
+    const maxWorkspace = availableHeight - 140;
 
     if (maxWorkspace <= minWorkspace) return;
 
     const clampedPx = Math.max(minWorkspace, Math.min(maxWorkspace, mouseOffset));
-    const percent = parseFloat(((clampedPx / availableWidth) * 100).toFixed(2));
+    const percent = parseFloat(((clampedPx / availableHeight) * 100).toFixed(2));
 
     currentPercentage = percent;
     playgroundViewEl.style.setProperty('--split-workspace', `${percent}%`);
@@ -96,8 +90,8 @@ export function setupResizer(resizerEl, playgroundViewEl, store) {
   // Keyboard accessibility
   resizerEl.addEventListener('keydown', (e) => {
     let delta = 0;
-    if (e.key === 'ArrowLeft') delta = -2;
-    else if (e.key === 'ArrowRight') delta = 2;
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') delta = -2;
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') delta = 2;
     else if (e.key === 'Home') delta = -100;
     else if (e.key === 'End') delta = 100;
     else if (e.key === 'Enter' || e.key === ' ') {

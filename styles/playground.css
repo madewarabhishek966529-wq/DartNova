@@ -11,6 +11,20 @@
   position: relative;
 }
 
+/* MAIN STAGE (TOP PREVIEW + DOWN SIDE CODE VIEWER WITH NATURAL SCROLL) */
+.playground-main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  min-width: 0;
+  background: var(--bg-primary);
+}
+
 /* 1. LEFT SIDEBAR */
 .playground-sidebar {
   width: var(--sidebar-width);
@@ -366,14 +380,15 @@
   color: var(--accent-lime);
 }
 
-/* 2. CENTER WORKSPACE */
+/* 2. CENTER WORKSPACE (LIVE INTERACTIVE PREVIEW) */
 .playground-workspace {
-  flex: 1;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  min-height: calc(100vh - var(--header-height));
   background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  position: relative;
 }
 
 .workspace-header {
@@ -606,120 +621,79 @@
 /* ============================================================
    3. EXPANSIVE VS CODE / IDE CODE WORKSPACE
    ============================================================ */
+/* ============================================================
+   3. EXPANSIVE VS CODE / IDE CODE WORKSPACE (ON DOWN SIDE)
+   ============================================================ */
 .playground-code-panel {
-  display: none; /* Hidden by default until "View Code" is clicked */
-  background: #181a1f;
+  display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  z-index: 20;
-}
-
-/* When codeViewerOpen is true */
-.playground-view.code-open .playground-code-panel {
-  display: flex;
-}
-
-/* Full editor layout: code panel takes the entire workspace area */
-.playground-view.code-open.code-layout-full .playground-workspace {
-  display: none;
-}
-.playground-view.code-open.code-layout-full .playground-code-panel {
-  flex: 1;
+  background: #181a1f;
+  min-height: 680px;
   width: 100%;
-  border-left: none;
-}
-
-/* Split view layout: preview on left, large IDE on right with draggable resizer */
-.playground-view.code-open.code-layout-split {
-  --split-workspace: 42%;
-}
-
-.playground-view.code-open.code-layout-split .playground-workspace {
-  display: flex;
-  flex: 0 0 var(--split-workspace, 42%);
-  min-width: 300px;
-  max-width: calc(100% - 360px);
-}
-
-.playground-view.code-open.code-layout-split .playground-resizer {
-  display: flex;
-}
-
-.playground-view.code-open.code-layout-split .playground-code-panel {
-  display: flex;
-  flex: 1 1 0;
-  min-width: 360px;
-  border-left: none;
-}
-
-/* Draggable Split Resizer Gutter between Blocks */
-.playground-resizer {
-  display: none;
-  width: 10px;
-  flex: 0 0 10px;
-  background: #121417;
-  border-left: 1px solid #23272e;
-  border-right: 1px solid #23272e;
-  cursor: col-resize;
+  border-top: 1px solid var(--border-subtle);
   position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+/* Resizer is completely removed/disabled on downside for a clean, professional scrolling layout */
+.playground-resizer {
+  display: none !important;
+}
+
+/* Subtle, professional scroll prompt leading down to Flutter code */
+.workspace-scroll-hint {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  margin: 14px auto 20px auto;
+  background: #12141a;
+  border: 1px solid #23272e;
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
   user-select: none;
-  z-index: 15;
-  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.playground-resizer:hover,
-.playground-resizer.is-active,
-body.is-resizing-blocks .playground-resizer {
-  background: rgba(197, 255, 53, 0.08);
-  border-color: rgba(197, 255, 53, 0.3);
+.workspace-scroll-hint:hover {
+  background: #181c25;
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: translateY(2px);
+  box-shadow: 0 6px 16px rgba(197, 255, 53, 0.15);
 }
 
-.resizer-handle {
-  width: 4px;
-  height: 38px;
-  border-radius: 4px;
-  background: #3e4451;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
+.workspace-scroll-hint svg {
+  animation: bounce-subtle 2s infinite ease-in-out;
+  color: var(--accent-primary);
 }
 
-.playground-resizer:hover .resizer-handle,
-.playground-resizer.is-active .resizer-handle,
-body.is-resizing-blocks .resizer-handle {
-  background: var(--accent-primary);
-  height: 54px;
-  box-shadow: 0 0 10px var(--accent-primary);
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
 }
 
-/* Dragging active state across document */
-body.is-resizing-blocks {
-  cursor: col-resize !important;
-  user-select: none !important;
-}
-
-body.is-resizing-blocks iframe,
-body.is-resizing-blocks canvas,
-body.is-resizing-blocks pre,
-body.is-resizing-blocks .playground-workspace,
-body.is-resizing-blocks .playground-code-panel {
-  pointer-events: none !important;
-}
-
-/* 1. VS Code Tab Bar & Primary Actions (Row 1) */
+/* 1. VS Code Tab Bar & Primary Actions (Row 1) - Sticky on scroll */
 .ide-tab-bar {
-  min-height: 44px;
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  min-height: 46px;
   background: #14161a;
   border-bottom: 1px solid #23272e;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 16px;
   flex-shrink: 0;
   gap: 14px;
 }
@@ -892,8 +866,11 @@ body.is-resizing-blocks .playground-code-panel {
   transform: translateX(-1px);
 }
 
-/* 2. VS Code Dedicated Breadcrumbs & Meta Bar (Row 2) */
+/* 2. VS Code Dedicated Breadcrumbs & Meta Bar (Row 2) - Sticky on scroll */
 .ide-breadcrumbs-bar {
+  position: sticky;
+  top: 46px;
+  z-index: 14;
   min-height: 32px;
   height: 32px;
   background: #16181d;
@@ -901,7 +878,7 @@ body.is-resizing-blocks .playground-code-panel {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 16px;
   gap: 12px;
   flex-shrink: 0;
   font-family: var(--font-mono);
@@ -1249,6 +1226,17 @@ body.is-resizing-blocks .playground-code-panel {
 
   .playground-sidebar.mobile-active {
     display: flex;
+  }
+
+  .playground-main-area {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .playground-resizer {
+    display: none !important;
   }
 
   .playground-workspace {

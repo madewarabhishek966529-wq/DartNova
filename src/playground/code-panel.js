@@ -59,14 +59,6 @@ export function setupCodePanel(codePanelEl, store) {
         </div>
 
         <div class="ide-tabs-right">
-          <button id="code-layout-toggle-btn" class="ide-tool-btn" title="Toggle Split View or Full Editor View" aria-label="Toggle layout">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="12" y1="3" x2="12" y2="21"></line>
-            </svg>
-            <span>${codeViewerLayout === 'split' ? 'Full Editor' : 'Split View'}</span>
-          </button>
-
           <button id="code-copy-btn" class="btn btn-primary ide-copy-btn" title="Copy Flutter Code to Clipboard">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -75,10 +67,10 @@ export function setupCodePanel(codePanelEl, store) {
             <span class="btn-copy-label">Copy Code</span>
           </button>
 
-          <button id="code-close-btn" class="ide-back-btn" title="Return to Animation Live Preview (Esc)" aria-label="Back to Preview">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
+          <button id="code-close-btn" class="ide-back-btn" title="Scroll back up to Live Preview" aria-label="Back to Preview">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="19" x2="12" y2="5"></line>
+              <polyline points="5 12 12 5 19 12"></polyline>
             </svg>
             <span>Back to Preview</span>
           </button>
@@ -203,25 +195,16 @@ export function setupCodePanel(codePanelEl, store) {
       });
     });
 
-    // Bind layout toggle (Full Editor vs Split View)
-    const layoutToggleBtn = codePanelEl.querySelector('#code-layout-toggle-btn');
-    if (layoutToggleBtn) {
-      layoutToggleBtn.addEventListener('click', () => {
-        sound.playClick();
-        const nextLayout = codeViewerLayout === 'split' ? 'full' : 'split';
-        store.setState({ codeViewerLayout: nextLayout });
-      });
-    }
-
-    // Bind Close / Back to Preview action
+    // Bind Close / Back to Preview action -> Smoothly scroll up to preview
     const closeBtn = codePanelEl.querySelector('#code-close-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
         sound.playClick();
-        store.setState({ 
-          codeViewerOpen: false,
-          mobileTab: 'preview'
-        });
+        store.setState({ mobileTab: 'preview' });
+        const workspace = document.querySelector('.playground-workspace');
+        if (workspace) {
+          workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
     }
 

@@ -58,7 +58,7 @@ export const store = new Store({
   favorites: getFavorites(),
   codeTab: 'usage', // 'usage' | 'full' | 'params'
   codeViewerOpen: false, // false by default so code does not crowd preview
-  codeViewerLayout: 'full', // 'full' | 'split'
+  codeViewerLayout: 'split', // 'split' (shows code on down side) | 'full'
   previewMode: 'desktop', // 'desktop' | 'tablet' | 'mobile'
   canvasBg: 'default', // 'default' | 'black' | 'grid' | 'contrast'
   isPlaying: true,
