@@ -252,7 +252,8 @@ export function setupNavigation(sidebarEl, store) {
           store.setState({ 
             selectedComponentId: id,
             componentProps: { ...comp.defaultProps },
-            sidebarOpen: false
+            sidebarOpen: false,
+            playgroundMode: 'inspector'
           });
           window.location.hash = `playground/${id}`;
         }

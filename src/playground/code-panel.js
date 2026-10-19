@@ -12,6 +12,12 @@ import { highlightDart } from '../utils/highlighter.js';
 import { copyToClipboard } from '../utils/clipboard.js';
 import { sound } from '../utils/audio.js';
 import { escapeHtml } from '../utils/security.js';
+import { 
+  generateDynamicSnippet, 
+  generateStandaloneFlutterApp, 
+  openInDartPad, 
+  downloadDartFile 
+} from '../utils/code-generator.js';
 
 export function setupCodePanel(codePanelEl, store) {
   if (!codePanelEl) return;
@@ -20,16 +26,24 @@ export function setupCodePanel(codePanelEl, store) {
     const { 
       selectedComponentId, 
       codeTab = 'usage', 
-      codeViewerLayout = 'full'
+      componentProps = {},
+      playgroundMode = 'inspector'
     } = store.getState();
 
+    if (playgroundMode === 'gallery') {
+      codePanelEl.style.display = 'none';
+      return;
+    }
+    codePanelEl.style.display = '';
+
     const comp = getComponentById(selectedComponentId);
+    const props = { ...comp.defaultProps, ...componentProps };
 
     let activeCode = '';
     if (codeTab === 'usage') {
-      activeCode = comp.flutterSnippet || '';
+      activeCode = generateDynamicSnippet(comp, props);
     } else if (codeTab === 'full') {
-      activeCode = comp.flutterFullCode || '';
+      activeCode = generateStandaloneFlutterApp(comp, props);
     }
 
     const lines = activeCode ? activeCode.split('\n') : [];
@@ -59,6 +73,25 @@ export function setupCodePanel(codePanelEl, store) {
         </div>
 
         <div class="ide-tabs-right">
+          <!-- 1-Click Run in DartPad -->
+          <button id="code-dartpad-btn" class="ide-tool-btn" title="Open complete runnable code in official Flutter DartPad" aria-label="Run in DartPad">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Run in DartPad</span>
+          </button>
+
+          <!-- 1-Click Download .dart File -->
+          <button id="code-download-btn" class="ide-tool-btn" title="Download production-ready Flutter .dart file" aria-label="Download File">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span class="btn-download-label">Download .dart</span>
+          </button>
+
+          <!-- Copy Code Button -->
           <button id="code-copy-btn" class="btn btn-primary ide-copy-btn" title="Copy Flutter Code to Clipboard">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -67,6 +100,7 @@ export function setupCodePanel(codePanelEl, store) {
             <span class="btn-copy-label">Copy Code</span>
           </button>
 
+          <!-- Back to Preview Button -->
           <button id="code-close-btn" class="ide-back-btn" title="Scroll back up to Live Preview" aria-label="Back to Preview">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -208,6 +242,36 @@ export function setupCodePanel(codePanelEl, store) {
       });
     }
 
+    // Bind Run in DartPad action
+    const dartpadBtn = codePanelEl.querySelector('#code-dartpad-btn');
+    if (dartpadBtn) {
+      dartpadBtn.addEventListener('click', async () => {
+        sound.playPop();
+        await openInDartPad(comp, props);
+        const label = dartpadBtn.querySelector('span');
+        if (label) {
+          const original = label.textContent;
+          label.textContent = 'Code Copied & Opened!';
+          setTimeout(() => { label.textContent = original; }, 2500);
+        }
+      });
+    }
+
+    // Bind Download .dart File action
+    const downloadBtn = codePanelEl.querySelector('#code-download-btn');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        sound.playPop();
+        downloadDartFile(comp, props);
+        const label = downloadBtn.querySelector('.btn-download-label');
+        if (label) {
+          const original = label.textContent;
+          label.textContent = 'Saved!';
+          setTimeout(() => { label.textContent = original; }, 2000);
+        }
+      });
+    }
+
     // Bind Copy Code action
     const copyBtn = codePanelEl.querySelector('#code-copy-btn');
     if (copyBtn) {
@@ -239,7 +303,9 @@ export function setupCodePanel(codePanelEl, store) {
       state.selectedComponentId !== prev?.selectedComponentId ||
       state.codeTab !== prev?.codeTab ||
       state.codeViewerLayout !== prev?.codeViewerLayout ||
-      state.codeViewerOpen !== prev?.codeViewerOpen
+      state.codeViewerOpen !== prev?.codeViewerOpen ||
+      state.playgroundMode !== prev?.playgroundMode ||
+      JSON.stringify(state.componentProps) !== JSON.stringify(prev?.componentProps)
     ) {
       render();
     }

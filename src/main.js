@@ -204,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (
       state.codeViewerOpen !== prev?.codeViewerOpen ||
       state.codeViewerLayout !== prev?.codeViewerLayout ||
+      state.playgroundMode !== prev?.playgroundMode ||
       state.mobileTab !== prev?.mobileTab
     ) {
       updatePlaygroundLayout(state);
@@ -216,10 +217,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       sound.playClick();
       const tab = btn.getAttribute('data-tab');
-      store.setState({ 
+      const updates = { 
         mobileTab: tab,
         codeViewerOpen: tab === 'code'
-      });
+      };
+      if (tab === 'code' && store.getState().playgroundMode === 'gallery') {
+        updates.playgroundMode = 'inspector';
+      }
+      store.setState(updates);
     });
   });
 
