@@ -77,6 +77,7 @@ export function setupNavigation(sidebarEl, store) {
             id="component-search" 
             class="search-input" 
             placeholder="Search 468 animations... (/)" 
+            aria-label="Search animations in catalog"
             value="${escapeHtml(searchQuery)}"
             autocomplete="off"
             spellcheck="false"
@@ -88,7 +89,7 @@ export function setupNavigation(sidebarEl, store) {
         <div class="sidebar-filter-dock">
           <!-- Category Selector Dropdown -->
           <div class="filter-row">
-            <select id="sidebar-category-select" class="sidebar-select" title="Filter by Category">
+            <select id="sidebar-category-select" class="sidebar-select" title="Filter by Category" aria-label="Filter by Category">
               ${CATEGORIES.map(cat => `
                 <option value="${escapeHtml(cat.id)}" ${selectedCategory === cat.id ? 'selected' : ''}>
                   ${cat.icon} ${escapeHtml(cat.name)}
@@ -96,7 +97,7 @@ export function setupNavigation(sidebarEl, store) {
               `).join('')}
             </select>
 
-            <select id="sidebar-sort-select" class="sidebar-select" title="Sort Order">
+            <select id="sidebar-sort-select" class="sidebar-select" title="Sort Order" aria-label="Sort Order">
               <option value="featured" ${sortBy === 'featured' ? 'selected' : ''}>★ Featured</option>
               <option value="alphabetical" ${sortBy === 'alphabetical' ? 'selected' : ''}>A–Z Name</option>
               <option value="difficulty" ${sortBy === 'difficulty' ? 'selected' : ''}>⚡ Difficulty</option>

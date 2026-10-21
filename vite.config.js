@@ -13,7 +13,16 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('src/registry')) {
+            return 'catalog-registry';
+          }
+        }
+      }
+    }
   },
   test: {
     environment: 'happy-dom'

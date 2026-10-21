@@ -90,6 +90,7 @@ export function renderLandingView(containerEl, store) {
               id="hero-quick-search" 
               class="hero-search-input" 
               placeholder="Search Flutter animations (e.g., 'button', 'spring', 'card', 'tabs')..."
+              aria-label="Search Flutter animations"
               autocomplete="off"
               spellcheck="false"
             />

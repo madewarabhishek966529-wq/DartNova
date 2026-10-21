@@ -12,7 +12,7 @@
   <!-- OpenGraph / Social Meta -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="DartNova — Motion for Flutter">
-  <meta property="og:description" content="Explore motion. Preview interactions. Copy Flutter code. 20 interactive UI motion patterns with direct Flutter code parity.">
+  <meta property="og:description" content="Explore motion. Preview interactions. Copy Flutter code. 468 interactive UI motion patterns across 18 categories with direct Flutter code parity.">
   <meta property="og:image" content="./assets/icons/logo.svg">
 
   <!-- Favicon -->
@@ -46,7 +46,7 @@
         </a>
 
         <!-- Quick Command Palette Button -->
-        <button id="header-search-btn" class="header-search-btn" title="Quick Search (Ctrl+K or /)">
+        <button id="header-search-btn" class="header-search-btn" title="Quick Search (Ctrl+K or /)" aria-label="Quick Search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -68,11 +68,11 @@
         <!-- Actions & Personalisations -->
         <div class="header-actions">
           <!-- Theme Accent Picker -->
-          <div class="accent-picker" title="Accent Theme">
-            <button class="accent-dot-btn active" data-theme="lime" title="Neon Lime"></button>
-            <button class="accent-dot-btn" data-theme="cyan" title="Electric Cyan"></button>
-            <button class="accent-dot-btn" data-theme="purple" title="Cyber Purple"></button>
-            <button class="accent-dot-btn" data-theme="amber" title="Solar Amber"></button>
+          <div class="accent-picker" title="Accent Theme" role="group" aria-label="Accent theme picker">
+            <button class="accent-dot-btn active" data-theme="lime" title="Neon Lime" aria-label="Select Neon Lime theme"></button>
+            <button class="accent-dot-btn" data-theme="cyan" title="Electric Cyan" aria-label="Select Electric Cyan theme"></button>
+            <button class="accent-dot-btn" data-theme="purple" title="Cyber Purple" aria-label="Select Cyber Purple theme"></button>
+            <button class="accent-dot-btn" data-theme="amber" title="Solar Amber" aria-label="Select Solar Amber theme"></button>
           </div>
 
           <!-- Subtle Audio Feedback Toggle -->

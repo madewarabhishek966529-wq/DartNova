@@ -1,0 +1,274 @@
+{
+  "timestamp": "2026-10-21T18:48:42.728Z",
+  "viewportsTested": [
+    {
+      "name": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "mobile": false,
+      "filename": "landing-desktop-1920x1080.png",
+      "overflow": {
+        "scrollWidth": 1920,
+        "clientWidth": 1920,
+        "hasHorizontalOverflow": false
+      },
+      "screenshot": "landing-desktop-1920x1080.png",
+      "status": "PASS"
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768,
+      "mobile": false,
+      "filename": "landing-laptop-1366x768.png",
+      "overflow": {
+        "scrollWidth": 1359,
+        "clientWidth": 1359,
+        "hasHorizontalOverflow": false
+      },
+      "screenshot": "landing-laptop-1366x768.png",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "mobile": true,
+      "filename": "landing-tablet-768x1024.png",
+      "overflow": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "hasHorizontalOverflow": false
+      },
+      "screenshot": "landing-tablet-768x1024.png",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-large",
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "filename": "landing-mobile-390x844.png",
+      "overflow": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "hasHorizontalOverflow": false
+      },
+      "screenshot": "landing-mobile-390x844.png",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-compact",
+      "width": 375,
+      "height": 812,
+      "mobile": true,
+      "filename": "landing-mobile-375x812.png",
+      "overflow": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "hasHorizontalOverflow": false
+      },
+      "screenshot": "landing-mobile-375x812.png",
+      "status": "PASS"
+    }
+  ],
+  "navigationTests": [
+    {
+      "route": "#landing",
+      "expectedView": "landing",
+      "actualView": "landing",
+      "status": "PASS"
+    },
+    {
+      "route": "#playground",
+      "expectedView": "playground",
+      "actualView": "playground",
+      "status": "PASS"
+    },
+    {
+      "route": "#playground/cursor-card",
+      "expectedView": "playground",
+      "actualView": "playground",
+      "status": "PASS"
+    },
+    {
+      "route": "#favorites",
+      "expectedView": "playground",
+      "actualView": "playground",
+      "status": "PASS"
+    },
+    {
+      "route": "#docs",
+      "expectedView": "docs",
+      "actualView": "docs",
+      "status": "PASS"
+    },
+    {
+      "route": "#components",
+      "expectedView": "landing",
+      "actualView": "landing",
+      "status": "PASS"
+    },
+    {
+      "route": "#categories",
+      "expectedView": "landing",
+      "actualView": "landing",
+      "status": "PASS"
+    },
+    {
+      "route": "#invalid-route-xyz",
+      "expectedView": "landing",
+      "actualView": "landing",
+      "status": "PASS"
+    }
+  ],
+  "interactionTests": [
+    {
+      "feature": "Visual Gallery Bento Grid",
+      "cardCount": 468,
+      "status": "PASS"
+    },
+    {
+      "feature": "IDE Code Panel & Actions",
+      "details": {
+        "panelVisible": true,
+        "hasCopyBtn": true,
+        "hasDartPadBtn": true,
+        "hasDownloadBtn": true,
+        "hasUsageTab": false,
+        "hasFullTab": false,
+        "hasParamsTab": false,
+        "codeLength": 0
+      },
+      "status": "FAIL"
+    },
+    {
+      "feature": "Audio Feedback Toggle",
+      "details": {
+        "initialMuted": false,
+        "afterClickMuted": false,
+        "restoredMuted": false
+      },
+      "status": "FAIL"
+    },
+    {
+      "feature": "Command Palette Modal",
+      "details": {
+        "isOpen": true,
+        "hasInput": true,
+        "itemCount": 468
+      },
+      "status": "PASS"
+    },
+    {
+      "feature": "Mobile Navigation Drawer",
+      "details": {
+        "opened": true,
+        "closed": true
+      },
+      "status": "PASS"
+    }
+  ],
+  "searchTests": [
+    {
+      "query": "button",
+      "description": "Common partial search",
+      "found": 40,
+      "status": "PASS"
+    },
+    {
+      "query": "Pop Button",
+      "description": "Exact title match",
+      "found": 1,
+      "status": "PASS"
+    },
+    {
+      "query": "POP BUTTON",
+      "description": "Case-insensitivity test",
+      "found": 1,
+      "status": "PASS"
+    },
+    {
+      "query": "nonexistentanimationxyz123",
+      "description": "Empty results zero-state test",
+      "found": 0,
+      "status": "PASS"
+    },
+    {
+      "query": "<script>alert(\"xss\")</script>",
+      "description": "XSS boundary injection test",
+      "found": 0,
+      "status": "PASS"
+    },
+    {
+      "query": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...",
+      "description": "Long boundary query string",
+      "found": 0,
+      "status": "PASS"
+    }
+  ],
+  "themeTests": [
+    {
+      "theme": "cyan",
+      "rootTheme": "cyan",
+      "storedTheme": "cyan",
+      "status": "PASS"
+    },
+    {
+      "theme": "purple",
+      "rootTheme": "purple",
+      "storedTheme": "purple",
+      "status": "PASS"
+    },
+    {
+      "theme": "amber",
+      "rootTheme": "amber",
+      "storedTheme": "amber",
+      "status": "PASS"
+    },
+    {
+      "theme": "lime",
+      "rootTheme": "lime",
+      "storedTheme": "lime",
+      "status": "PASS"
+    }
+  ],
+  "favoritesTests": [
+    {
+      "addedComp": "pop-button",
+      "removed": true,
+      "reAdded": true
+    }
+  ],
+  "accessibilityFindings": [
+    {
+      "rule": "SEO / Best Practice",
+      "element": "h1",
+      "severity": "low",
+      "impact": "Multiple <h1> tags on single page: 2"
+    }
+  ],
+  "performanceMetrics": {
+    "dnsLookupMs": 0,
+    "tcpHandshakeMs": 11,
+    "ttfbMs": 28,
+    "domInteractiveMs": 133,
+    "domContentLoadedMs": 737,
+    "loadEventMs": 1075,
+    "firstPaintMs": 652,
+    "firstContentfulPaintMs": 652,
+    "resourcesCount": 89
+  },
+  "securityAudit": {
+    "totalExternalLinks": 5,
+    "dangerousLinksCount": 0,
+    "dangerousLinks": [],
+    "localStorageKeys": [
+      "dartnova_favorites",
+      "dartnova_theme",
+      "dartnova_sound_enabled"
+    ],
+    "sensitiveKeysFound": []
+  },
+  "consoleErrors": []
+}

@@ -31,7 +31,8 @@ export function setupRouter(store) {
       store.setState({
         currentView: 'playground',
         selectedComponentId: comp.id,
-        componentProps: { ...comp.defaultProps }
+        componentProps: { ...comp.defaultProps },
+        favoritesOnly: false
       });
     } else if (mainRoute === 'favorites') {
       store.setState({

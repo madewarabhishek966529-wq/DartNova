@@ -24,6 +24,7 @@ export function setupCommandPalette(store) {
             type="text" 
             id="cmd-palette-input" 
             placeholder="Type a component name or category..." 
+            aria-label="Search components in command palette"
             autocomplete="off" 
             spellcheck="false" 
           />
